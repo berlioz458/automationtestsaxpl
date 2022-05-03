@@ -29,9 +29,9 @@ white-space: pre-wrap;
 
 <#if (data.headers)?has_content>
     <h4>Headers</h4>
-    <div>
+    <div class="code">
         <#list data.headers as name, value>
-            <div class="code">
+            <div>
                 <pre><code><b>${name}</b>: ${value}</code></pre>
             </div>
         </#list>
