@@ -79,7 +79,7 @@ public class IntegrationUserApiTests {
             .spec(success_request)
             .body(str)
         .when()
-            .post("/service/user/change-password")
+            .put("/service/user/change-password")
         .then()
             .spec(success_responseSpec)
             .log().all();
@@ -100,7 +100,7 @@ public class IntegrationUserApiTests {
             .spec(error_request)
             .body(str)
         .when()
-            .post("/service/user/change-password")
+            .put("/service/user/change-password")
         .then()
             .spec(error_responseSpec)
             .log().all()
