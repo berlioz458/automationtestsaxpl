@@ -73,3 +73,9 @@ task order_tests(type: Test) {
         includeTags "order"
     }
 }
+
+task integration_tests(type: Test) {
+    useJUnitPlatform{
+        includeTags "integration"
+    }
+}
