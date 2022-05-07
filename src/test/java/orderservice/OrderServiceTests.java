@@ -1,10 +1,20 @@
 package orderservice;
 
+import com.github.javafaker.Faker;
+import com.google.gson.Gson;
 import io.qameta.allure.Description;
-import io.qameta.allure.TmsLink;
+import orderservice.billingAccountController.BillingAccount;
+import orderservice.billingAccountController.BillingAccountRequest;
+import orderservice.billingAccountController.Counteragent;
+import orderservice.billingAccountController.RefBillingAccount;
+import orderservice.contractTemplateController.*;
+import orderservice.documentController.Document;
+import orderservice.documentController.DocumentCreateRequest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.util.Locale;
 
 import static helpers.CustomAllureListener.withCustomTemplate;
 import static io.restassured.RestAssured.given;
@@ -14,7 +24,10 @@ import static org.hamcrest.Matchers.is;
 
 @Tag("order")
 public class OrderServiceTests {
-    @TmsLink("C1")
+
+    Faker faker = new Faker(new Locale("ru"));
+    String data = faker.date().birthday().toString();
+
     @Tag("smoke")
     @Test
     @Description("Get Version")
@@ -28,7 +41,7 @@ public class OrderServiceTests {
             .statusCode(200);
     }
 
-    @TmsLink("C2")
+
     @Test
     @Description("Get 'Counteragent' entity")
     void successGetCounteragent() {
@@ -72,9 +85,122 @@ public class OrderServiceTests {
     }
 
     @Test
-    @Disabled
     @Description("Create Contract Template")
     void successCreateContractTemplate() {
+        ContractTemplate ContractTemplate = new ContractTemplate();
+        FirstParty firstParty = new FirstParty();
+        Ref refFirstParty = new Ref();
+        refFirstParty.setName("Шулинина Екатерина");
+        refFirstParty.setType("Counteragent");
+        refFirstParty.setId(561400L);
+        firstParty.setRef(refFirstParty);
+        ContractType contractType = new ContractType();
+        Ref refContractType = new Ref();
+        refContractType.setId(5L);
+        refContractType.setName("С покупателем");
+        refContractType.setType("ContractType");
+        contractType.setRef(refContractType);
+
+        ContractTemplate.setName("Test " + faker.date().birthday(0,63));
+        ContractTemplate.setOwnerAgentId(10056L);
+        ContractTemplate.setForRegionAgentId(10056L);
+        ContractTemplate.setPriceGroupId(1020L);
+        ContractTemplate.setCurrencyId(643L);
+        ContractTemplate.setFirstParty(firstParty);
+        ContractTemplate.setContractType(contractType);
+
+        ContractTemplateRequest ContractTemplateRequest = new ContractTemplateRequest();
+        ContractTemplateRequest.setContractTemplate(ContractTemplate);
+
+        Gson gson = new Gson();
+
+        given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(gson.toJson(ContractTemplateRequest))
+        .when()
+                .post("/entity/AUTO3N/ContractTemplate")
+        .then()
+                .spec(responseSpec)
+                .log().all();
+    }
+
+
+    @Test
+    @Description("Create Billing Account")
+    void successCreateBillingAccount() {
+        BillingAccount billingAccount = new BillingAccount();
+        billingAccount.setAccountantName(faker.company().name());
+        billingAccount.setBankName(faker.rockBand().name());
+        billingAccount.setBic(faker.finance().bic().substring(0,9));
+        billingAccount.setBillingCurrency("643");
+        billingAccount.setCompanyAddress(faker.address().fullAddress());
+        billingAccount.setCompanyBankAccount(faker.finance().iban("LT"));
+        billingAccount.setCompanyName(faker.company().name());
+        billingAccount.setFormalCompanyName(faker.company().name());
+        billingAccount.setFormalCompanyNameParentalCase(faker.company().name());
+        billingAccount.setCorrespondentBankAccount(faker.finance().iban("LT"));
+        billingAccount.setDirectorName(faker.name().fullName());
+        billingAccount.setDirectorNameParentalCase(faker.name().fullName());
+
+        Counteragent counteragent = new Counteragent();
+        RefBillingAccount refCounteragent = new RefBillingAccount();
+        refCounteragent.setId(561400L);
+        refCounteragent.setName("Шулинина Екатерина");
+        refCounteragent.setType("Counteragent");
+        counteragent.setRef(refCounteragent);
+
+        billingAccount.setCounteragent(counteragent);
+
+        BillingAccountRequest billingAccountRequest = new BillingAccountRequest();
+        billingAccountRequest.setBillingAccount(billingAccount);
+
+        Gson gson = new Gson();
+
+        given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(gson.toJson(billingAccountRequest))
+                .when()
+                .post("/entity/AUTO3N/BillingAccount")
+                .then()
+                .spec(responseSpec)
+                .log().all();
+    }
+
+    @Test
+    @Description("Create Document")
+    void successCreateDocument() {
+        Document document = new Document();
+        document.setType("html");
+        document.setJsonBody("<h1>Auto3n AutoTest</h1>");
+        document.setName("О самозаказе");
+        document.setParentObjectType("Counteragent");
+        document.setParentObjectId(10056);
+
+        DocumentCreateRequest documentCreateRequest = new DocumentCreateRequest();
+        documentCreateRequest.setDocument(document);
+
+        Gson gson = new Gson();
+
+        given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(gson.toJson(documentCreateRequest))
+                .when()
+                .post("/entity/AUTO3N/Document")
+                .then()
+                .spec(responseSpec)
+                .log().all();
+    }
+
+    @Test
+    @Description("Create Loyalty Policy")
+    @Disabled
+    void successCreateLoyalPolicy() {
 
     }
+
+
+
 }

@@ -43,7 +43,8 @@ dependencies {
             "io.qameta.allure:allure-selenide:$allureVersion",
             "io.qameta.allure:allure-java-commons:$allureVersion",
             "com.codeborne:selenide:$selenideVersion",
-            "com.github.javafaker:javafaker:1.0.2"
+            "com.github.javafaker:javafaker:1.0.2",
+            "com.google.code.gson:gson:2.9.0"
     )
 
     testRuntimeOnly (

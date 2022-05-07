@@ -18,6 +18,7 @@ public class IntegrationUserApiTests {
     String email = faker.internet().emailAddress();
 
     @Tag("integration")
+    @Tag("smoke")
     @Description("List users without another params")
     @Test
     void successGetUsers() {
@@ -30,6 +31,23 @@ public class IntegrationUserApiTests {
                 .spec(success_responseSpec);
     }
 
+    @Tag("integration")
+    @Description("List users with query criteria")
+    @Test
+    void successGetListUsersByCriteria() {
+        given()
+            .filter(withCustomTemplate())
+            .spec(success_request)
+        .when()
+            .get("/entity/AUTO3N/User?q=%7B%22%24and%22%3A%20%5B%7B%22email%22%3A%22test-2%40prodv.net%22%7D%5D%7D")
+        .then()
+            .spec(success_responseSpec)
+                .body("total", is(1))
+                .body("data.User.email", is("test-2@prodv.net"));
+    }
+
+
+
     @TmsLink("https://dev.prodv.net/browse/AXPL-4441")
     @Tag("integration")
     @Description("Create new user with manager role")
@@ -37,8 +55,8 @@ public class IntegrationUserApiTests {
     void successCreateManager() {
         String str = "{\n" +
                 "  \"User\": {\n" +
-                "    \"username\": " + userName + ",\n" +
-                "    \"email\": " + email + ",\n" +
+                "    \"username\": \"" + userName + "\",\n" +
+                "    \"email\": \"" + email + "\",\n" +
                 "    \"enabled\": true,\n" +
                 "    \"isExternalAuth\": false,\n" +
                 "    \"password\": \"123456\",\n" +
