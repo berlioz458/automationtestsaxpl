@@ -37,8 +37,8 @@ public class IntegrationUserApiTests {
     void successCreateManager() {
         String str = "{\n" +
                 "  \"User\": {\n" +
-                "    \"username\": " + userName + ",\n" +
-                "    \"email\": " + email + ",\n" +
+                "    \"username\": \"" + userName + "\",\n" +
+                "    \"email\": \"" + email + "\",\n" +
                 "    \"enabled\": true,\n" +
                 "    \"isExternalAuth\": false,\n" +
                 "    \"password\": \"123456\",\n" +
