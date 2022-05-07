@@ -1,15 +1,13 @@
 package integrationservice;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+import io.qameta.allure.Description;
 import io.qameta.allure.TmsLink;
-import jdk.jfr.Description;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static helpers.CustomAllureListener.withCustomTemplate;
 import static integrationservice.IntegrationUserApiSpecs.*;
 import static io.restassured.RestAssured.given;
-import static orderservice.OrderServiceApiSpecs.responseSpec;
 import static org.hamcrest.Matchers.is;
 
 public class IntegrationUserApiTests {
@@ -37,6 +35,7 @@ public class IntegrationUserApiTests {
                 "    \"email\": \"fake_manager@auto3n.ru\",\n" +
                 "    \"enabled\": true,\n" +
                 "    \"isExternalAuth\": false,\n" +
+                "    \"password\": \"123456\",\n" +
                 "    \"realmUser\": {\n" +
                 "      \"RealmUser\": {\n" +
                 "        \"roles\": [\n" +

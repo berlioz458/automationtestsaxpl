@@ -12,8 +12,7 @@ public class OrderServiceApiSpecs {
             .baseUri("http://api.order-service.bus.stage.auto3n.ru")
             .auth().preemptive().basic("SHOP", "123456")
             .basePath("/v2")
-            .log().all()
-            .contentType(ContentType.JSON);
+            .log().all();
 
     public static ResponseSpecification responseSpec = new ResponseSpecBuilder()
             .expectStatusCode(200)
