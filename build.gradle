@@ -42,7 +42,8 @@ dependencies {
             "io.qameta.allure:allure-rest-assured:$allureVersion",
             "io.qameta.allure:allure-selenide:$allureVersion",
             "io.qameta.allure:allure-java-commons:$allureVersion",
-            "com.codeborne:selenide:$selenideVersion"
+            "com.codeborne:selenide:$selenideVersion",
+            "com.github.javafaker:javafaker:1.0.2"
     )
 
     testRuntimeOnly (

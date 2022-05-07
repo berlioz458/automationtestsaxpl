@@ -1,5 +1,6 @@
 package integrationservice;
 
+import com.github.javafaker.Faker;
 import io.qameta.allure.Description;
 import io.qameta.allure.TmsLink;
 import org.junit.jupiter.api.Tag;
@@ -11,6 +12,11 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 
 public class IntegrationUserApiTests {
+
+    Faker faker = new Faker();
+    String userName = faker.name().username();
+    String email = faker.internet().emailAddress();
+
     @Tag("integration")
     @Description("List users without another params")
     @Test
@@ -31,8 +37,8 @@ public class IntegrationUserApiTests {
     void successCreateManager() {
         String str = "{\n" +
                 "  \"User\": {\n" +
-                "    \"username\": \"fake_manager\",\n" +
-                "    \"email\": \"fake_manager@auto3n.ru\",\n" +
+                "    \"username\": " + userName + ",\n" +
+                "    \"email\": " + email + ",\n" +
                 "    \"enabled\": true,\n" +
                 "    \"isExternalAuth\": false,\n" +
                 "    \"password\": \"123456\",\n" +
