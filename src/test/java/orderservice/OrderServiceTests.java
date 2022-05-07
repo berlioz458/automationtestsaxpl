@@ -25,7 +25,7 @@ public class OrderServiceTests {
         .when()
             .get("/version")
         .then()
-            .spec(responseSpec);
+            .statusCode(200);
     }
 
     @TmsLink("C2")
