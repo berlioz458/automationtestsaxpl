@@ -9,14 +9,14 @@ import com.google.gson.annotations.SerializedName;
 public class FirstParty {
 
     @SerializedName("#ref")
-    private Ref mRef;
+    private RefContractTemplate mRefContractTemplate;
 
-    public Ref getRef() {
-        return mRef;
+    public RefContractTemplate getRef() {
+        return mRefContractTemplate;
     }
 
-    public void setRef(Ref ref) {
-        mRef = ref;
+    public void setRef(RefContractTemplate refContractTemplate) {
+        mRefContractTemplate = refContractTemplate;
     }
 
 }

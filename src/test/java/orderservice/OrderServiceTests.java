@@ -10,6 +10,10 @@ import orderservice.billingAccountController.RefBillingAccount;
 import orderservice.contractTemplateController.*;
 import orderservice.documentController.Document;
 import orderservice.documentController.DocumentCreateRequest;
+import orderservice.loyaltyPolicyController.FirstPartyLoyalPolicy;
+import orderservice.loyaltyPolicyController.LoyaltyPolicy;
+import orderservice.loyaltyPolicyController.LoyaltyPolicyRequest;
+import orderservice.loyaltyPolicyController.RefLoyalPolicy;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -89,17 +93,17 @@ public class OrderServiceTests {
     void successCreateContractTemplate() {
         ContractTemplate ContractTemplate = new ContractTemplate();
         FirstParty firstParty = new FirstParty();
-        Ref refFirstParty = new Ref();
-        refFirstParty.setName("Шулинина Екатерина");
-        refFirstParty.setType("Counteragent");
-        refFirstParty.setId(561400L);
-        firstParty.setRef(refFirstParty);
+        RefContractTemplate refContractTemplateFirstParty = new RefContractTemplate();
+        refContractTemplateFirstParty.setName("Шулинина Екатерина");
+        refContractTemplateFirstParty.setType("Counteragent");
+        refContractTemplateFirstParty.setId(561400L);
+        firstParty.setRef(refContractTemplateFirstParty);
         ContractType contractType = new ContractType();
-        Ref refContractType = new Ref();
-        refContractType.setId(5L);
-        refContractType.setName("С покупателем");
-        refContractType.setType("ContractType");
-        contractType.setRef(refContractType);
+        RefContractTemplate refContractTemplateContractType = new RefContractTemplate();
+        refContractTemplateContractType.setId(5L);
+        refContractTemplateContractType.setName("С покупателем");
+        refContractTemplateContractType.setType("ContractType");
+        contractType.setRef(refContractTemplateContractType);
 
         ContractTemplate.setName("Test " + faker.date().birthday(0,63));
         ContractTemplate.setOwnerAgentId(10056L);
@@ -196,8 +200,35 @@ public class OrderServiceTests {
 
     @Test
     @Description("Create Loyalty Policy")
-    @Disabled
     void successCreateLoyalPolicy() {
+        LoyaltyPolicy loyaltyPolicy = new LoyaltyPolicy();
+        loyaltyPolicy.setName(faker.backToTheFuture().date() + faker.backToTheFuture().character());
+        loyaltyPolicy.setContractPersonalDiscountLoyaltySystemThreshold(15L);
+        loyaltyPolicy.setSelfAndPersonalDiscountLimit(30L);
+        loyaltyPolicy.setSelfOrderDiscountPercent(15L);
+
+        RefLoyalPolicy refLoyalPolicy = new RefLoyalPolicy();
+        refLoyalPolicy.setId(35949L);
+        refLoyalPolicy.setName("Шулинина Катя");
+        refLoyalPolicy.setType("Counteragent");
+
+        FirstPartyLoyalPolicy firstPartyLoyalPolicy = new FirstPartyLoyalPolicy();
+        firstPartyLoyalPolicy.setRef(refLoyalPolicy);
+        loyaltyPolicy.setFirstParty(firstPartyLoyalPolicy);
+
+        LoyaltyPolicyRequest loyaltyPolicyRequest = new LoyaltyPolicyRequest();
+        loyaltyPolicyRequest.setLoyaltyPolicy(loyaltyPolicy);
+
+        Gson gson = new Gson();
+        given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(gson.toJson(loyaltyPolicyRequest))
+                .when()
+                .post("/loyalty/entity/AUTO3N/LoyaltyPolicy")
+                .then()
+                .spec(responseSpec)
+                .log().all();
 
     }
 

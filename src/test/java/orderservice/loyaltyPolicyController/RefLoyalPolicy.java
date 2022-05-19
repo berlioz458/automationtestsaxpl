@@ -1,17 +1,17 @@
 
-package orderservice.contractTemplateController;
+package orderservice.loyaltyPolicyController;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Ref {
+public class RefLoyalPolicy {
 
     @SerializedName("id")
     private Long mId;
     @SerializedName("name")
-    private Object mName;
+    private String mName;
     @SerializedName("type")
     private String mType;
 
@@ -23,11 +23,11 @@ public class Ref {
         mId = id;
     }
 
-    public Object getName() {
+    public String getName() {
         return mName;
     }
 
-    public void setName(Object name) {
+    public void setName(String name) {
         mName = name;
     }
 
