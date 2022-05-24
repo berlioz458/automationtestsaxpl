@@ -15,7 +15,7 @@ public class IntegrationUserApiTests {
 
     Faker faker = new Faker();
     String userName = faker.name().username();
-    String email = faker.internet().emailAddress();
+    String email = userName + "@auto3n.ru";
 
     @Tag("integration")
     @Tag("smoke")
