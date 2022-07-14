@@ -14,7 +14,6 @@ import orderservice.loyaltyPolicyController.FirstPartyLoyalPolicy;
 import orderservice.loyaltyPolicyController.LoyaltyPolicy;
 import orderservice.loyaltyPolicyController.LoyaltyPolicyRequest;
 import orderservice.loyaltyPolicyController.RefLoyalPolicy;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -231,7 +230,4 @@ public class OrderServiceTests {
                 .log().all();
 
     }
-
-
-
 }
