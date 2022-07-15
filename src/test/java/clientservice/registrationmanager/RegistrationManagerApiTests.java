@@ -1,9 +1,6 @@
 package clientservice.registrationmanager;
 
-import clientservice.registrationmanager.models.DeviceToken;
-import clientservice.registrationmanager.models.PrincipalAvailability;
-import clientservice.registrationmanager.models.RegistrationResult;
-import clientservice.registrationmanager.models.ValidateClientRegistrationResult;
+import clientservice.registrationmanager.models.*;
 import clientservice.registrationmanager.utils.Error;
 import clientservice.registrationmanager.utils.RegistrationManagerController;
 import com.github.javafaker.Faker;
@@ -14,6 +11,7 @@ import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static clientservice.registrationmanager.utils.RegistrationManagerController.startVerification;
 import static org.assertj.core.api.Assertions.*;
 
 @Tag("registration")
@@ -22,6 +20,8 @@ public class RegistrationManagerApiTests {
     PrincipalAvailability principalAvailability;
     ValidateClientRegistrationResult validateClientRegistrationResult;
     RegistrationResult registrationResult;
+    StartVerificationResult startVerificationResult;
+    AuthToken authToken;
     Error error_data;
     Faker faker = new Faker();
 
@@ -186,6 +186,64 @@ public class RegistrationManagerApiTests {
         assertThat(registrationResult.getCounteragentId()).isPositive();
         assertThat(registrationResult.getContractId()).isPositive();
         assertThat(registrationResult.getPersonProfileId()).isPositive();
+    }
+
+    @Test
+    @Feature("Registration User")
+    @Story("Start Verification Client - Email")
+    @Description("Начать процесс верификации AuthRecord-а после регистрации, для входа в ЛК по почте")
+    @Tag("smoke")
+    @Owner("shulinina.e")
+    void success_start_verification_process_for_user_by_email() {
+        String email = faker.internet().emailAddress();
+        deviceToken = RegistrationManagerController.getDeviceToken(" ", "", "Mozilla FireFox","Test", " ", "IOS");
+        registrationResult = RegistrationManagerController.registerClient(deviceToken.getDeviceToken(), 10506, email, "+7" + faker.number().randomNumber(10, false), "EMAIL", "123456", faker.name().firstName(), faker.name().lastName(), faker.funnyName().name());
+        startVerificationResult = startVerification(deviceToken.getDeviceToken(),"EMAIL", email);
+
+        assertThat(startVerificationResult.getNow()).isNotNull();
+        assertThat(startVerificationResult.getNow()).isNotNull();
+    }
+
+    @Test
+    @Feature("Registration User")
+    @Story("Start Verification Client - Mobile Phone")
+    @Description("Начать процесс верификации AuthRecord-а после регистрации, для входа в ЛК по номеру телефона")
+    @Tag("smoke")
+    @Owner("shulinina.e")
+    void success_start_verification_process_for_user_by_phone() {
+        String email = faker.internet().emailAddress();
+        String phone = "+7" + faker.number().randomNumber(10, false);
+        deviceToken = RegistrationManagerController.getDeviceToken(" ", "", "Mozilla FireFox","Test", " ", "IOS");
+        registrationResult = RegistrationManagerController.registerClient(deviceToken.getDeviceToken(), 10506, email, phone, "MOBILE", "123456", faker.name().firstName(), faker.name().lastName(), faker.funnyName().name());
+        startVerificationResult = startVerification(deviceToken.getDeviceToken(),"MOBILE", phone);
+
+        assertThat(startVerificationResult.getSecret()).isNotNull();
+        assertThat(startVerificationResult.getNow()).isNotNull();
+        assertThat(startVerificationResult.getExpiredAt()).isNotNull();
+    }
+
+    @Test
+    @Feature("Authorization User")
+    @Story("Auth Client by Email")
+    @Description("Авторизация клиента с принципалом, тип EMAIL")
+    @Tag("smoke")
+    @Owner("shulinina.e")
+    void success_auth_by_email() {
+        deviceToken = RegistrationManagerController.getDeviceToken(" ", "", "Mozilla FireFox","Test", " ", "IOS");
+        authToken = RegistrationManagerController.requestAuthToken(deviceToken.getDeviceToken(), "EMAIL", "berlioz458@gmail.com", "123456");
+        assertThat(authToken.getAuthToken()).isNotEmpty();
+    }
+
+    @Test
+    @Feature("Authorization User")
+    @Story("Auth Client by Email")
+    @Description("Авторизация клиента с принципалом, тип MOBILE")
+    @Tag("smoke")
+    @Owner("shulinina.e")
+    void success_auth_by_phone() {
+        deviceToken = RegistrationManagerController.getDeviceToken(" ", "", "Mozilla FireFox","Test", " ", "IOS");
+        authToken = RegistrationManagerController.requestAuthToken(deviceToken.getDeviceToken(), "MOBILE", "89529470960", "123456");
+        assertThat(authToken.getAuthToken()).isNotEmpty();
     }
 
 }
