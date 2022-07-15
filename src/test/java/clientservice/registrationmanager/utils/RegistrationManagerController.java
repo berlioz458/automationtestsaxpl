@@ -1,7 +1,6 @@
 package clientservice.registrationmanager.utils;
 
-import clientservice.registrationmanager.models.DeviceRegistrationRequest;
-import clientservice.registrationmanager.models.DeviceToken;
+import clientservice.registrationmanager.models.*;
 import io.qameta.allure.Step;
 
 import static clientservice.registrationmanager.spec.RegistrationManagerApiSpecs.*;
@@ -83,5 +82,65 @@ public class RegistrationManagerController {
                 .extract().as(Error.class);
     }
 
+    public static PrincipalAvailability checkPrincipalAvailability(String deviceToken, String principal, String principalType, Boolean counteragentsBinding) {
+        PrincipalInfo body = new PrincipalInfo();
+        body.setPrincipal(principal);
+        body.setDeviceToken(deviceToken);
+        body.setPrincipalType(principalType);
+        body.setCounteragentsBinding(counteragentsBinding);
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(body)
+                .post("/checkPrincipalAvailability")
+                .then()
+                .spec(response)
+                .extract().as(PrincipalAvailability.class);
+    }
+
+    public static ValidateClientRegistrationResult validateClientRegistration(String deviceToken, Integer regionAgentId, String email, String loginType, String password, Boolean counteragentsBinding, String  firstName, String lastName, String middleName){
+        RegistrationInfo body = new RegistrationInfo();
+        body.setDeviceToken(deviceToken);
+        body.setRegionAgentId(regionAgentId);
+        body.setEmail(email);
+        body.setLoginType(loginType);
+        body.setPassword(password);
+        body.setCounteragentsBinding(counteragentsBinding);
+        body.setFirstName(firstName);
+        body.setLastName(lastName);
+        body.setMiddleName(middleName);
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(body)
+                .post("/validateClientRegistration")
+                .then()
+                .spec(response)
+                .extract().as(ValidateClientRegistrationResult.class);
+    }
+
+    public static RegistrationResult registerClient(String deviceToken, Integer regionAgentId, String email, String phone, String loginType, String password, String  firstName, String lastName, String middleName){
+        RegistrationInfo body = new RegistrationInfo();
+        body.setDeviceToken(deviceToken);
+        body.setRegionAgentId(regionAgentId);
+        body.setEmail(email);
+        body.setMobilePhone(phone);
+        body.setLoginType(loginType);
+        body.setPassword(password);
+        body.setFirstName(firstName);
+        body.setLastName(lastName);
+        body.setMiddleName(middleName);
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(body)
+                .post("/registerClient")
+                .then()
+                .spec(response)
+                .extract().as(RegistrationResult.class);
+    }
 
 }
