@@ -21,6 +21,8 @@ public class PrincipalAvailability {
     private Boolean requiresVerification;
     @JsonProperty("verifyOnLogin")
     private Boolean verifyOnLogin;
+    @JsonProperty("conflictPrincipal")
+    private String conflictPrincipal;
     @JsonProperty("conflictedEntities")
     private List<String> conflictedEntities;
 }

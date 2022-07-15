@@ -143,7 +143,7 @@ public class RegistrationManagerApiTests {
         deviceToken = RegistrationManagerController.getDeviceToken(" ", "", "Mozilla FireFox","Test", " ", "WEB");
         validateClientRegistrationResult = RegistrationManagerController.validateClientRegistration(deviceToken.getDeviceToken(), 10506, faker.internet().emailAddress(), "EMAIL","123456", true, faker.name().firstName(), faker.name().lastName(), faker.name().nameWithMiddle());
         assertThat(validateClientRegistrationResult.isGood()).isTrue();
-        //assertThat(validateClientRegistrationResult.getSuspiciousFields()).isEmpty();
+        assertThat(validateClientRegistrationResult.getSuspiciousFields()).isEmpty();
     }
 
     @Test
