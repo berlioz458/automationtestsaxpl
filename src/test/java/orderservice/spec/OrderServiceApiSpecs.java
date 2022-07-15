@@ -1,4 +1,4 @@
-package orderservice;
+package orderservice.spec;
 
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.with;
 
 public class OrderServiceApiSpecs {
     public static RequestSpecification request = with()
-            .baseUri("http://api.order-service.bus.stage.gcs.prodv.net")
+            .baseUri("http://api.order-service.bus.stage.auto3n.ru")
             .auth().preemptive().basic("shulinina.e", "shulinina.e")
             .basePath("/v2")
             .log().all().contentType(ContentType.JSON);
