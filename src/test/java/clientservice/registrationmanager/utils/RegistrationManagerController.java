@@ -165,6 +165,7 @@ public class RegistrationManagerController {
         body.setDeviceToken(deviceToken);
         body.setPrincipalType(principalType);
         body.setPrincipal(principal);
+        body.setPassword(password);
 
         return given()
                 .filter(withCustomTemplate())

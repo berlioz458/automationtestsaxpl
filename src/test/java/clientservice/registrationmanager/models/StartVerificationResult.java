@@ -13,6 +13,6 @@ import java.time.OffsetDateTime;
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 public class StartVerificationResult {
     private String secret;
-    private OffsetDateTime expiredAt;
-    private OffsetDateTime now;
+    private String expiredAt;
+    private String now;
 }
