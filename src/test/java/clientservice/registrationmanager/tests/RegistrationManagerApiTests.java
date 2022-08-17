@@ -1,4 +1,4 @@
-package clientservice.registrationmanager;
+package clientservice.registrationmanager.tests;
 
 import clientservice.registrationmanager.models.*;
 import clientservice.registrationmanager.utils.Error;

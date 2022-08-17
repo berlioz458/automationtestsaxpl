@@ -1,6 +1,7 @@
 package orderservice.models;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import helpers.Ref;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,7 @@ public class Contract {
     private Integer personalDiscount;
     private Integer ownerAgentId;
     private Integer currencyId;
-
+    private Ref contractType;
+    private Ref secondParty;
+    private Ref firstParty;
 }
