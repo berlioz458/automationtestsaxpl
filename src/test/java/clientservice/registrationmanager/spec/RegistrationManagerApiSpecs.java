@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.with;
 
 public class RegistrationManagerApiSpecs {
     public static RequestSpecification request = with()
-            .baseUri("http://api.client-service.bus.stage.auto3n.ru")
+            .baseUri("http://api.client-service.bus.stage.gcs.prodv.net")
             .auth().preemptive().basic("shulinina.e", "shulinina.e")
             .basePath("/v2/service/AUTO3N/registration")
             .log().all().contentType(ContentType.JSON);
