@@ -161,10 +161,11 @@ public class RegistrationManagerController {
                 .extract().as(StartVerificationResult.class);
     }
 
-    public static VerificationResult endVerification(String deviceToken, String verificationCode) {
+    public static VerificationResult endVerification(String deviceToken, String verificationCode, String secret) {
         VerificationRequest body = new VerificationRequest();
         body.setDeviceToken(deviceToken);
         body.setVerificationCode(verificationCode);
+        body.setSecret(secret);
 
         return given()
                 .filter(withCustomTemplate())

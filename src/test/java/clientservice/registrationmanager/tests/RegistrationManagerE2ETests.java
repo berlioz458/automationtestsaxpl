@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import unitls.EmailParser;
+import unitls.SMSParser;
 
 import static clientservice.registrationmanager.utils.RegistrationManagerController.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RegistrationManagerE2ETests {
     Faker faker = new Faker();
     DeviceToken deviceToken;
-    String email, firstName, lastName, nameWithMiddle;
+    String email, firstName, lastName, nameWithMiddle, phone;
     //Пользовательский сценарий: Регистрация клиента по почте
     // 1. Получение девайс токена
     // 2. Проверка введенных данных на ботность
@@ -32,16 +33,30 @@ public class RegistrationManagerE2ETests {
         firstName = faker.name().firstName();
         lastName = faker.name().lastName();
         nameWithMiddle = faker.name().nameWithMiddle();
+        phone = "+7" + faker.number().randomNumber(10, false);
     }
 
     @Test
     void clientRegistrationByEmail() {
         checkPrincipalAvailability(deviceToken.getDeviceToken(), email, "EMAIL", true);
         validateClientRegistration(deviceToken.getDeviceToken(), 10506, email, "EMAIL","123456", true, firstName, lastName, nameWithMiddle);
-        registerClient(deviceToken.getDeviceToken(), 10506, email, "+7" + faker.number().randomNumber(10, false), "EMAIL", "123456", firstName, lastName, nameWithMiddle);
+        registerClient(deviceToken.getDeviceToken(), 10506, email, phone, "EMAIL", "123456", firstName, lastName, nameWithMiddle);
         startVerification(deviceToken.getDeviceToken(),"EMAIL", email);
         String token = EmailParser.getTokenFromEmail();
-        VerificationResult verificationResult = endVerification(deviceToken.getDeviceToken(), token);
+        VerificationResult verificationResult = endVerification(deviceToken.getDeviceToken(), token, null);
+        assertThat(verificationResult.getAuthProfileId()).isPositive();
+        assertThat(verificationResult.getPersonProfileId()).isPositive();
+        assertThat(verificationResult.getAuthRecordId()).isPositive();
+    }
+
+    @Test
+    void clientRegistrationByPhone() throws InterruptedException {
+        checkPrincipalAvailability(deviceToken.getDeviceToken(), phone, "MOBILE", true);
+        validateClientRegistration(deviceToken.getDeviceToken(), 10506, email, "MOBILE","123456", true, firstName, lastName, nameWithMiddle);
+        registerClient(deviceToken.getDeviceToken(), 10506, email, phone, "MOBILE", "123456", firstName, lastName, nameWithMiddle);
+        String secret = startVerification(deviceToken.getDeviceToken(),"MOBILE", phone).getSecret();
+        String token = SMSParser.getCodeBySms();
+        VerificationResult verificationResult = endVerification(deviceToken.getDeviceToken(), token, secret);
         assertThat(verificationResult.getAuthProfileId()).isPositive();
         assertThat(verificationResult.getPersonProfileId()).isPositive();
         assertThat(verificationResult.getAuthRecordId()).isPositive();

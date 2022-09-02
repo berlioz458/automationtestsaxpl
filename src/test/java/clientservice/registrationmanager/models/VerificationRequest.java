@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class VerificationRequest {
     private String deviceToken;
     private String verificationCode;
+    private String secret;
 }
