@@ -36,6 +36,7 @@ repositories {
 
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.jetbrains:annotations:20.1.0'
     testImplementation (
             "org.junit.jupiter:junit-jupiter:$junitVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion",
@@ -53,6 +54,10 @@ dependencies {
     testRuntimeOnly (
             "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     )
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
 tasks.withType(Test) {

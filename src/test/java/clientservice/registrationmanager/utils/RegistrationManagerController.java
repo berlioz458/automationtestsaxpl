@@ -3,6 +3,7 @@ package clientservice.registrationmanager.utils;
 import clientservice.registrationmanager.models.*;
 import io.qameta.allure.Step;
 import org.checkerframework.checker.units.qual.A;
+import unitls.EmailParser;
 
 import static clientservice.registrationmanager.spec.RegistrationManagerApiSpecs.*;
 import static helpers.CustomAllureListener.withCustomTemplate;
@@ -158,6 +159,22 @@ public class RegistrationManagerController {
                 .then()
                 .spec(response)
                 .extract().as(StartVerificationResult.class);
+    }
+
+    public static VerificationResult endVerification(String deviceToken, String verificationCode, String secret) {
+        VerificationRequest body = new VerificationRequest();
+        body.setDeviceToken(deviceToken);
+        body.setVerificationCode(verificationCode);
+        body.setSecret(secret);
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(body)
+                .post("/verify")
+                .then()
+                .spec(response)
+                .extract().as(VerificationResult.class);
     }
 
     public static AuthToken requestAuthToken(String deviceToken, String principalType, String principal, String password) {
