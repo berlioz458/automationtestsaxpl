@@ -85,13 +85,18 @@ task order_tests(type: Test) {
 }
 
 task integration_tests(type: Test) {
-    useJUnitPlatform{
+    useJUnitPlatform {
         includeTags "integration"
     }
+}
+task e2e_tests(type: Test) {
+    useJUnitPlatform {
+        includeTags "e2e"
+    }
+}
 
 task registration_tests(type: Test) {
     useJUnitPlatform{
         includeTags "registration"
     }
-}
 }
