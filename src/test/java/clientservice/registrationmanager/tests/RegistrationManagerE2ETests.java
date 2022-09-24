@@ -13,7 +13,6 @@ import static clientservice.registrationmanager.utils.RegistrationManagerControl
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("smoke")
-@Tag("e2e")
 public class RegistrationManagerE2ETests {
     Faker faker = new Faker();
     DeviceToken deviceToken;
