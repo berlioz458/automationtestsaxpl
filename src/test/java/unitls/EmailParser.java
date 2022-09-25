@@ -16,8 +16,7 @@ public class EmailParser {
     //взять последнее письмо (по идее оно должно быть нужным)
     static @NotNull Integer getLastEmailId() {
         SelenideElement selenideElement = $("[data-message-id]");
-        Integer id = Integer.valueOf(Objects.requireNonNull(selenideElement.getAttribute("data-message-id")));
-        return id;
+        return Integer.valueOf(Objects.requireNonNull(selenideElement.getAttribute("data-message-id")));
     }
 
     //открыть страницу с письмом
