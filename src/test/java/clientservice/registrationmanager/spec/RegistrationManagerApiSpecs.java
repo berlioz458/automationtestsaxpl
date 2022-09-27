@@ -16,7 +16,7 @@ public class RegistrationManagerApiSpecs {
     static String password = config.pswrd();
 
     public static RequestSpecification request = with()
-            .baseUri(baseUri)
+            .baseUri("http://api.client-service." + baseUri)
             .auth().preemptive().basic(username, password)
             .basePath("/v2/service/AUTO3N/registration")
             .log().all().contentType(ContentType.JSON);

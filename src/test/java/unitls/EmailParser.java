@@ -1,6 +1,8 @@
 package unitls;
 
 import com.codeborne.selenide.SelenideElement;
+import config.CredentialsConfig;
+import org.aeonbits.owner.ConfigFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -8,9 +10,11 @@ import java.util.Objects;
 import static com.codeborne.selenide.Selenide.*;
 
 public class EmailParser {
+    static CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class);
+    static String baseUri = config.uri();
     //открыть страницу с заглушкой для писем
     static void openMainPage() {
-        open("http://bus.stage.gcs.prodv.net:7020/");
+        open("http://"+ baseUri + ":7020/");
     }
 
     //взять последнее письмо (по идее оно должно быть нужным)
@@ -21,7 +25,7 @@ public class EmailParser {
 
     //открыть страницу с письмом
     static void openEmailPage(@NotNull Integer id) {
-        open("http://bus.stage.gcs.prodv.net:7020/messages/" + id.toString() + ".html");
+        open("http://" + baseUri + "/messages/" + id.toString() + ".html");
     }
 
     //достать значение токена из кнопки и вернуть его

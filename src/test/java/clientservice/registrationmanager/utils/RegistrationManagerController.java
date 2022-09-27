@@ -2,8 +2,6 @@ package clientservice.registrationmanager.utils;
 
 import clientservice.registrationmanager.models.*;
 import io.qameta.allure.Step;
-import org.checkerframework.checker.units.qual.A;
-import unitls.EmailParser;
 
 import static clientservice.registrationmanager.spec.RegistrationManagerApiSpecs.*;
 import static helpers.CustomAllureListener.withCustomTemplate;

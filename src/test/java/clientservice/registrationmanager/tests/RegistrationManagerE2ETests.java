@@ -33,7 +33,7 @@ public class RegistrationManagerE2ETests {
 
     @BeforeAll
     static void run() {
-        Configuration.headless = true;
+        Configuration.headless = false;
         //Configuration.remote = String.format("https://%s:%s@%s", "user1", "1234", "selenoid.autotests.cloud/wd/hub");
     }
 
