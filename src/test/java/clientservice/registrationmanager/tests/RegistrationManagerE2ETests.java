@@ -2,7 +2,9 @@ package clientservice.registrationmanager.tests;
 
 import clientservice.registrationmanager.models.*;
 import clientservice.registrationmanager.utils.RegistrationManagerController;
+import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -13,11 +15,14 @@ import static clientservice.registrationmanager.utils.RegistrationManagerControl
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("smoke")
-@Tag("e2e")
 public class RegistrationManagerE2ETests {
-    Faker faker = new Faker();
-    DeviceToken deviceToken;
-    String email, firstName, lastName, nameWithMiddle, phone;
+    static Faker faker = new Faker();
+    static DeviceToken deviceToken;
+    static String email;
+    static String firstName;
+    static String lastName;
+    static String nameWithMiddle;
+    static String phone;
     //Пользовательский сценарий: Регистрация клиента по почте
     // 1. Получение девайс токена
     // 2. Проверка введенных данных на ботность
@@ -25,6 +30,12 @@ public class RegistrationManagerE2ETests {
     // 4. Регистрация клиента
     // 5. Отправка письма для подтверждения логина клиенту
     // 6. Переход клиента по ссылке из письма
+
+    @BeforeAll
+    static void run() {
+        Configuration.headless = true;
+        //Configuration.remote = String.format("https://%s:%s@%s", "user1", "1234", "selenoid.autotests.cloud/wd/hub");
+    }
 
     @BeforeEach
     void startUp() {
