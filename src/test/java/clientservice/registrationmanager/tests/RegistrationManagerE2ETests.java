@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import unitls.EmailParser;
 import unitls.SMSParser;
 
@@ -34,7 +35,13 @@ public class RegistrationManagerE2ETests {
     @BeforeAll
     static void run() {
         Configuration.headless = false;
-        //Configuration.remote = String.format("https://%s:%s@%s", "user1", "1234", "selenoid.autotests.cloud/wd/hub");
+        Configuration.remote = "http://localhost:4444/wd/hub/";
+        Configuration.browserSize = "1920x1080";
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("enableVNC", true);
+        capabilities.setCapability("enableVideo", true);
+        Configuration.browserCapabilities = capabilities;
     }
 
     @BeforeEach

@@ -25,7 +25,7 @@ public class EmailParser {
 
     //открыть страницу с письмом
     static void openEmailPage(@NotNull Integer id) {
-        open("http://" + baseUri + "/messages/" + id.toString() + ".html");
+        open("http://" + baseUri + ":7020/messages/" + id.toString() + ".html");
     }
 
     //достать значение токена из кнопки и вернуть его
