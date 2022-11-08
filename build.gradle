@@ -96,3 +96,9 @@ task registration_tests(type: Test) {
         includeTags "registration"
     }
 }
+
+task tochki_tests(type: Test) {
+    useJUnitPlatform{
+        includeTags "4tochki"
+    }
+}
