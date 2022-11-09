@@ -18,8 +18,7 @@ public class Order {
     private Integer prepaidPercentRequired;
     private final String note = "Тестовый заказ";
     private Integer deliveryCostOverride;
-    private String deliveryPlanDateOverride;
-    private final String createdByUser = "Загоруйко В.";
+     private final String createdByUser = "Загоруйко В.";
     private Ref contract;
     private Ref status;
     private PersonInfo createdPerson;
