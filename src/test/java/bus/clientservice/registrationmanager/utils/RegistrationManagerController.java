@@ -1,6 +1,7 @@
 package bus.clientservice.registrationmanager.utils;
 
 import bus.clientservice.registrationmanager.models.*;
+import bus.orderservice.models.Counteragent;
 import io.qameta.allure.Step;
 
 import static bus.clientservice.registrationmanager.spec.RegistrationManagerApiSpecs.*;
@@ -81,7 +82,7 @@ public class RegistrationManagerController {
                 .spec(response)
                 .extract().as(Error.class);
     }
-
+    @Step("Проверка принципала на занятость (Возможность зарегестрироваться)")
     public static PrincipalAvailability checkPrincipalAvailability(String deviceToken, String principal, String principalType, Boolean counteragentsBinding) {
         PrincipalInfo body = new PrincipalInfo();
         body.setPrincipal(principal);
@@ -99,6 +100,7 @@ public class RegistrationManagerController {
                 .extract().as(PrincipalAvailability.class);
     }
 
+    @Step("Проверка на 'ботность' принципала")
     public static ValidateClientRegistrationResult validateClientRegistration(String deviceToken, Integer regionAgentId, String email, String loginType, String password, Boolean counteragentsBinding, String  firstName, String lastName, String middleName){
         RegistrationInfo body = new RegistrationInfo();
         body.setDeviceToken(deviceToken);
@@ -121,6 +123,7 @@ public class RegistrationManagerController {
                 .extract().as(ValidateClientRegistrationResult.class);
     }
 
+    @Step("Регистрации клиента")
     public static RegistrationResult registerClient(String deviceToken, Integer regionAgentId, String email, String phone, String loginType, String password, String  firstName, String lastName, String middleName){
         RegistrationInfo body = new RegistrationInfo();
         body.setDeviceToken(deviceToken);
@@ -143,6 +146,7 @@ public class RegistrationManagerController {
                 .extract().as(RegistrationResult.class);
     }
 
+    @Step("Начать верификацию")
     public static StartVerificationResult startVerification(String deviceToken, String principalType, String principal) {
         StartVerificationRequest body = new StartVerificationRequest();
         body.setDeviceToken(deviceToken);
@@ -159,6 +163,7 @@ public class RegistrationManagerController {
                 .extract().as(StartVerificationResult.class);
     }
 
+    @Step("Закончить верификации")
     public static VerificationResult endVerification(String deviceToken, String verificationCode, String secret) {
         VerificationRequest body = new VerificationRequest();
         body.setDeviceToken(deviceToken);
@@ -175,6 +180,7 @@ public class RegistrationManagerController {
                 .extract().as(VerificationResult.class);
     }
 
+    @Step("Получение AuthToken-а (Авторизация)")
     public static AuthToken requestAuthToken(String deviceToken, String principalType, String principal, String password) {
         AuthTokenRequest body = new AuthTokenRequest();
         body.setDeviceToken(deviceToken);
@@ -190,6 +196,49 @@ public class RegistrationManagerController {
                 .then()
                 .spec(response)
                 .extract().as(AuthToken.class);
+    }
+
+    @Step("Создание контрагента")
+    public static Counteragent createCounteragent(Boolean active, Integer agentId, String companyRegistrationNumber, String email, String phone, String firstName, String lastName, Boolean legalEntity, String legalName, String name, String taxRegistrationNumber) {
+        Counteragent body = new Counteragent();
+        body.setActive(active);
+        body.setAddress("");
+        body.setAgentId(agentId);
+        body.setCompanyRegistrationNumber(companyRegistrationNumber);
+        body.setEmail(email);
+        body.setPhone(phone);
+        body.setFirstName(firstName);
+        body.setLastName(lastName);
+        body.setLegalEntity(legalEntity);
+        body.setLegalName(legalName);
+        body.setName(name);
+        body.setTaxRegistrationNumber(taxRegistrationNumber);
+
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(body)
+                .post("/entity/Counteragent")
+                .then()
+                .spec(response)
+                .extract().as(Counteragent.class);
+    }
+
+    @Step("Создать AuthProfile для Counteragent-а")
+    public static UpgradeCounteragentResult createAuthProfileByCounteragent(Integer counteragentId) {
+        UpgradeCounteragentRequest body = new UpgradeCounteragentRequest();
+        body.setCounteragentId(counteragentId);
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(body)
+                .post("admin/upgradeCounteragent")
+                .then()
+                .spec(response)
+                .extract().as(UpgradeCounteragentResult.class);
+
     }
 
 }

@@ -1,5 +1,8 @@
 package helpers;
 
+import lombok.Getter;
+
+@Getter
 public class Entity {
     private Integer id;
     private String changedAt;
