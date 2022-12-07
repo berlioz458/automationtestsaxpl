@@ -1,10 +1,12 @@
 package bus.orderservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 //@AllArgsConstructor
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
@@ -17,8 +19,8 @@ public class ProvisionPlan {
     private String deliveryDateMax , deliveryDateMin = "2022-12-31T08:23:03.820+0000";
     private Integer deliveryIntervalMax, deliveryIntervalMin = 88616;
     private String descrOriginal = "GDB3582_колодки дисковые п.! \\\\ KIA Optima 10>";
-    private Integer destinationRoutingPointId = 10456;
-    private String destinationRoutingPointName =  "Куликовская ( Москва Агентство Авто 3Н) СП";
+    private Integer destinationRoutingPointId = 10521;
+    private String destinationRoutingPointName =  "Новосибирск ( Новосибирск Агентство Авто 3Н) СП";
     private Integer detail = 113687910;
     private Integer loadingId = 6323303;
     private String maxReturnDate = "2023-01-14T08:23:03.820+0000";

@@ -1,15 +1,18 @@
 package bus.orderservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import helpers.Entity;
 import helpers.Ref;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 //@AllArgsConstructor
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
-public class OrderItem {
+public class OrderItem extends Entity {
     private Integer ownerAgentId;
     private String brand;
     private Integer currentPrice;
