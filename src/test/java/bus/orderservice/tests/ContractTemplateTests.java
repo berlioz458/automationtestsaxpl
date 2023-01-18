@@ -22,8 +22,9 @@ public class ContractTemplateTests {
 
     @Test
     void successDeleteContractTemplate() {
-        Integer id = 145;
-        ContractTemplate contractTemplate = deleteContractTemplate(id);
+        ContractTemplate contractTemplate = createContractTemplate();
+        Integer id = contractTemplate.getId();
+        contractTemplate = deleteContractTemplate(id);
         assertThat(contractTemplate.getDeleted()).isEqualTo(true);
     }
 }

@@ -212,7 +212,9 @@ public class OrderServiceApiController {
     @Step("Создание платежного счета для партнера")
     public static BillingAccount createBillingAccount() {
         BillingAccount billingAccount = new BillingAccount();
-
+        billingAccount.setCompanyName("autocreate test");
+        billingAccount.setCompanyBankAccount("65484946546546549898");
+        billingAccount.setCounteragent(new Ref("Counteragent", 247870, "Фрик (Омск) Партнер"));
 
         return given()
                 .filter(withCustomTemplate())
@@ -222,5 +224,111 @@ public class OrderServiceApiController {
                 .then()
                 .spec(responseSpec)
                 .extract().as(BillingAccount.class);
+    }
+
+    @Step("Получение платежного счета по идентификатору")
+    public static BillingAccount getBillingAccount(Integer id) {
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .get("/entity/AUTO3N/BillingAccount/" + id.toString())
+                .then()
+                .spec(responseSpec)
+                .extract().as(BillingAccount.class);
+    }
+
+    @Step("Создание документа")
+    public static Document createDocument(String name, String html) {
+        Document document = new Document(name, html);
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(document)
+                .post("/entity/AUTO3N/Document")
+                .then()
+                .spec(responseSpec)
+                .extract().as(Document.class);
+    }
+
+    @Step("Получение документа по идентификатору")
+    public static Document getDocument(Integer id) {
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .get("/entity/AUTO3N/Document/" + id.toString())
+                .then()
+                .spec(responseSpec)
+                .extract().as(Document.class);
+    }
+
+    @Step("Создание программы лояльности без бонусной программы")
+    public static LoyaltyPolicy createLoyalPolicy(Integer threshold, Integer counteragent, String name, Integer limit, Integer selfDiscount) {
+        LoyaltyPolicy loyaltyPolicy = new LoyaltyPolicy(threshold,
+                new Ref("Counteragent", counteragent, "Name"),
+                name,
+                limit,
+                selfDiscount);
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(loyaltyPolicy)
+                .post("/loyalty/entity/AUTO3N/LoyaltyPolicy")
+                .then()
+                .spec(responseSpec)
+                .extract().as(LoyaltyPolicy.class);
+    }
+
+    @Step("Получение программы лояльности по идентификатору")
+    public static LoyaltyPolicy getLoyalPolicy(Integer id) {
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .get("/loyalty/entity/AUTO3N/LoyaltyPolicy/" + id.toString())
+                .then()
+                .spec(responseSpec)
+                .extract().as(LoyaltyPolicy.class);
+    }
+
+    @Step("Создание маркетинговой акции")
+    public static MarketingAction createMarketingAction(String activeFrom,
+                                                        String activeTo,
+                                                        String name,
+                                                        Integer discountPercent,
+                                                        Integer countOfOrdersToFreezeDiscount,
+                                                        Integer extraChargePercent,
+                                                        Integer periodToCheckOrdersDays,
+                                                        Integer startDiscountPercent, List<PriceListInfo> pricelists) {
+
+        MarketingAction marketingAction = new MarketingAction(
+                activeFrom,
+                activeTo,
+                name,
+                discountPercent,
+                countOfOrdersToFreezeDiscount,
+                extraChargePercent,
+                periodToCheckOrdersDays,
+                startDiscountPercent, pricelists);
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(marketingAction)
+                .post("/loyalty/entity/AUTO3N/MarketingAction")
+                .then()
+                .spec(responseSpec)
+                .extract().as(MarketingAction.class);
+    }
+
+    @Step("Получение маркетинговой акции по идентификатору")
+    public static MarketingAction getMarketingAction(Integer id) {
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .get("/loyalty/entity/AUTO3N/MarketingAction/" + id.toString())
+                .then()
+                .spec(responseSpec)
+                .extract().as(MarketingAction.class);
     }
 }
