@@ -1,5 +1,6 @@
 package bus.offerservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -18,5 +19,14 @@ public class DetailAndResultOffers {
 
     @JsonProperty(value = "value")
     private List<ResultOffer> resultOffers;
+
+    public void setResultOffers(List<ResultOffer> resultOffers) {
+        this.resultOffers = resultOffers;
+    }
+
+    @JsonIgnore
+    public int getOffersCount() {
+        return resultOffers.size();
+    }
 
 }

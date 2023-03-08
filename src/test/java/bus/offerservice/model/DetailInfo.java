@@ -2,11 +2,13 @@ package bus.offerservice.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 @Getter
+@Setter
 public class DetailInfo {
     private final int detailId;
     private final String oem;
@@ -20,8 +22,8 @@ public class DetailInfo {
     private final String requestedBrand;
     private final String crossType;
 
-    DetailInfo(int detailId, String oem, String brand, List<String> brandAlias, int brandId, String name, Integer groupId,
-               Float weight, Float volume, String requestedBrand, String crossType) {
+    public DetailInfo(int detailId, String oem, String brand, List<String> brandAlias, int brandId, String name, Integer groupId,
+                      Float weight, Float volume, String requestedBrand, String crossType) {
         this.detailId = detailId;
         this.oem = oem;
         this.brand = brand;
