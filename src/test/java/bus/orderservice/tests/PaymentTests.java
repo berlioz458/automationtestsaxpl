@@ -1,12 +1,13 @@
 package bus.orderservice.tests;
 
 import bus.orderservice.models.Payment;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static bus.orderservice.utils.OrderServiceApiController.createPaymentForOrder;
 import static bus.orderservice.utils.OrderServiceApiController.getPaymentFromClient;
 import static org.assertj.core.api.Assertions.assertThat;
-
+@Tag("order")
 public class PaymentTests {
     @Test
     void successCreatePaymentFromClient1C() {

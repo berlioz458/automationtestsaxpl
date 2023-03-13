@@ -2,13 +2,14 @@ package bus.orderservice.tests;
 
 import bus.orderservice.models.MarketingAction;
 import bus.orderservice.models.PriceListInfo;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static bus.orderservice.utils.OrderServiceApiController.*;
 import static org.assertj.core.api.Assertions.assertThat;
-
+@Tag("order")
 public class MarketingActionTests {
     @Test
     void successCreateMarketingAction() {

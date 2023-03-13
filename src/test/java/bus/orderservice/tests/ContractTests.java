@@ -2,12 +2,13 @@ package bus.orderservice.tests;
 
 import bus.orderservice.models.Contract;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static bus.orderservice.utils.OrderServiceApiController.createContract;
 import static bus.orderservice.utils.OrderServiceApiController.getClientContract;
 import static org.assertj.core.api.Assertions.assertThat;
-
+@Tag("order")
 public class ContractTests {
     @BeforeEach
     void startUp() {

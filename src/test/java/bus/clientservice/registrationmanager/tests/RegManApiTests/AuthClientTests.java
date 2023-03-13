@@ -30,7 +30,7 @@ public class AuthClientTests {
     @Story("Auth Client by Email")
     @Description("Авторизация клиента с принципалом, тип EMAIL")
     void success_auth_by_email() {
-        authToken = RegistrationManagerController.requestAuthToken(deviceToken.getDeviceToken(), "EMAIL", "berlioz458@gmail.com", "123456");
+        authToken = RegistrationManagerController.requestAuthToken(deviceToken.getDeviceToken(), "EMAIL", "berlioz458@gmail.com", "123123");
         assertThat(authToken.getAuthToken()).isNotEmpty();
     }
 

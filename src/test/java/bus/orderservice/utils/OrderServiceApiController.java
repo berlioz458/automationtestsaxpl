@@ -146,6 +146,7 @@ public class OrderServiceApiController {
         payment.setPaymentTime("2022-12-07T02:03:49.000+0000");
         Ref paymentType = new Ref("PaymentType", 11, "VISA/MASTERCARD");
         payment.setPaymentType(paymentType);
+        payment.setMerchantID("1");
         payment.setSum(100);
 
         return given()

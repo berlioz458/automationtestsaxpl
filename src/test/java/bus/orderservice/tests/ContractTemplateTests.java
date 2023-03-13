@@ -1,11 +1,12 @@
 package bus.orderservice.tests;
 
 import bus.orderservice.models.ContractTemplate;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static bus.orderservice.utils.OrderServiceApiController.*;
 import static org.assertj.core.api.Assertions.assertThat;
-
+@Tag("order")
 public class ContractTemplateTests {
     @Test
     void successCreateContractTemplate() {

@@ -1,4 +1,4 @@
-package integrationservice;
+package integrationservice.spec;
 
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
@@ -11,7 +11,7 @@ public class IntegrationUserApiSpecs {
 
     public static RequestSpecification success_request = with()
             .baseUri("http://api.integration.bus.stage.auto3n.ru")
-            .auth().preemptive().basic("shulinina.e", "1234567")
+            .auth().preemptive().basic("shulinina.e", "shulinina.e")
             .basePath("/v2")
             .log().all()
             .contentType(ContentType.JSON);
@@ -24,7 +24,7 @@ public class IntegrationUserApiSpecs {
 
     public static RequestSpecification error_request = with()
             .baseUri("http://api.integration.bus.stage.auto3n.ru")
-            .auth().preemptive().basic("shulinina.e", "1234567")
+            .auth().preemptive().basic("shulinina.e", "shulinina.e")
             .basePath("/v2")
             .log().all()
             .contentType(ContentType.JSON);

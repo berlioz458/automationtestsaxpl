@@ -1,12 +1,14 @@
 package bus.orderservice.tests;
 
 import bus.orderservice.models.BillingAccount;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static bus.orderservice.utils.OrderServiceApiController.createBillingAccount;
 import static bus.orderservice.utils.OrderServiceApiController.getBillingAccount;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Tag("order")
 public class BillingAccountTests {
 
     @Test

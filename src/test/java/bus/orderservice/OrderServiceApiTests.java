@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //Обход руками и создание объектов, занимает около 20 минут(без чек апа "Варгейминг")
 
-@Tag("order")
+
 public class OrderServiceApiTests {
 
 

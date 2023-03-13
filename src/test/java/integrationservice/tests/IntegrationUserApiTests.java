@@ -1,36 +1,46 @@
-package integrationservice;
+package integrationservice.tests;
 
 import com.github.javafaker.Faker;
+import helpers.Ref;
+import integrationservice.model.RealmUser;
+import integrationservice.model.User;
 import io.qameta.allure.Description;
 import io.qameta.allure.TmsLink;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static helpers.CustomAllureListener.withCustomTemplate;
-import static integrationservice.IntegrationUserApiSpecs.*;
+import static integrationservice.spec.IntegrationUserApiSpecs.*;
+import static integrationservice.utils.IntegrationUserController.createUser;
+import static integrationservice.utils.IntegrationUserController.getUserInfo;
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 
-@Disabled
+
 public class IntegrationUserApiTests {
 
     Faker faker = new Faker();
     String userName = faker.name().username();
     String email = userName + "@auto3n.ru";
+    String password = faker.internet().password();
+
+    String party = "BPMONLINE";
+    Integer agent = 10054;
+    List<String> roles = new ArrayList<>();
 
     @Tag("integration")
     @Tag("smoke")
     @Description("List users without another params")
     @Test
     void successGetUsers() {
-        given()
-            .filter(withCustomTemplate())
-            .spec(success_request)
-        .when()
-            .get("/entity/AUTO3N/User")
-        .then()
-                .spec(success_responseSpec);
+        Response userList = getUserInfo();
+        assertThat(userList).isNotNull();
     }
 
     @Tag("integration")
@@ -55,38 +65,12 @@ public class IntegrationUserApiTests {
     @Description("Create new user with manager role")
     @Test
     void successCreateManager() {
-        String str = "{\n" +
-                "  \"User\": {\n" +
-                "    \"username\": \"" + userName + "\",\n" +
-                "    \"email\": \"" + email + "\",\n" +
-                "    \"enabled\": true,\n" +
-                "    \"isExternalAuth\": false,\n" +
-                "    \"password\": \"123456\",\n" +
-                "    \"realmUser\": {\n" +
-                "      \"RealmUser\": {\n" +
-                "        \"roles\": [\n" +
-                "          \"Role.Integration.User\",\n" +
-                "          \"Role.Shop.Manager\"\n" +
-                "        ],\n" +
-                "        \"agent\": {\n" +
-                "          \"#ref\": {\n" +
-                "            \"id\": 10054,\n" +
-                "            \"type\": \"Agent\"\n" +
-                "          }\n" +
-                "        }\n" +
-                "      }\n" +
-                "    }\n" +
-                "  }\n" +
-                "}";
-        given()
-            .filter(withCustomTemplate())
-            .spec(success_request)
-            .body(str)
-        .when()
-            .post("/entity/AUTO3N/User")
-        .then()
-            .spec(success_responseSpec)
-            .log().all();
+        roles.add("Role.Integration.User");
+        roles.add("Role.Shop.Manager");
+        User user = createUser(userName, password, email, party, agent, roles, true);
+        assertThat(user.getEmail()).isEqualTo(email);
+        assertThat(user.getUsername()).isEqualTo(userName);
+        assertThat(user.getParty()).isEqualTo(party);
     }
 
     @TmsLink("https://dev.prodv.net/browse/AXPL-4442")
