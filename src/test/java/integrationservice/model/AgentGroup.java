@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 public class AgentGroup {
+    private Integer id;
     private String name;
     private Ref ownerAgent;
     private List<Ref> agents;

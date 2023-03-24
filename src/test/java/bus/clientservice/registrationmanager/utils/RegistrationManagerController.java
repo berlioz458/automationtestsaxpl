@@ -241,4 +241,29 @@ public class RegistrationManagerController {
 
     }
 
+    @Step("Создание кода авторизация для входа в ЛК и отправка по каналам PUSH, EMAIL, SMS")
+    public static AuthCodeResult createAuthCode(String deviceToken, String principalType, String principal) {
+        AuthCodeRequest body = new AuthCodeRequest(deviceToken, principalType, principal);
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(body)
+                .post("/sendAuthorizationCode")
+                .then()
+                .spec(response)
+                .extract().as(AuthCodeResult.class);
+    }
+
+    @Step("Создать новый сеанс пользователя по полученному в SMS, PUSH, EMAIL - коду авторизации")
+    public static AuthToken createAuthSessionByCode(String deviceToken, String principal, String principalType, String authCode) {
+        AuthTokenByCodeRequest body = new AuthTokenByCodeRequest(deviceToken, principal, principalType, authCode);
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(body)
+                .post("/sendAuthorizationCode")
+                .then()
+                .spec(response)
+                .extract().as(AuthToken.class);
+    }
 }
