@@ -22,5 +22,6 @@ public class RegistrationManagerApiSpecs {
             .log().all().contentType(ContentType.JSON);
 
     public static ResponseSpecification response = new ResponseSpecBuilder()
-            .build();
+            .build()
+            .statusCode(200);
 }

@@ -103,3 +103,4 @@ task tochki_tests(type: Test) {
         includeTags "4tochki"
     }
 }
+//TODO: add tag for prod (2)

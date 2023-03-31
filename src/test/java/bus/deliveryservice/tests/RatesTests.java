@@ -27,5 +27,6 @@ public class RatesTests {
         var shippingOptions = rates.jsonPath().get("ShippingPricing.shippingOptions");
 
         assertThat(shippingOptions).isNotNull();
+        //TODO: ответ, смотреть время (1)
     }
 }

@@ -16,7 +16,7 @@ public class IntegrationAgentGroupApiTests {
     }
 
     @Test
-    void successGetAgentGroup() {
+    void successGetAgentGroupById() {
         Integer expectedId = 5;
         AgentGroup agentGroup = getAgentGroupById(expectedId);
         assertThat(agentGroup).isNotNull();

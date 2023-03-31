@@ -2,11 +2,17 @@ package bus.offerservice.tests;
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
 import lombok.var;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import static bus.offerservice.utils.OfferServiceApiController.findOffersWithBrand;
-import static bus.offerservice.utils.OfferServiceApiController.findOffersWithOutBrand;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static bus.offerservice.utils.OfferServiceApiController.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Tag("offers")
 @Story("Получение предложений")
 public class FindOffersTests {
 
@@ -26,12 +32,12 @@ public class FindOffersTests {
 
     @Test
     @Story("Интернет Магазин")
-    @Description("Получение списка предложений по бренд+оем без кроссов")
+    @Description("Получение списка предложений по бренд+оем без кроссов - Блок 'Запрошенный артикул'")
     void successGetOffersListWithoutCross() {
         var searchResult = findOffersWithBrand(
-                "C110", "DOLZ", 10522, 1020, 643, false, false, 0, "all", true, "refined", "simple"
+                "RINGAH009", "FEBEST", 10101, 1020, 643, false, false, 0, "all", true, "refined", "simple"
         );
-        var expectedDetailId = 69724573;
+        var expectedDetailId = 125423437;
         var resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
         var values = searchResult.jsonPath().get("[0]['SearchResult']['offers']");
 
@@ -41,19 +47,56 @@ public class FindOffersTests {
 
     @Test
     @Story("Интернет Магазин")
-    @Description("Получение списка предложений по бренд+оем с кроссами")
-    void successGetOffersListWithCross() {
+    @Description("Получение списка предложений по бренд+оем с кроссами - Блок 'Остальные аналоги'")
+    void successGetOffersListWithCrossExternal() {
         var searchResult = findOffersWithBrand(
-                "C110",  "DOLZ", 10522, 1020, 643, true, false, 0, "all", true, "refined", "simple"
+                "RINGAH009",  "FEBEST", 10101, 1020, 643, true, false, 0, "internal", true, "refined", "simple"
         );
 
-        var expectedDetailId = 69724573;
+        var expectedDetailId = 125423437;
+        var resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
+        var values = searchResult.jsonPath().get("[0]['SearchResult']['offers']");
+
+        assertThat(expectedDetailId).isEqualTo(resultDetailId);
+        assertThat(values).isNotNull();
+    }
+
+    @Test
+    @Story("Интернет Магазин")
+    @Description("Получение списка предложений по бренд+оем с кроссами - Блок 'Рекомендуемые аналоги'")
+    void successGetOffersListWithCrossInternal() {
+        var searchResult = findOffersWithBrand(
+                "RINGAH009",  "FEBEST", 10101, 1020, 643, true, false, 0, "internal", true, "refined", "simple"
+        );
+
+        var expectedDetailId = 125423437;
         var resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
         var values = searchResult.jsonPath().get("[0]['SearchResult']['offers']");
         var valuesCrosses = searchResult.jsonPath().get("[0]['SearchResult']['offers'][0]['key']['DetailInfo']['detailId']");
 
         assertThat(expectedDetailId).isEqualTo(resultDetailId);
-        assertThat(160363916).isEqualTo(valuesCrosses);
+        assertThat(152241939).isEqualTo(valuesCrosses);
         assertThat(values).isNotNull();
+    }
+
+    @Test
+    @Story("Интернет Магазин")
+    @Description("Перепроценка корзины клиента")
+    void successGetPriceForShoppingCart() {
+        var offersForOrder = findPriceListOffers(10468, 1020, 643, "all");
+
+        assertThat(offersForOrder).isNotNull();
+        //TODO: Переделать
+        assertThat(72852613).isEqualTo(offersForOrder.jsonPath().get("[0]['key']['DetailInfo']['detailId']"));
+        //assertThat(offersForOrder.jsonPath().get("[0]['value']")).isNotNull();
+
+        assertThat(125423437).isEqualTo(offersForOrder.jsonPath().get("[1]['key']['DetailInfo']['detailId']"));
+        //assertThat(offersForOrder.jsonPath().get("[1]['value']")).isNotNull();
+
+        assertThat(77096157).isEqualTo(offersForOrder.jsonPath().get("[2]['key']['DetailInfo']['detailId']"));
+        //assertThat(offersForOrder.jsonPath().get("[3]['value']")).isNotNull();
+
+        assertThat(-533659449).isEqualTo(offersForOrder.jsonPath().get("[3]['key']['DetailInfo']['detailId']"));
+        //assertThat(offersForOrder.jsonPath().get("[4]['value']")).isNotNull();
     }
 }
