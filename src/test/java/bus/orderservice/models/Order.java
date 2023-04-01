@@ -21,10 +21,11 @@ public class Order extends Entity {
     private Integer prepaidPercentRequired;
     private final String note = "Тестовый заказ";
     private Integer deliveryCostOverride;
-     private final String createdByUser = "Загоруйко В.";
     private Ref contract;
     private Ref status;
+    private Ref createdByManager;
     private PersonInfo createdPerson;
     private ShipmentInfo shipmentInfo;
     private List<OrderItem> orderItems;
+    private Boolean startWorkImmediately = false;
 }
