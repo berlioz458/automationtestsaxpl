@@ -104,3 +104,8 @@ task tochki_tests(type: Test) {
     }
 }
 //TODO: add tag for prod (2)
+task prod_tests(type: Test) {
+    useJUnitPlatform{
+        includeTags "prod_run"
+    }
+}

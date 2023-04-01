@@ -9,7 +9,6 @@ import static com.codeborne.selenide.Selenide.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderServiceE2ETests {
-    //TODO:add e2e test for order (1)
     //Добавить изменения в позиции заказа - количество, статус (?)
 
 
