@@ -4,6 +4,7 @@ import bus.deliveryservice.model.ShippingItem;
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
 import lombok.var;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,9 +13,11 @@ import java.util.List;
 import static bus.deliveryservice.utils.DeliveryServiceApiController.rates;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Tag("delivery")
 public class RatesTests {
 
     @Test
+    @Tag("prod_run")
     @Story("Интернет Магазин")
     @Description("Получение доступных способов доставки для агента по широте и долготе")
     void successGetRatesByLongitudeAndLatitude() {

@@ -10,10 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderServiceE2ETests {
     //TODO:add e2e test for order (1)
-    //1. создать заказ
-    //2. получить заказ
-    //3. изменить заказ - startWorkImmediately/note
-    //4. изменить статус заказа, позиции заказа -
+    //Добавить изменения в позиции заказа - количество, статус (?)
 
 
     @Test
