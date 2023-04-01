@@ -2,6 +2,7 @@ package bus.deliveryservice.utils;
 
 import bus.deliveryservice.model.SettlementByLocationResult;
 import bus.deliveryservice.model.ShippingItem;
+import bus.deliveryservice.model.ShippingPricing;
 import bus.deliveryservice.model.ShippingRequest;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
@@ -14,8 +15,9 @@ import static helpers.CustomAllureListener.withCustomTemplate;
 import static io.restassured.RestAssured.given;
 
 public class DeliveryServiceApiController {
+
     @Step("Расчет доступных способов доставки")
-    public static Response rates(
+    public static ShippingPricing rates(
             Integer agentId,
             List<ShippingItem> shippingItems,
             String shippingMethod,
@@ -33,7 +35,7 @@ public class DeliveryServiceApiController {
                 .post("/service/AUTO3N/delivery/rates")
                 .then()
                 .spec(responseSpec)
-                .extract().response();
+                .extract().as(ShippingPricing.class);
     }
 
     @Step("Получение поселения по широте и долготе")
