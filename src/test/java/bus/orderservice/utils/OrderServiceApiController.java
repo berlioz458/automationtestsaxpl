@@ -68,26 +68,26 @@ public class OrderServiceApiController {
     }
 
 
-    @Step("Создание заказа для клиента - простой")
-    public static Order createOrderForClient() {
+    @Step("Создание заказа")
+    public static Order createOrderForClient(Integer shipmentAgent, String emailPerson, Integer contractId, Boolean createByManager) {
         Order order = new Order();
-        order.setShipmentAgentId(10521);
+        order.setShipmentAgentId(shipmentAgent);
         order.setDeliveryCostOverride(0);
         Ref status = new Ref();
         status.setId(5);
         status.setType("OrderStatus");
         order.setStatus(status);
         PersonInfo personInfo = new PersonInfo();
-        personInfo.setEmail("test0712+1@bus.ru");
+        personInfo.setEmail(emailPerson);
         personInfo.setFirstName("test create order from api");
         order.setCreatedPerson(personInfo);
         Ref contract = new Ref();
-        contract.setId(606580);
+        contract.setId(contractId);
         contract.setType("Contract");
         order.setContract(contract);
         ShipmentInfo shipmentInfo = new ShipmentInfo();
         shipmentInfo.setAdditionalInfo("{\\\"blockedDetails\\\":null,\\\"blockedCategories\\\":null,\\\"name\\\":null,\\\"shipmentAgentId\\\":10522,\\\"basePrice\\\":null,\\\"additionalFee\\\":null,\\\"totalPrice\\\":null,\\\"deliveryInterval\\\":null,\\\"deliveryTime\\\":null,\\\"boxes\\\":null,\\\"estimatedTransportationDate\\\":null,\\\"estimatedDeliveryDate\\\":null,\\\"currencyId\\\":null,\\\"totalWeight\\\":null,\\\"isApproximateResult\\\":null,\\\"vatRate\\\":null,\\\"vatSum\\\":null,\\\"errorMessage\\\":null,\\\"fromPoint\\\":null,\\\"toPoint\\\":{\\\"id\\\":25469,\\\"name\\\":\\\"Магазин AUTO3N Новосибирск «пр-т Дзержинского»\\\",\\\"address\\\":\\\"630015, г. Новосибирск, пр-т Дзержинского, д. 24\\\",\\\"latitude\\\":null,\\\"longitude\\\":null,\\\"phones\\\":null,\\\"worktime\\\":null,\\\"inDoorNavigation\\\":null,\\\"outDoorNavigation\\\":null,\\\"directions\\\":null,\\\"settlement\\\":null,\\\"transportCompany\\\":null,\\\"cardPayment\\\":null,\\\"cashPayment\\\":null,\\\"openingAllowed\\\":null,\\\"disabled\\\":null,\\\"external_id\\\":25469,\\\"observable\\\":true},\\\"deliveryMethod\\\":{\\\"id\\\":null,\\\"name\\\":null,\\\"transportCompany\\\":null,\\\"carrierType\\\":null,\\\"isCourierDelivery\\\":null,\\\"disabled\\\":null,\\\"description\\\":null,\\\"external_id\\\":null,\\\"observable\\\":true},\\\"fromZipCode\\\":null,\\\"toZipCode\\\":null,\\\"transportCompany\\\":{\\\"id\\\":\\\"5\\\",\\\"type\\\":null,\\\"name\\\":\\\"AUTO3N Самовывоз\\\",\\\"external_id\\\":\\\"5\\\",\\\"observable\\\":true},\\\"toSettlement\\\":{\\\"id\\\":null,\\\"name\\\":null,\\\"canonicalName\\\":null,\\\"displayName\\\":null,\\\"shortName\\\":null,\\\"latitude\\\":null,\\\"longitude\\\":null,\\\"region\\\":null,\\\"area\\\":null,\\\"country\\\":null,\\\"aoguid\\\":null,\\\"disabled\\\":null,\\\"external_id\\\":null,\\\"observable\\\":true},\\\"fromSettlement\\\":null,\\\"isOk\\\":true,\\\"formattedEstimatedDeliveryDate\\\":null,\\\"days\\\":null,\\\"addressString\\\":\\\"630015, г. Новосибирск, пр-т Дзержинского, д. 24\\\",\\\"comment\\\":null,\\\"shipmentInterval\\\":0,\\\"external_id\\\":null,\\\"observable\\\":true}");
-        shipmentInfo.setAddress("630015, г. Новосибирск, пр-т Дзержинского, д. 24");
+        shipmentInfo.setAddress("630073, г. Новосибирск, ул. Блюхера, д. 71В");
         shipmentInfo.setAdditionalDeliveryCost(0);
         shipmentInfo.setTransportationCompanyId(5);
         shipmentInfo.setTransportationCompanyName("AUTO3N Самовывоз");
@@ -116,6 +116,11 @@ public class OrderServiceApiController {
         orderItems.add(orderItem1);
         order.setOrderItems(orderItems);
 
+        if (createByManager) {
+            order.setCreatedByManager(new Ref("ManagerInfo", 603, "Ермаков Иван Анатольевич"));
+            order.setStartWorkImmediately(true);
+        }
+
         return given()
                 .filter(withCustomTemplate())
                 .spec(request)
@@ -126,13 +131,27 @@ public class OrderServiceApiController {
                 .extract().as(Order.class);
     }
 
-
     @Step("Получение информации о заказе клиента по идентификатору")
     public static Order getOrderContract(Integer id) {
         return given()
                 .filter(withCustomTemplate())
                 .spec(request)
                 .get("/entity/AUTO3N/Order/" + id.toString())
+                .then()
+                .spec(responseSpec)
+                .extract().as(Order.class);
+    }
+
+    @Step("Изменение статуса созданного заказа")
+    public static Order changeStatusForOrder(Order order, Integer OrderStatusId) {
+        Ref status = new Ref();
+        status.setId(OrderStatusId);
+        order.setStatus(status);
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(order)
+                .put("/entity/AUTO3N/Order/" + order.getId().toString())
                 .then()
                 .spec(responseSpec)
                 .extract().as(Order.class);
@@ -169,7 +188,6 @@ public class OrderServiceApiController {
                 .spec(responseSpec)
                 .extract().as(Payment.class);
     }
-
 
     @Step("Создание шаблона договоров")
     public static ContractTemplate createContractTemplate() {

@@ -19,6 +19,8 @@ import static bus.clientservice.core.utils.clientController.getTokenBySms;
 import static bus.clientservice.registrationmanager.utils.RegistrationManagerController.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+//TODO: нужны тесты на авторизацию по коду
+//TODO: нужны тесты на самоудаление профиля клиентом
 @Tag("smoke")
 public class RegistrationManagerE2ETests {
     static Faker faker = new Faker(new Locale("ru-RU"));
