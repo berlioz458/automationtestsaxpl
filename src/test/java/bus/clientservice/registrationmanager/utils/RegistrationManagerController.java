@@ -1,5 +1,6 @@
 package bus.clientservice.registrationmanager.utils;
 
+import bus.clientservice.core.model.PersonProfile;
 import bus.clientservice.registrationmanager.models.*;
 import bus.orderservice.models.Counteragent;
 import io.qameta.allure.Step;
@@ -265,5 +266,29 @@ public class RegistrationManagerController {
                 .then()
                 .spec(response)
                 .extract().as(AuthToken.class);
+    }
+
+    @Step("Выполнить самоудаление профиля пользователя")
+    public static Success selfDeleteUser(String deviceToken, String authToken) {
+        AuthRequest body = new AuthRequest(deviceToken, authToken);
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(body)
+                .post("/selfDeletePrincipal")
+                .then()
+                .spec(response)
+                .extract().as(Success.class);
+    }
+
+    @Step("Получить данные PersonProfile по идентификатору")
+    public static PersonProfile getPersonProfileById(Integer id) {
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .get("/entity/PersonProfile/" + id.toString())
+                .then()
+                .spec(response)
+                .extract().as(PersonProfile.class);
     }
 }

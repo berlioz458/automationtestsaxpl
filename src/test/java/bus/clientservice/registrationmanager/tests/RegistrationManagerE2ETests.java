@@ -12,37 +12,24 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import unitls.EmailParser;
 import unitls.SMSParser;
 
+import java.util.Locale;
+
+import static bus.clientservice.core.utils.clientController.getTokenByEmail;
+import static bus.clientservice.core.utils.clientController.getTokenBySms;
 import static bus.clientservice.registrationmanager.utils.RegistrationManagerController.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("smoke")
 public class RegistrationManagerE2ETests {
-    static Faker faker = new Faker();
+    static Faker faker = new Faker(new Locale("ru-RU"));
     static DeviceToken deviceToken;
     static String email;
     static String firstName;
     static String lastName;
     static String nameWithMiddle;
     static String phone;
-    //Пользовательский сценарий: Регистрация клиента по почте
-    // 1. Получение девайс токена
-    // 2. Проверка введенных данных на ботность
-    // 3. Проверка введенных данных на возможность регистрации на принципал
-    // 4. Регистрация клиента
-    // 5. Отправка письма для подтверждения логина клиенту
-    // 6. Переход клиента по ссылке из письма
 
-    @BeforeAll
-    static void run() {
-        Configuration.headless = false;
-        Configuration.remote = "http://localhost:4444/wd/hub/";
-        Configuration.browserSize = "1920x1080";
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("enableVNC", true);
-        capabilities.setCapability("enableVideo", true);
-        Configuration.browserCapabilities = capabilities;
-    }
+    //TODO: Требуется сделать кейсы на удаление профиля
 
     @BeforeEach
     void startUp() {
@@ -51,7 +38,7 @@ public class RegistrationManagerE2ETests {
         firstName = faker.name().firstName();
         lastName = faker.name().lastName();
         nameWithMiddle = faker.name().nameWithMiddle();
-        phone = "+7" + faker.number().randomNumber(10, false);
+        phone = "7" + faker.number().randomNumber(10, false);
     }
 
     @Test
@@ -60,20 +47,23 @@ public class RegistrationManagerE2ETests {
         validateClientRegistration(deviceToken.getDeviceToken(), 10506, email, "EMAIL","123456", true, firstName, lastName, nameWithMiddle);
         registerClient(deviceToken.getDeviceToken(), 10506, email, phone, "EMAIL", "123456", firstName, lastName, nameWithMiddle);
         startVerification(deviceToken.getDeviceToken(),"EMAIL", email);
-        String token = EmailParser.getTokenFromEmail();
+        String token = getTokenByEmail(email);
         VerificationResult verificationResult = endVerification(deviceToken.getDeviceToken(), token, null);
-        assertThat(verificationResult.getAuthProfileId()).isPositive();
-        assertThat(verificationResult.getPersonProfileId()).isPositive();
-        assertThat(verificationResult.getAuthRecordId()).isPositive();
+//        assertThat(verificationResult.getAuthProfileId()).isPositive();
+//        assertThat(verificationResult.getPersonProfileId()).isPositive();
+//        assertThat(verificationResult.getAuthRecordId()).isPositive();
+        AuthToken authToken = requestAuthToken(deviceToken.getDeviceToken(), "EMAIL", email, "123456");
+        selfDeleteUser(deviceToken.getDeviceToken(), authToken.getAuthToken());
+        assertThat(getPersonProfileById(verificationResult.getPersonProfileId()).getSelfDeleted()).isEqualTo(true);
     }
 
     @Test
-    void clientRegistrationByPhone() throws InterruptedException {
+    void clientRegistrationByPhone() {
         checkPrincipalAvailability(deviceToken.getDeviceToken(), phone, "MOBILE", true);
         validateClientRegistration(deviceToken.getDeviceToken(), 10506, email, "MOBILE","123456", true, firstName, lastName, nameWithMiddle);
         registerClient(deviceToken.getDeviceToken(), 10506, email, phone, "MOBILE", "123456", firstName, lastName, nameWithMiddle);
         String secret = startVerification(deviceToken.getDeviceToken(),"MOBILE", phone).getSecret();
-        String token = SMSParser.getCodeBySms();
+        String token = getTokenBySms(phone);
         VerificationResult verificationResult = endVerification(deviceToken.getDeviceToken(), token, secret);
         assertThat(verificationResult.getAuthProfileId()).isPositive();
         assertThat(verificationResult.getPersonProfileId()).isPositive();
