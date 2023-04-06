@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 //@AllArgsConstructor
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
+//TODO: Разобраться со сроками из плана обеспечения, не хардкодить, попробовать брать текущее (1)
 public class ProvisionPlan {
     private Integer id = 4681767;
     private String actualityDate = "2023-04-30T08:23:03.820+0000";

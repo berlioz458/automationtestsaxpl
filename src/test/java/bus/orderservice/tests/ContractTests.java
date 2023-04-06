@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ContractTests {
     @BeforeEach
     void startUp() {
-        //TODO: что подготовить для контракта
+        //TODO: что подготовить для контракта чтобы были не захардкожены
     }
 
 

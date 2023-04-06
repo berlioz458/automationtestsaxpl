@@ -97,5 +97,4 @@ public class SettlementTests {
         SettlementByLocationResult response = settlementByLocation(55.913613, 38.113486);
         assertThat(response.getNearestSettlement().getName()).isEqualTo("Юность");
     }
-
 }
