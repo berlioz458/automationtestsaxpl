@@ -54,7 +54,7 @@
 Найти их и запустить можно как в файле `build.gradle`, так и в IDEA справа в блоке Gradle, раздел `other`
 
 <p align="center">
-<img width="50%" title="Java" src="img/img_1.png">
+<img width="20%" title="Java" src="img/img_1.png">
 </p>
 
 Полный список на текущий момент для bus: 
@@ -68,6 +68,7 @@
 <p align="center">
 <img width="70%" title="Java" src="img/img_2.png">
 </p>
+
 ## Реализованные возможности
 На данный момент реализованы следующие сценарии: 
 - Регистрация клиента(получение deviceToken, регистрация, верификация) `Registration Manager`
@@ -85,10 +86,13 @@
 <p align="center">
 <img width="50%" title="Java" src="img/img_3.png">
 </p>
+
 Если всё выполнено верно, в результате работы Task-и, мы получим адрес где можем посмотреть сфомированный отчёт
 <img width="100%" title="Java" src="img/img_4.png">
+
 В отчете отображается вся информация о прогоне:
 <img width="100%" title="Java" src="img/img_5.png">
+
 Так как в тестах используются аллюровские аннотации `@Story` и `@Epic` видеть сгруппированные сценарии и результаты их выполнения
 <img width="100%" title="Java" src="img/img_7.png">
 <img width="100%" title="Java" src="img/img_6.png">
@@ -99,6 +103,7 @@
 Локально поднят был свой, сконфигурирована Job-а на запуск. 
 
 * При выполнении через CI/CD так же можно сконфигурировать оповещения в заранее созданный Telegram-канал, где по результатам работы будут приходить оповещения.
+
 <p align="center">
 <img width="50%" title="Java" src="img/img_8.png">
 </p>
