@@ -109,3 +109,9 @@ task prod_tests(type: Test) {
         includeTags "prod_run"
     }
 }
+
+task stage_tests(type: Test) {
+    useJUnitPlatform{
+        includeTags "smoke_predprod"
+    }
+}

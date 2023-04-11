@@ -29,6 +29,7 @@ public class CheckPrincipalAvailabilityTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Проверка доступность принципала с типом EMAIL, свободного")
     void success_check_email_type_principal_free() {
         principalAvailability = RegistrationManagerController.checkPrincipalAvailability(deviceToken.getDeviceToken(), faker.internet().emailAddress(), "EMAIL", true);
@@ -37,6 +38,7 @@ public class CheckPrincipalAvailabilityTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Проверка доступность принципала с типом MOBILE, свободного")
     void success_check_mobile_type_principal_free() {
         principalAvailability = RegistrationManagerController.checkPrincipalAvailability(deviceToken.getDeviceToken(), "+7" + faker.number().randomNumber(10, false), "MOBILE", true);
@@ -45,6 +47,7 @@ public class CheckPrincipalAvailabilityTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Проверка доступность принципала с типом EMAIL, не свободного")
     void success_check_email_type_principal_unfree() {
         principalAvailability = RegistrationManagerController.checkPrincipalAvailability(deviceToken.getDeviceToken(), "berlioz458@gmail.com", "EMAIL", true);

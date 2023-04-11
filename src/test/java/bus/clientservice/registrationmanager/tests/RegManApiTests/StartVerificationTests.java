@@ -46,6 +46,7 @@ public class StartVerificationTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Story("Start Verification Client - Email")
     @Description("Начать процесс верификации AuthRecord-а после регистрации, для входа в ЛК по почте")
     void success_start_verification_process_for_user_by_email() {
@@ -55,6 +56,7 @@ public class StartVerificationTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Story("Start Verification Client - Mobile Phone")
     @Description("Начать процесс верификации AuthRecord-а после регистрации, для входа в ЛК по номеру телефона")
     void success_start_verification_process_for_user_by_phone() {

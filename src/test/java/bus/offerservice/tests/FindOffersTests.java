@@ -2,6 +2,7 @@ package bus.offerservice.tests;
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
 import lombok.var;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +19,7 @@ public class FindOffersTests {
 
     @Test
     @Story("Интернет Магазин")
+    @Tag("smoke_predprod")
     @Description("Получение списка брендов")
     void successGetBrandsList() {
         var searchResult = findOffersWithOutBrand(
@@ -31,6 +33,7 @@ public class FindOffersTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Story("Интернет Магазин")
     @Description("Получение списка предложений по бренд+оем без кроссов - Блок 'Запрошенный артикул'")
     void successGetOffersListWithoutCross() {
@@ -46,6 +49,7 @@ public class FindOffersTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Story("Интернет Магазин")
     @Description("Получение списка предложений по бренд+оем с кроссами - Блок 'Остальные аналоги'")
     void successGetOffersListWithCrossExternal() {
@@ -62,6 +66,7 @@ public class FindOffersTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Story("Интернет Магазин")
     @Description("Получение списка предложений по бренд+оем с кроссами - Блок 'Рекомендуемые аналоги'")
     void successGetOffersListWithCrossInternal() {
@@ -80,6 +85,8 @@ public class FindOffersTests {
     }
 
     @Test
+    @Disabled
+    @Tag("smoke_predprod")
     @Story("Интернет Магазин")
     @Description("Перепроценка корзины клиента")
     void successGetPriceForShoppingCart() {

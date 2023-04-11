@@ -36,6 +36,7 @@ public class RegisterClientTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Регистрация клиента по почте")
     void success_registration_user_by_email() {
         registrationResult = RegistrationManagerController.registerClient(
@@ -55,6 +56,7 @@ public class RegisterClientTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Регистрация клиента по номеру телефона")
     void success_registration_user_by_phone() {
         registrationResult = RegistrationManagerController.registerClient(

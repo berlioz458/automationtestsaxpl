@@ -29,6 +29,7 @@ public class ValidateClientRegistrationTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Проверка данных клиента на ботность, валидные данные")
     void success_validate_user_data() {
         validateClientRegistrationResult = RegistrationManagerController.validateClientRegistration(deviceToken.getDeviceToken(), 10506, faker.internet().emailAddress(), "EMAIL","123456", true, faker.name().firstName(), faker.name().lastName(), faker.name().nameWithMiddle());
@@ -37,6 +38,7 @@ public class ValidateClientRegistrationTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Проверка данных клиента на ботность, имитация бота")
     void success_validate_bot_data() {
         validateClientRegistrationResult = RegistrationManagerController.validateClientRegistration(deviceToken.getDeviceToken(), 10506, "auto3n@error", "EMAIL","123456", true, "Ka te 1", "http://money.com/ret4gt4t", faker.name().nameWithMiddle());

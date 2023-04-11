@@ -22,6 +22,7 @@ public class DeviceTokenTests {
     Error error_data;
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Получить deviceToken для ИМ")
     void success_get_device_token_for_web() {
         deviceToken = RegistrationManagerController.getDeviceToken(" ", "", "Mozilla FireFox","Test", " ", "WEB");
@@ -30,6 +31,7 @@ public class DeviceTokenTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Получить deviceToken для МП Android")
     void success_get_device_token_for_mobile_android() {
         deviceToken = RegistrationManagerController.getDeviceToken("test1407-01", "1", null,"Android", "8.0.0", "ANDROID");
@@ -38,6 +40,7 @@ public class DeviceTokenTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Description("Получить deviceToken для МП IOS")
     void success_get_device_token_for_mobile_ios() {
         deviceToken = RegistrationManagerController.getDeviceToken("test1407-02", "1", null, "iOS", "15.5", "IOS");

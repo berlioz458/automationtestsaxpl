@@ -28,6 +28,7 @@ public class AuthClientTests {
 
     @Test
     @Story("Auth Client by Email")
+    @Tag("smoke_predprod")
     @Description("Авторизация клиента с принципалом, тип EMAIL")
     void success_auth_by_email() {
         authToken = RegistrationManagerController.requestAuthToken(deviceToken.getDeviceToken(), "EMAIL", "berlioz458@gmail.com", "123123");
@@ -35,7 +36,8 @@ public class AuthClientTests {
     }
 
     @Test
-    @Story("Auth Client by Email")
+    @Story("Auth Client by Mobile")
+    @Tag("smoke_predprod")
     @Description("Авторизация клиента с принципалом, тип MOBILE")
     void success_auth_by_phone() {
         authToken = RegistrationManagerController.requestAuthToken(deviceToken.getDeviceToken(), "MOBILE", "89529470960", "123456");

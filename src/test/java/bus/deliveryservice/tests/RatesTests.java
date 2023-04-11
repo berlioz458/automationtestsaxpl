@@ -25,6 +25,7 @@ public class RatesTests {
     String courierNameMethod = "Курьером или транспортной компанией";
     @Test
     @Tag("prod_run")
+    @Tag("smoke_predprod")
     @Story("Интернет Магазин")
     @Description("Получение доступных способов доставки для агента по широте и долготе")
     void successGetRatesAllByLongitudeAndLatitude() {
@@ -39,6 +40,7 @@ public class RatesTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Tag("prod_run")
     @Story("Интернет Магазин")
     @Description("Получение доступных способов доставки для агента по широте и долготе - только самововоз")
@@ -60,6 +62,7 @@ public class RatesTests {
     }
 
     @Test
+    @Tag("smoke_predprod")
     @Tag("prod_run")
     @Story("Интернет Магазин")
     @Description("Получение доступных способов доставки для агента по широте и долготе - только доставка курьером")

@@ -25,7 +25,7 @@ public class CounteragentTests {
     UpgradeCounteragentResult upgradeCounteragentResult = new UpgradeCounteragentResult();
     Faker faker = new Faker();
 
-
+    @Tag("smoke_predprod")
     @Description("Создание контрагента - физлицо c номером телефона")
     @Test
     public void createCounteragentNaturalWithPhone(){
@@ -43,6 +43,7 @@ public class CounteragentTests {
         assertThat(counteragent.getLegalEntity()).isEqualTo(false);
     }
 
+    @Tag("smoke_predprod")
     @Description("Создание контрагента - физлицо c почтой")
     @Test
     public void createCounteragentNaturalWithEmail(){
@@ -60,6 +61,7 @@ public class CounteragentTests {
         assertThat(counteragent.getLegalEntity()).isEqualTo(false);
     }
 
+    @Tag("smoke_predprod")
     @Description("Создание контрагента - физлицо c номером телефона и почтой")
     @Test
     public void createCounteragentNaturalWithPhoneAndEmail(){
@@ -79,6 +81,7 @@ public class CounteragentTests {
         assertThat(counteragent.getLegalEntity()).isEqualTo(false);
     }
 
+    @Tag("smoke_predprod")
     @Disabled
     @Description("Создание контрагента - юрлицо")
     @Test
@@ -100,6 +103,7 @@ public class CounteragentTests {
         assertThat(counteragent.getLegalEntity()).isEqualTo(true);
     }
 
+    @Tag("smoke_predprod")
     @Description("Создать для Counteragent-а AuthProfile, если для этого Counteragent-а еще не создан AuthProfile. В AuthRecord-ы вносятся поля email и phone Counteragent-а, если они имеют правильный формат.")
     @Test
     public void updateCounteragent() {
