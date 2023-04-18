@@ -1,4 +1,4 @@
-package fourtochki;
+package gcs3.tochki;
 
 import io.qameta.allure.Description;
 import io.restassured.response.ValidatableResponse;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static helpers.CustomAllureListener.withCustomTemplate;
-import static fourtochki.ApiSpecs.*;
+import static gcs3.tochki.ApiSpecs.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 
