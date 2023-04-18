@@ -1,4 +1,4 @@
-package fourtochki;
+package gcs3.tochki;
 
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.Tag;

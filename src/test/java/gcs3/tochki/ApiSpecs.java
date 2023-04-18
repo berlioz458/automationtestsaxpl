@@ -1,4 +1,4 @@
-package fourtochki;
+package gcs3.tochki;
 
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;

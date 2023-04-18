@@ -1,10 +1,10 @@
-package fourtochki;
+package gcs3.tochki;
 
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 
-import static fourtochki.ApiSpecs.success_requestSpec;
-import static fourtochki.ApiSpecs.success_responseSpec;
+import static gcs3.tochki.ApiSpecs.success_requestSpec;
+import static gcs3.tochki.ApiSpecs.success_responseSpec;
 import static helpers.CustomAllureListener.withCustomTemplate;
 import static io.restassured.RestAssured.given;
 
