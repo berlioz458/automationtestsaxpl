@@ -4,8 +4,8 @@ import bus.orderservice.models.*;
 import helpers.Ref;
 import io.qameta.allure.Step;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static bus.orderservice.spec.OrderServiceApiSpecs.request;
 import static bus.orderservice.spec.OrderServiceApiSpecs.responseSpec;
@@ -13,6 +13,8 @@ import static helpers.CustomAllureListener.withCustomTemplate;
 import static io.restassured.RestAssured.given;
 
 public class OrderServiceApiController {
+    static SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    static Calendar calendar = new GregorianCalendar();
     @Step("Создание договора")
     public static Contract createContract() {
         Contract contract = new Contract();
@@ -102,6 +104,15 @@ public class OrderServiceApiController {
         orderItem1.setInitialAmount(1);
         orderItem1.setInitialPrice(2000);
         ProvisionPlan provisionPlan = new ProvisionPlan();
+        calendar.add(Calendar.MINUTE, 15);
+        provisionPlan.setActualityDate(formater.format(calendar.getTime()));
+        provisionPlan.setPlacementDateTime(formater.format(calendar.getTime()));
+        provisionPlan.setSupplierAvailabilityDateTime(formater.format(calendar.getTime()));
+        calendar.add(Calendar.HOUR, 48);
+        provisionPlan.setDeliveryDateMin(formater.format(calendar.getTime()));
+        provisionPlan.setDeliveryDateMax(formater.format(calendar.getTime()));
+        calendar.add(Calendar.HOUR, 144);
+        provisionPlan.setMaxReturnDate(formater.format(calendar.getTime()));
         orderItem1.setInitialProvision(provisionPlan);
         orderItem1.setInitialSumTotal(2000);
         orderItem1.setName("GDB3582_колодки дисковые");
