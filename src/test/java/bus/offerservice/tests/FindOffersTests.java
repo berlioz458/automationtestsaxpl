@@ -1,14 +1,11 @@
 package bus.offerservice.tests;
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
+import io.restassured.response.Response;
 import lombok.var;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import static bus.offerservice.utils.OfferServiceApiController.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,12 +19,12 @@ public class FindOffersTests {
     @Tag("smoke_predprod")
     @Description("Получение списка брендов")
     void successGetBrandsList() {
-        var searchResult = findOffersWithOutBrand(
+        Response searchResult = findOffersWithOutBrand(
                 "OC47", 10522, 1020, 643, false, false, 0, "all", true, "refined", "simple"
         );
 
-        var expectedDetailId = 107697003;
-        var resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
+        int expectedDetailId = 107697003;
+        int resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
 
         assertThat(expectedDetailId).isEqualTo(resultDetailId);
     }
@@ -37,7 +34,7 @@ public class FindOffersTests {
     @Story("Интернет Магазин")
     @Description("Получение списка предложений по бренд+оем без кроссов - Блок 'Запрошенный артикул'")
     void successGetOffersListWithoutCross() {
-        var searchResult = findOffersWithBrand(
+        Response searchResult = findOffersWithBrand(
                 "RINGAH009", "FEBEST", 10101, 1020, 643, false, false, 0, "all", true, "refined", "simple"
         );
         var expectedDetailId = 125423437;
