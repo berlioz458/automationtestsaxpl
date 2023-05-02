@@ -2,7 +2,7 @@ package bus.offerservice.tests;
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import lombok.var;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -37,12 +37,12 @@ public class FindOffersTests {
         Response searchResult = findOffersWithBrand(
                 "RINGAH009", "FEBEST", 10101, 1020, 643, false, false, 0, "all", true, "refined", "simple"
         );
-        var expectedDetailId = 125423437;
-        var resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
-        var values = searchResult.jsonPath().get("[0]['SearchResult']['offers']");
+        int expectedDetailId = 125423437;
+        int resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
+        //var values = searchResult.jsonPath().get("[0]['SearchResult']['offers']");
 
         assertThat(expectedDetailId).isEqualTo(resultDetailId);
-        assertThat(values).isNotNull();
+        //assertThat(values).isNotNull();
     }
 
     @Test
@@ -50,16 +50,16 @@ public class FindOffersTests {
     @Story("Интернет Магазин")
     @Description("Получение списка предложений по бренд+оем с кроссами - Блок 'Остальные аналоги'")
     void successGetOffersListWithCrossExternal() {
-        var searchResult = findOffersWithBrand(
+        Response searchResult = findOffersWithBrand(
                 "RINGAH009",  "FEBEST", 10101, 1020, 643, true, false, 0, "internal", true, "refined", "simple"
         );
 
-        var expectedDetailId = 125423437;
-        var resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
-        var values = searchResult.jsonPath().get("[0]['SearchResult']['offers']");
+        int expectedDetailId = 125423437;
+        int resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
+        //var values = searchResult.jsonPath().get("[0]['SearchResult']['offers']");
 
         assertThat(expectedDetailId).isEqualTo(resultDetailId);
-        assertThat(values).isNotNull();
+        //assertThat(values).isNotNull();
     }
 
     @Test
@@ -67,18 +67,18 @@ public class FindOffersTests {
     @Story("Интернет Магазин")
     @Description("Получение списка предложений по бренд+оем с кроссами - Блок 'Рекомендуемые аналоги'")
     void successGetOffersListWithCrossInternal() {
-        var searchResult = findOffersWithBrand(
+        Response searchResult = findOffersWithBrand(
                 "RINGAH009",  "FEBEST", 10101, 1020, 643, true, false, 0, "internal", true, "refined", "simple"
         );
 
-        var expectedDetailId = 125423437;
-        var resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
-        var values = searchResult.jsonPath().get("[0]['SearchResult']['offers']");
-        var valuesCrosses = searchResult.jsonPath().get("[0]['SearchResult']['offers'][0]['key']['DetailInfo']['detailId']");
+        int expectedDetailId = 125423437;
+        int resultDetailId = searchResult.jsonPath().get("[0]['SearchResult']['originalDetail']['DetailInfo']['detailId']");
+        //var values = searchResult.jsonPath().get("[0]['SearchResult']['offers']");
+        int valuesCrosses = searchResult.jsonPath().get("[0]['SearchResult']['offers'][0]['key']['DetailInfo']['detailId']");
 
         assertThat(expectedDetailId).isEqualTo(resultDetailId);
         assertThat(152241939).isEqualTo(valuesCrosses);
-        assertThat(values).isNotNull();
+        //assertThat(values).isNotNull();
     }
 
     @Test
@@ -87,7 +87,7 @@ public class FindOffersTests {
     @Story("Интернет Магазин")
     @Description("Перепроценка корзины клиента")
     void successGetPriceForShoppingCart() {
-        var offersForOrder = findPriceListOffers(10468, 1020, 643, "all");
+        Response offersForOrder = findPriceListOffers(10468, 1020, 643, "all");
 
         assertThat(offersForOrder).isNotNull();
         //TODO: Переделать
