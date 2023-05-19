@@ -103,6 +103,12 @@ public class OrderServiceApiController {
         orderItem1.setCurrentSumTotal(2000);
         orderItem1.setInitialAmount(1);
         orderItem1.setInitialPrice(2000);
+        ItemContextInfo itemContextInfo = new ItemContextInfo();
+        itemContextInfo.setDetailCode("GDB3582");
+        itemContextInfo.setBrand("TRW");
+        OrderItemContextInfo orderItemContextInfo = new OrderItemContextInfo();
+        orderItemContextInfo.setItemContextInfo(itemContextInfo);
+        orderItem1.setContextInfo(orderItemContextInfo);
         ProvisionPlan provisionPlan = new ProvisionPlan();
         calendar.add(Calendar.MINUTE, 15);
         provisionPlan.setActualityDate(formater.format(calendar.getTime()));

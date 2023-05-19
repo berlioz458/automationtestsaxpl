@@ -26,4 +26,5 @@ public class OrderItem extends Entity {
     private String oem;
     private Ref status;
     private String workItemNumber;
+    private OrderItemContextInfo contextInfo;
 }
