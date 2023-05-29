@@ -1,9 +1,10 @@
 package integrationservice.utils;
 
+import integrationservice.model.Company;
 import integrationservice.model.Currency;
-import integrationservice.model.User;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import helpers.Ref;
 
 import static helpers.CustomAllureListener.withCustomTemplate;
 
@@ -25,7 +26,6 @@ public class IntegrationCurrencyController {
     }
     @Step("Получение валюты по параметру")
     public static Response getCurrency(String params, String value){
-        // добавить возможность сделать запрос с лимитом и с конкретной валютой
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -36,13 +36,15 @@ public class IntegrationCurrencyController {
                 .spec(success_responseSpec)
                 .extract().response();
     }
+
     @Step("Создание валюты")
     public static Currency createCurrency(String name, String isoAlfa, String isoNumber){
         Currency body=new Currency();
         body.setName(name);
         body.setIsoAlfa(isoAlfa);
         body.setIsoNumber(isoNumber);
-        body.setCompany(null);
+        body.setRealmCode(null);
+        body.setCompany(new Ref("id",1));
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -53,6 +55,30 @@ public class IntegrationCurrencyController {
                 .spec(success_responseSpec)
                 .extract().as(Currency.class);
     }
+    @Step("Удаление валюты")
+    public static Response deleteCurrency(Integer id){
+        return given()
+                .filter(withCustomTemplate())
+                .spec(success_request)
+                .when()
+                .delete("/entity/AUTO3N/Currency/"+ id.toString())
+                .then()
+                .spec(success_responseSpec)
+                .extract().response();
+    }
+    @Step("Редактирование валюты по одному полю")
+    public static Currency editCurrency(Integer id, String name){
+        Currency body=new Currency();
+        body.setName(name);
+        return given()
+                .filter(withCustomTemplate())
+                .spec(success_request)
+                .body(body)
+                .when()
+                .put("/entity/AUTO3N/Currency/"+ id.toString())
+                .then()
+                .spec(success_responseSpec)
+                .extract().as(Currency.class);
 
-
+    }
 }
