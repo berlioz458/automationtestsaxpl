@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.given;
 
 public class IntegrationCurrencyController {
     @Step("Получение списка валют")
-    public static Response getCurrency(){
+    public static Response getCurrencyList(){
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -36,6 +36,17 @@ public class IntegrationCurrencyController {
                 .spec(success_responseSpec)
                 .extract().response();
     }
+    @Step("Получение валюты по id")
+    public static Currency getCurrencyById(Integer id){
+        return given()
+                .filter(withCustomTemplate())
+                .spec(success_request)
+                .when()
+                .get("/entity/AUTO3N/Currency/"+id.toString())
+                .then()
+                .spec(success_responseSpec)
+                .extract().as(Currency.class);
+    }
 
     @Step("Создание валюты")
     public static Currency createCurrency(String name, String isoAlfa, String isoNumber){
@@ -43,7 +54,6 @@ public class IntegrationCurrencyController {
         body.setName(name);
         body.setIsoAlfa(isoAlfa);
         body.setIsoNumber(isoNumber);
-        body.setRealmCode(null);
         body.setCompany(new Ref("id",1));
         return given()
                 .filter(withCustomTemplate())
@@ -56,7 +66,7 @@ public class IntegrationCurrencyController {
                 .extract().as(Currency.class);
     }
     @Step("Удаление валюты")
-    public static Response deleteCurrency(Integer id){
+    public static Currency deleteCurrency(Integer id){
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -64,10 +74,10 @@ public class IntegrationCurrencyController {
                 .delete("/entity/AUTO3N/Currency/"+ id.toString())
                 .then()
                 .spec(success_responseSpec)
-                .extract().response();
+                .extract().as(Currency.class);
     }
-    @Step("Редактирование валюты по одному полю")
-    public static Currency editCurrency(Integer id, String name){
+    @Step("Редактирование наименования валюты")
+    public static Currency changeCurrencyName(Integer id, String name){
         Currency body=new Currency();
         body.setName(name);
         return given()

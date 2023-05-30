@@ -16,11 +16,20 @@ public class IntegrationCurrencyApiTests {
     String isoAlfa="AMD";
     String isoNumber="51";
     String nameChange="AMD1";
+    Integer id=643;
     @Description("List currency")
     @Test
     void successGetListCurrency() {
-        Response currencyList= getCurrency();
+        Response currencyList= getCurrencyList();
         assertThat(currencyList).isNotNull();
+    }
+    @Description("Currency by id")
+    @Test
+    void successGetCurrencyById() {
+        Currency currency= getCurrencyById(id);
+        assertThat(currency).isNotNull();
+        assertThat(currency.getId()).isEqualTo(id);
+
     }
     @Description("Currency by name")
     @Test
@@ -43,26 +52,27 @@ public class IntegrationCurrencyApiTests {
         assertThat(currency.getIsoAlfa()).isEqualTo(isoAlfa);
         assertThat(currency.getIsoNumber()).isEqualTo(isoNumber);
     }
-    @Description("Edit currency")
+    @Description("Edit currency by name")
     @Test
-    void successEditCurrency() {
-        Response currency= getCurrency("q","{\"$and\": [{\"isoAlfa\":\"AMD\"}]}");
-        //get id
-        JsonPath jsonCurrency=currency.getBody().jsonPath();
-        int id=jsonCurrency.get("data.Currency[0].id");
+    void successChangeCurrencyName() {
+        // create
+        name=name + " TEST " + java.time.LocalDateTime.now();
+        Currency currency= createCurrency(name,isoAlfa,isoNumber);
         //edit by id
-        Currency currencyEdit= editCurrency(id,nameChange);
+        Currency currencyEdit= changeCurrencyName(currency.getId(),nameChange);
         assertThat(currencyEdit.getName()).isEqualTo(nameChange);
+        assertThat(currencyEdit.getChangedAt()).isNotNull();
+        assertThat(currencyEdit.getChangedByUser()).isNotNull();
     }
     @Description("Delete currency")
     @Test
     void successDeleteCurrency() {
-        Response currency= getCurrency("q","{\"$and\": [{\"isoAlfa\":\"AMD\"}]}");
-        //get id
-        JsonPath jsonCurrency=currency.getBody().jsonPath();
-        int id=jsonCurrency.get("data.Currency[0].id");
+        // create
+        name=name + " TEST " + java.time.LocalDateTime.now();
+        Currency currency= createCurrency(name,isoAlfa,isoNumber);
         //delete by id
-        Response currencyDelete= deleteCurrency(id);
+        Currency currencyDelete= deleteCurrency(currency.getId());
         assertThat(currencyDelete).isNotNull();
+        assertThat(currencyDelete.getId()).isEqualTo(null);
     }
 }
