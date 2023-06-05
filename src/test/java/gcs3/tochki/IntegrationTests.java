@@ -9,6 +9,7 @@ public class IntegrationTests {
     @Test
     @Description("Проверка совпадения применимости дисковой с параметрами модификации")
     void verifyParamsModificationWithAttributeApplicability() {
+        //TODO: Дописать согласно плану ниже
         //забрать данные о модификации
         //сделать вызов аттрибутивной применимости
         //сверить PCD из модификации и из пар применимости
