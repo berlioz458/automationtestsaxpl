@@ -71,7 +71,7 @@ public class OrderServiceApiController {
 
 
     @Step("Создание заказа")
-    public static Order createOrderForClient(Integer shipmentAgent, String emailPerson, Integer contractId, Boolean createByManager) {
+    public static Order createOrderForClient(Integer shipmentAgent, String emailPerson, Integer contractId, Boolean createByManager, Boolean startWorkImmediately, String delivery) {
         Order order = new Order();
         order.setShipmentAgentId(shipmentAgent);
         order.setDeliveryCostOverride(0);
@@ -88,55 +88,34 @@ public class OrderServiceApiController {
         contract.setType("Contract");
         order.setContract(contract);
         ShipmentInfo shipmentInfo = new ShipmentInfo();
-        shipmentInfo.setAdditionalInfo("{\\\"blockedDetails\\\":null,\\\"blockedCategories\\\":null,\\\"name\\\":null,\\\"shipmentAgentId\\\":10522,\\\"basePrice\\\":null,\\\"additionalFee\\\":null,\\\"totalPrice\\\":null,\\\"deliveryInterval\\\":null,\\\"deliveryTime\\\":null,\\\"boxes\\\":null,\\\"estimatedTransportationDate\\\":null,\\\"estimatedDeliveryDate\\\":null,\\\"currencyId\\\":null,\\\"totalWeight\\\":null,\\\"isApproximateResult\\\":null,\\\"vatRate\\\":null,\\\"vatSum\\\":null,\\\"errorMessage\\\":null,\\\"fromPoint\\\":null,\\\"toPoint\\\":{\\\"id\\\":25469,\\\"name\\\":\\\"Магазин AUTO3N Новосибирск «пр-т Дзержинского»\\\",\\\"address\\\":\\\"630015, г. Новосибирск, пр-т Дзержинского, д. 24\\\",\\\"latitude\\\":null,\\\"longitude\\\":null,\\\"phones\\\":null,\\\"worktime\\\":null,\\\"inDoorNavigation\\\":null,\\\"outDoorNavigation\\\":null,\\\"directions\\\":null,\\\"settlement\\\":null,\\\"transportCompany\\\":null,\\\"cardPayment\\\":null,\\\"cashPayment\\\":null,\\\"openingAllowed\\\":null,\\\"disabled\\\":null,\\\"external_id\\\":25469,\\\"observable\\\":true},\\\"deliveryMethod\\\":{\\\"id\\\":null,\\\"name\\\":null,\\\"transportCompany\\\":null,\\\"carrierType\\\":null,\\\"isCourierDelivery\\\":null,\\\"disabled\\\":null,\\\"description\\\":null,\\\"external_id\\\":null,\\\"observable\\\":true},\\\"fromZipCode\\\":null,\\\"toZipCode\\\":null,\\\"transportCompany\\\":{\\\"id\\\":\\\"5\\\",\\\"type\\\":null,\\\"name\\\":\\\"AUTO3N Самовывоз\\\",\\\"external_id\\\":\\\"5\\\",\\\"observable\\\":true},\\\"toSettlement\\\":{\\\"id\\\":null,\\\"name\\\":null,\\\"canonicalName\\\":null,\\\"displayName\\\":null,\\\"shortName\\\":null,\\\"latitude\\\":null,\\\"longitude\\\":null,\\\"region\\\":null,\\\"area\\\":null,\\\"country\\\":null,\\\"aoguid\\\":null,\\\"disabled\\\":null,\\\"external_id\\\":null,\\\"observable\\\":true},\\\"fromSettlement\\\":null,\\\"isOk\\\":true,\\\"formattedEstimatedDeliveryDate\\\":null,\\\"days\\\":null,\\\"addressString\\\":\\\"630015, г. Новосибирск, пр-т Дзержинского, д. 24\\\",\\\"comment\\\":null,\\\"shipmentInterval\\\":0,\\\"external_id\\\":null,\\\"observable\\\":true}");
-        shipmentInfo.setAddress("630073, г. Новосибирск, ул. Блюхера, д. 71В");
-        shipmentInfo.setAdditionalDeliveryCost(0);
-        shipmentInfo.setTransportationCompanyId(5);
-        shipmentInfo.setTransportationCompanyName("AUTO3N Самовывоз");
+        if (delivery.equals("SELF")) {
+            shipmentInfo.setAdditionalInfo("{\\\"blockedDetails\\\":null,\\\"blockedCategories\\\":null,\\\"name\\\":null,\\\"shipmentAgentId\\\":10522,\\\"basePrice\\\":null,\\\"additionalFee\\\":null,\\\"totalPrice\\\":null,\\\"deliveryInterval\\\":null,\\\"deliveryTime\\\":null,\\\"boxes\\\":null,\\\"estimatedTransportationDate\\\":null,\\\"estimatedDeliveryDate\\\":null,\\\"currencyId\\\":null,\\\"totalWeight\\\":null,\\\"isApproximateResult\\\":null,\\\"vatRate\\\":null,\\\"vatSum\\\":null,\\\"errorMessage\\\":null,\\\"fromPoint\\\":null,\\\"toPoint\\\":{\\\"id\\\":25469,\\\"name\\\":\\\"Магазин AUTO3N Новосибирск «пр-т Дзержинского»\\\",\\\"address\\\":\\\"630015, г. Новосибирск, пр-т Дзержинского, д. 24\\\",\\\"latitude\\\":null,\\\"longitude\\\":null,\\\"phones\\\":null,\\\"worktime\\\":null,\\\"inDoorNavigation\\\":null,\\\"outDoorNavigation\\\":null,\\\"directions\\\":null,\\\"settlement\\\":null,\\\"transportCompany\\\":null,\\\"cardPayment\\\":null,\\\"cashPayment\\\":null,\\\"openingAllowed\\\":null,\\\"disabled\\\":null,\\\"external_id\\\":25469,\\\"observable\\\":true},\\\"deliveryMethod\\\":{\\\"id\\\":null,\\\"name\\\":null,\\\"transportCompany\\\":null,\\\"carrierType\\\":null,\\\"isCourierDelivery\\\":null,\\\"disabled\\\":null,\\\"description\\\":null,\\\"external_id\\\":null,\\\"observable\\\":true},\\\"fromZipCode\\\":null,\\\"toZipCode\\\":null,\\\"transportCompany\\\":{\\\"id\\\":\\\"5\\\",\\\"type\\\":null,\\\"name\\\":\\\"AUTO3N Самовывоз\\\",\\\"external_id\\\":\\\"5\\\",\\\"observable\\\":true},\\\"toSettlement\\\":{\\\"id\\\":null,\\\"name\\\":null,\\\"canonicalName\\\":null,\\\"displayName\\\":null,\\\"shortName\\\":null,\\\"latitude\\\":null,\\\"longitude\\\":null,\\\"region\\\":null,\\\"area\\\":null,\\\"country\\\":null,\\\"aoguid\\\":null,\\\"disabled\\\":null,\\\"external_id\\\":null,\\\"observable\\\":true},\\\"fromSettlement\\\":null,\\\"isOk\\\":true,\\\"formattedEstimatedDeliveryDate\\\":null,\\\"days\\\":null,\\\"addressString\\\":\\\"630015, г. Новосибирск, пр-т Дзержинского, д. 24\\\",\\\"comment\\\":null,\\\"shipmentInterval\\\":0,\\\"external_id\\\":null,\\\"observable\\\":true}");
+            shipmentInfo.setAddress("630073, г. Новосибирск, ул. Блюхера, д. 71В");
+            shipmentInfo.setAdditionalDeliveryCost(0);
+            shipmentInfo.setTransportationCompanyId(5);
+            shipmentInfo.setTransportationCompanyName("AUTO3N Самовывоз");
+        } else {
+            shipmentInfo.setAdditionalInfo("{\"blockedDetails\":null,\"blockedCategories\":null,\"name\":null,\"shipmentAgentId\":10101,\"basePrice\":null,\"additionalFee\":null,\"totalPrice\":null,\"deliveryInterval\":null,\"deliveryTime\":null,\"boxes\":null,\"estimatedTransportationDate\":null,\"estimatedDeliveryDate\":null,\"currencyId\":null,\"totalWeight\":null,\"isApproximateResult\":null,\"vatRate\":null,\"vatSum\":null,\"errorMessage\":null,\"fromPoint\":null,\"toPoint\":null,\"deliveryMethod\":{\"id\":null,\"name\":null,\"transportCompany\":null,\"carrierType\":null,\"isCourierDelivery\":null,\"disabled\":null,\"description\":null,\"external_id\":null,\"observable\":true},\"fromZipCode\":null,\"toZipCode\":null,\"transportCompany\":{\"id\":15,\"type\":null,\"name\":\"Доставка\",\"external_id\":15,\"observable\":true},\"toSettlement\":null,\"fromSettlement\":null,\"isOk\":true,\"formattedEstimatedDeliveryDate\":null,\"days\":null,\"addressString\":\"Россия, Вологодская область, Вологда, ул Зеленая, дом 11\",\"comment\":null,\"shipmentInterval\":0,\"external_id\":null,\"observable\":true}");
+            shipmentInfo.setAddress("Россия, Вологодская область, Вологда, ул Зеленая, дом 11");
+            shipmentInfo.setAdditionalDeliveryCost(0);
+            shipmentInfo.setTransportationCompanyId(15);
+            shipmentInfo.setTransportationCompanyName("Доставка");
+        }
+
         order.setShipmentInfo(shipmentInfo);
         order.setOwnerAgentId(10404);
         List<OrderItem> orderItems = new ArrayList<>();
-        OrderItem orderItem1 = new OrderItem();
-        orderItem1.setOwnerAgentId(10404);
-        orderItem1.setBrand("TRW");
-        orderItem1.setCurrentPrice(2000);
-        orderItem1.setCurrentSumTotal(2000);
-        orderItem1.setInitialAmount(1);
-        orderItem1.setInitialPrice(2000);
-        ItemContextInfo itemContextInfo = new ItemContextInfo();
-        itemContextInfo.setDetailCode("GDB3582");
-        itemContextInfo.setBrand("TRW");
-        OrderItemContextInfo orderItemContextInfo = new OrderItemContextInfo();
-        orderItemContextInfo.setItemContextInfo(itemContextInfo);
-        orderItem1.setContextInfo(orderItemContextInfo);
-        ProvisionPlan provisionPlan = new ProvisionPlan();
-        calendar.add(Calendar.MINUTE, 15);
-        provisionPlan.setActualityDate(formater.format(calendar.getTime()));
-        provisionPlan.setPlacementDateTime(formater.format(calendar.getTime()));
-        provisionPlan.setSupplierAvailabilityDateTime(formater.format(calendar.getTime()));
-        calendar.add(Calendar.HOUR, 48);
-        provisionPlan.setDeliveryDateMin(formater.format(calendar.getTime()));
-        provisionPlan.setDeliveryDateMax(formater.format(calendar.getTime()));
-        calendar.add(Calendar.HOUR, 144);
-        provisionPlan.setMaxReturnDate(formater.format(calendar.getTime()));
-        orderItem1.setInitialProvision(provisionPlan);
-        orderItem1.setInitialSumTotal(2000);
-        orderItem1.setName("GDB3582_колодки дисковые");
-        orderItem1.setOem("GDB3582");
-        Ref orderItemStatus = new Ref();
-        orderItemStatus.setId(5);
-        orderItemStatus.setType("OrderItemStatus");
-        orderItemStatus.setName("Создан");
-        orderItemStatus.setCode("001");
-        orderItem1.setStatus(orderItemStatus);
-
+        OrderItem orderItem1 = createOrderItemForOrder("TRW", "GDB3582", 1, 2000, "колодки дисковые");
+        OrderItem orderItem2 = createOrderItemForOrder("NGK", "1212", 10, 100, "Свечи тестовые");
         orderItems.add(orderItem1);
+        orderItems.add(orderItem2);
         order.setOrderItems(orderItems);
 
         if (createByManager) {
             order.setCreatedByManager(new Ref("ManagerInfo", 603, "Ермаков Иван Анатольевич"));
-            order.setStartWorkImmediately(true);
         }
+
+        order.setStartWorkImmediately(startWorkImmediately);
 
         return given()
                 .filter(withCustomTemplate())
@@ -146,6 +125,47 @@ public class OrderServiceApiController {
                 .then()
                 .spec(responseSpec)
                 .extract().as(Order.class);
+    }
+
+    private static OrderItem createOrderItemForOrder(String brand, String oem, int amount, int price, String descr) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOwnerAgentId(10404);
+        orderItem.setBrand(brand);
+        orderItem.setCurrentPrice(price);
+        orderItem.setCurrentSumTotal(price * amount);
+        orderItem.setInitialAmount(amount);
+        orderItem.setInitialPrice(price);
+        ItemContextInfo itemContextInfo = new ItemContextInfo();
+        itemContextInfo.setDetailCode(oem);
+        itemContextInfo.setBrand(brand);
+        OrderItemContextInfo orderItemContextInfo = new OrderItemContextInfo();
+        orderItemContextInfo.setItemContextInfo(itemContextInfo);
+        orderItem.setContextInfo(orderItemContextInfo);
+        ProvisionPlan provisionPlan = new ProvisionPlan();
+        calendar.add(Calendar.MINUTE, 15);
+        provisionPlan.setBrandOriginal(brand);
+        provisionPlan.setDescrOriginal(descr);
+        provisionPlan.setOemOriginal(oem);
+        provisionPlan.setOfferId("PIN:" + oem + ":BRAND:" + brand + ":VKORG:4000:KUNNR_RG:43275565:KEYZAK:MOV0000019:");
+        provisionPlan.setActualityDate(formater.format(calendar.getTime()));
+        provisionPlan.setPlacementDateTime(formater.format(calendar.getTime()));
+        provisionPlan.setSupplierAvailabilityDateTime(formater.format(calendar.getTime()));
+        calendar.add(Calendar.HOUR, 48);
+        provisionPlan.setDeliveryDateMin(formater.format(calendar.getTime()));
+        provisionPlan.setDeliveryDateMax(formater.format(calendar.getTime()));
+        calendar.add(Calendar.HOUR, 144);
+        provisionPlan.setMaxReturnDate(formater.format(calendar.getTime()));
+        orderItem.setInitialProvision(provisionPlan);
+        orderItem.setInitialSumTotal(price * amount);
+        orderItem.setName(descr);
+        orderItem.setOem(oem);
+        Ref orderItemStatus = new Ref();
+        orderItemStatus.setId(5);
+        orderItemStatus.setType("OrderItemStatus");
+        orderItemStatus.setName("Создан");
+        orderItemStatus.setCode("001");
+        orderItem.setStatus(orderItemStatus);
+        return orderItem;
     }
 
     @Step("Получение информации о заказе клиента по идентификатору")

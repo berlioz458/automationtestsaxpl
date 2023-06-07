@@ -12,7 +12,6 @@ import lombok.Setter;
 //@AllArgsConstructor
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 public class ProvisionPlan {
-    private Integer id = 4681767;
     private String actualityDate;
     private Boolean aviaDelivery = false;
     private String brandOriginal = "TRW";

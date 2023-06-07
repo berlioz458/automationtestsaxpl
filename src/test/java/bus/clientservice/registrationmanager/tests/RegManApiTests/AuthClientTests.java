@@ -31,7 +31,7 @@ public class AuthClientTests {
     @Tag("smoke_predprod")
     @Description("Авторизация клиента с принципалом, тип EMAIL")
     void success_auth_by_email() {
-        authToken = RegistrationManagerController.requestAuthToken(deviceToken.getDeviceToken(), "EMAIL", "berlioz458@gmail.com", "123123");
+        authToken = RegistrationManagerController.requestAuthToken(deviceToken.getDeviceToken(), "EMAIL", "berlioz458@gmail.com", "123456");
         assertThat(authToken.getAuthToken()).isNotEmpty();
     }
 

@@ -16,7 +16,7 @@ public class OrderServiceE2ETests {
     @Description("Заказ клиента")
     void e2eTestForOrders(){
         //1. создние заказа
-        Order createOrder = createOrderForClient(10563, "test-2@prodv.net", 606580, false);
+        Order createOrder = createOrderForClient(10563, "test-2@prodv.net", 606580, false, false, "SELF");
         //2. получение информации о созданном заказе, проверим что вернулся именно тот заказ что мы создали
         Order infoOrder = getOrderContract(createOrder.getId());
         assertThat(createOrder.getId()).isEqualTo(infoOrder.getId());

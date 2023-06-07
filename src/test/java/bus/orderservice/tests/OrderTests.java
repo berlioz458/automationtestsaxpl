@@ -14,7 +14,7 @@ public class OrderTests {
     @Tag("smoke_predprod")
     @Description("Создание заказа из ИМ - клиентом")
     void successCreateOrderFromImByUser() {
-        Order order = createOrderForClient(10563, "test-2@prodv.net", 606580, false);
+        Order order = createOrderForClient(10563, "test-2@prodv.net", 606580, false, false, "SELF");
         assertThat(order.getId()).isPositive();
     }
 
@@ -22,7 +22,15 @@ public class OrderTests {
     @Tag("smoke_predprod")
     @Description("Создание заказа из ИМ - делегированный")
     void successCreateOrderFromImByManager() {
-        Order order = createOrderForClient(10563, "test-2@prodv.net", 606580, true);
+        Order order = createOrderForClient(10563, "test-2@prodv.net", 606580, true, true, "SELF");
+        assertThat(order.getId()).isPositive();
+    }
+
+    @Test
+    @Tag("smoke_predprod")
+    @Description("Создание заказа из ИМ - делегированный")
+    void successCreateOrderFromImByManagerWithDelivery() {
+        Order order = createOrderForClient(10563, "test-2@prodv.net", 606580, true, true, "COURIER");
         assertThat(order.getId()).isPositive();
     }
 
