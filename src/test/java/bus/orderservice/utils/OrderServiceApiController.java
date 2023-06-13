@@ -112,7 +112,7 @@ public class OrderServiceApiController {
         order.setOrderItems(orderItems);
 
         if (createByManager) {
-            order.setCreatedByManager(new Ref("ManagerInfo", 603, "Ермаков Иван Анатольевич"));
+            order.setCreatedByManager(new Ref("ManagerInfo", 282, "Ваулин Сергей Николаевич"));
         }
 
         order.setStartWorkImmediately(startWorkImmediately);

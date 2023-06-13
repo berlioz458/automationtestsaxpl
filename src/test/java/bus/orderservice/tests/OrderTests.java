@@ -28,7 +28,7 @@ public class OrderTests {
 
     @Test
     @Tag("smoke_predprod")
-    @Description("Создание заказа из ИМ - делегированный")
+    @Description("Создание заказа из ИМ - делегированный на доставку")
     void successCreateOrderFromImByManagerWithDelivery() {
         Order order = createOrderForClient(10563, "test-2@prodv.net", 606580, true, true, "COURIER");
         assertThat(order.getId()).isPositive();
