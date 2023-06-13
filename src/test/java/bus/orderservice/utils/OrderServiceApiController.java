@@ -387,4 +387,52 @@ public class OrderServiceApiController {
                 .spec(responseSpec)
                 .extract().as(MarketingAction.class);
     }
+
+    @Step("Создание документа отгрузки")
+    public static Shipment createShipment(Integer contractId, Integer status, Integer type, Integer ownerAgentId, Integer countShipmentItems) {
+        Shipment shipment = new Shipment();
+        shipment.setOwnerAgentId(ownerAgentId);
+        shipment.setContract(new Ref("Contract", contractId, "С покупателем №714386 от 1.07.2022"));
+        shipment.setDocumentDate(formater.format(calendar.getTime()));
+        shipment.setDocumentNumber("documentNumber");
+        shipment.setFoundation("foundation");
+        shipment.setStatus(new Ref("ShipmentStatus", status, "ShipmentStatus"));
+        shipment.setType(new Ref("ShipmentType", type, "ShipmentType"));
+
+        List<ShipmentItem> shipmentItems = createListShipmentItems(countShipmentItems);
+        return given()
+                .filter(withCustomTemplate())
+                .spec(request)
+                .body(shipment)
+                .post("/entity/AUTO3N/Shipment")
+                .then()
+                .spec(responseSpec)
+                .extract().as(Shipment.class);
+    }
+
+    private static List<ShipmentItem> createListShipmentItems(Integer i) {
+        List<ShipmentItem> shipmentItemList = null;
+
+        for (int j = 0; j < i; j++) {
+            ShipmentItem shipmentItem = new ShipmentItem();
+            shipmentItem.setBrand("AUTOPROFI");
+            shipmentItem.setDiscountSum(0);
+            shipmentItem.setName("Трос");
+            shipmentItem.setOem("TRL501" + j);
+            shipmentItem.setOrderItem(new Ref("OrderItem", 4847463, "OrderItem"));
+            shipmentItem.setPosition(1*(j+1));
+            shipmentItem.setPrice(100*(j+1));
+            shipmentItem.setSum(100*(j+1));
+            shipmentItem.setTaxPercent(20);
+            shipmentItem.setTaxSum(20);
+            shipmentItem.setTotalSum(100*(j+1));
+            shipmentItem.setUnitName("шт");
+            shipmentItem.setUnits(1*(j+1));
+
+            shipmentItemList.add(shipmentItem);
+        }
+
+        return shipmentItemList;
+    }
+
 }
