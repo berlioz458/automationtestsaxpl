@@ -82,7 +82,6 @@ public class FindOffersTests {
     }
 
     @Test
-    @Disabled
     @Tag("smoke_predprod")
     @Story("Интернет Магазин")
     @Description("Перепроценка корзины клиента")
