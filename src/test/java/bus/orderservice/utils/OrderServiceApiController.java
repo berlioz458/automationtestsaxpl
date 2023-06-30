@@ -105,10 +105,19 @@ public class OrderServiceApiController {
         order.setShipmentInfo(shipmentInfo);
         order.setOwnerAgentId(10404);
         List<OrderItem> orderItems = new ArrayList<>();
-        OrderItem orderItem1 = createOrderItemForOrder("TRW", "GDB3582", 1, 2000, "колодки дисковые");
-        OrderItem orderItem2 = createOrderItemForOrder("NGK", "1212", 10, 100, "Свечи тестовые");
+        OrderItem orderItem1 = createOrderItemForOrder("TRW", "GDB3582", 1, 2000, "колодки дисковые", "OFFER");
+        OrderItem orderItem2 = createOrderItemForOrder("VAG", "078115561J", 2, 100, "Фильтр масляный", "OEM");
+        OrderItem orderItem3 = createOrderItemForOrder("FEBI", "22548", 2, 599, "Фильтр масляный", "TECDOC");
+        OrderItem orderItem4 = createOrderItemForOrder("TRACMAX", "YSTX5R1612", 4, 4975, "Шина летняя 215/60R16 95V X-Privilo TX5 TL", "4TOCHKI");
+        OrderItem orderItem5 = createOrderItemForOrder("RENAULT", "7711428132", 1, 1027, "Антифриз концентрированный (1л)", "USEARCH");
+        OrderItem orderItem6 = createOrderItemForOrder("FRAM", "G3829", 1, 508, "Фильтр топливный", "GCS");
+
         orderItems.add(orderItem1);
         orderItems.add(orderItem2);
+        orderItems.add(orderItem3);
+        orderItems.add(orderItem4);
+        orderItems.add(orderItem5);
+        orderItems.add(orderItem6);
         order.setOrderItems(orderItems);
 
         if (createByManager) {
@@ -127,7 +136,7 @@ public class OrderServiceApiController {
                 .extract().as(Order.class);
     }
 
-    private static OrderItem createOrderItemForOrder(String brand, String oem, int amount, int price, String descr) {
+    private static OrderItem createOrderItemForOrder(String brand, String oem, int amount, int price, String descr, String from) {
         OrderItem orderItem = new OrderItem();
         orderItem.setOwnerAgentId(10404);
         orderItem.setBrand(brand);
@@ -135,12 +144,6 @@ public class OrderServiceApiController {
         orderItem.setCurrentSumTotal(price * amount);
         orderItem.setInitialAmount(amount);
         orderItem.setInitialPrice(price);
-        ItemContextInfo itemContextInfo = new ItemContextInfo();
-        itemContextInfo.setDetailCode(oem);
-        itemContextInfo.setBrand(brand);
-        OrderItemContextInfo orderItemContextInfo = new OrderItemContextInfo();
-        orderItemContextInfo.setItemContextInfo(itemContextInfo);
-        orderItem.setContextInfo(orderItemContextInfo);
         ProvisionPlan provisionPlan = new ProvisionPlan();
         calendar.add(Calendar.MINUTE, 15);
         provisionPlan.setBrandOriginal(brand);
@@ -165,6 +168,72 @@ public class OrderServiceApiController {
         orderItemStatus.setName("Создан");
         orderItemStatus.setCode("001");
         orderItem.setStatus(orderItemStatus);
+        ItemContextInfo itemContextInfo = new ItemContextInfo();
+        OrderItemContextInfo orderItemContextInfo = new OrderItemContextInfo();
+        switch (from) {
+            case ("OFFER"):
+                itemContextInfo.setDetailCode(oem);
+                itemContextInfo.setBrand(brand);
+
+                orderItemContextInfo.setItemContextInfo(itemContextInfo);
+                orderItem.setContextInfo(orderItemContextInfo);
+                break;
+            case ("OEM"):
+                itemContextInfo.setDetailCode(oem);
+                itemContextInfo.setBrand(brand);
+                itemContextInfo.setCatalog("AU1489");
+                itemContextInfo.setCatalogCodeOnImage("21");
+                itemContextInfo.setCatalogUnitId("5672556");
+                itemContextInfo.setExternalCatalog("OEM");
+                itemContextInfo.setSsd("$*KwHl0cDlgpq1oKe_4JG40b2piY6Q5O_o5bqxpeblr4-npaWT2MXUnpWdlZ6SlJ3a08iFn5-XqYmhoPjAy5aDk5ji4pPiv86t5ufh5eOopLrqwOf1ovPq9Yzz_6zpvu3j5-fl4-Tl8_7qsr6Rq_W08-mswcn1-vOjuvTr8dvT3fX687P17OPlv6y-uvTr8pbg8_-s8__17PPkleTkhcWisPWzsvLt9JCH36Kw9aKy8u30lInUorD1oLi-9ezzhM_V3p_j5ZLm55_iv7Gs4uLz_PWi8-ms1tWZiYKEhZ-Sh6z9AAAAAAi12fc=$");
+                itemContextInfo.setVin("WAUBH54B11N111054");
+
+                orderItemContextInfo.setItemContextInfo(itemContextInfo);
+                orderItem.setContextInfo(orderItemContextInfo);
+                break;
+            case ("TECDOC"):
+                itemContextInfo.setDetailCode(oem);
+                itemContextInfo.setBrand(brand);
+                itemContextInfo.setExternalCatalog("TecDocOnline");
+                itemContextInfo.setExternalCatalogItemId("47260671");
+                itemContextInfo.setExternalCatalogModelId("3395");
+                itemContextInfo.setExternalCatalogModelManufacturerName("AUDI");
+                itemContextInfo.setExternalCatalogModelName("A6 C5 Avant (4B5)");
+                itemContextInfo.setExternalCatalogModificationId("57275");
+                itemContextInfo.setExternalCatalogModificationName("3.0");
+                itemContextInfo.setExternalCatalogNodeId("103779");
+                itemContextInfo.setExternalCatalogNodeName("Масляный фильтр");
+
+                orderItemContextInfo.setItemContextInfo(itemContextInfo);
+                orderItem.setContextInfo(orderItemContextInfo);
+                break;
+            case ("4TOCHKI"):
+                itemContextInfo.setDetailCode(oem);
+                itemContextInfo.setBrand(brand);
+                itemContextInfo.setExternalCatalog("4Tochki");
+                itemContextInfo.setExternalCatalogModelId("2307");
+                itemContextInfo.setExternalCatalogModelManufacturerName("Subaru");
+                itemContextInfo.setExternalCatalogModelName("Forester");
+                itemContextInfo.setExternalCatalogModificationId("11965");
+                itemContextInfo.setExternalCatalogModificationName("2.0i S-Turbo");
+
+                orderItemContextInfo.setItemContextInfo(itemContextInfo);
+                orderItem.setContextInfo(orderItemContextInfo);
+                break;
+            case ("USEARCH"):
+                itemContextInfo.setDetailCode(oem);
+                itemContextInfo.setBrand(brand);
+                itemContextInfo.setSearchQuery("антифриз зеленый 1л");
+                itemContextInfo.setSearchQueryId("166884");
+
+                orderItemContextInfo.setItemContextInfo(itemContextInfo);
+                orderItem.setContextInfo(orderItemContextInfo);
+                break;
+            case ("GCS"):
+                itemContextInfo.setDetailCode(oem);
+                itemContextInfo.setBrand(brand);
+                itemContextInfo.setGcsCategoryId(28L);
+        }
         return orderItem;
     }
 
