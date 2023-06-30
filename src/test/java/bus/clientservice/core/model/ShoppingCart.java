@@ -1,15 +1,13 @@
-package bus.orderservice.models;
+package bus.clientservice.core.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import helpers.ItemContextInfo;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
-public class OrderItemContextInfo {
-    private Integer id;
-    private String clientData;
-    private ItemContextInfo itemContextInfo;
+public class ShoppingCart {
 }

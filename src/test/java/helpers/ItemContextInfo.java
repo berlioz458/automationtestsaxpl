@@ -1,4 +1,4 @@
-package bus.orderservice.models;
+package helpers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
