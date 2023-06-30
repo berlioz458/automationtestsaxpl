@@ -2,16 +2,11 @@ package integrationservice.tests;
 
 import helpers.Ref;
 import integrationservice.model.Company;
-import integrationservice.model.Currency;
 import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import static integrationservice.utils.IntegrationCompanyController.*;
-import static integrationservice.utils.IntegrationCurrencyController.*;
-import static integrationservice.utils.IntegrationCurrencyController.changeCurrencyName;
-import static integrationservice.utils.IntegrationCurrencyController.deleteCurrency;
-import static integrationservice.utils.IntegrationCurrencyController.getCurrency;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IntegrationCompanyApiTest {

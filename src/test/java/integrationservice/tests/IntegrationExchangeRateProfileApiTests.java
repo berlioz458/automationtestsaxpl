@@ -1,7 +1,6 @@
 package integrationservice.tests;
 
 import helpers.Ref;
-import integrationservice.model.Currency;
 import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;

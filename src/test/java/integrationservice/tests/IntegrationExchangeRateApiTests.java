@@ -1,16 +1,12 @@
 package integrationservice.tests;
 
-import helpers.Ref;
+
 import integrationservice.model.ExchangeRate;
-import integrationservice.model.ExchangeRateProfile;
 import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import static integrationservice.utils.IntegrationExchangeRateController.*;
-import static integrationservice.utils.IntegrationExchangeRateProfileController.*;
-import static integrationservice.utils.IntegrationExchangeRateProfileController.createExchangeRateProfile;
-import static integrationservice.utils.IntegrationExchangeRateProfileController.deleteExchangeRateProfile;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IntegrationExchangeRateApiTests {
@@ -53,7 +49,6 @@ public class IntegrationExchangeRateApiTests {
         Response exchangeRate = getExchangeRateAsResponse(idExchangeRateProfile,"limit", "1");
         assertThat(exchangeRate).isNotNull();
     }
-
     @Description("Create ExchangeRate")
     @Test
     void successCreateExchangeRate() {

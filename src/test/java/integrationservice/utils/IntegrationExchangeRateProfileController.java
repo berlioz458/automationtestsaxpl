@@ -1,7 +1,6 @@
 package integrationservice.utils;
 
 import helpers.Ref;
-import integrationservice.model.Company;
 import integrationservice.model.ExchangeRateProfile;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
