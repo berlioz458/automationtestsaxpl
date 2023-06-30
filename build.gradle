@@ -104,14 +104,14 @@ task tochki_tests(type: Test) {
     }
 }
 
-task prod_tests(type: Test) {
-    useJUnitPlatform{
-        includeTags "prod_run"
-    }
-}
-
 task stage_tests(type: Test) {
     useJUnitPlatform{
         includeTags "smoke_predprod"
+    }
+}
+
+task prod_tests(type: Test) {
+    useJUnitPlatform{
+        includeTags "smoke_prod"
     }
 }

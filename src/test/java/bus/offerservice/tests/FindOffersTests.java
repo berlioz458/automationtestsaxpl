@@ -17,6 +17,7 @@ public class FindOffersTests {
     @Test
     @Story("Интернет Магазин")
     @Tag("smoke_predprod")
+    @Tag("smoke_prod")
     @Description("Получение списка брендов")
     void successGetBrandsList() {
         Response searchResult = findOffersWithOutBrand(
@@ -31,6 +32,7 @@ public class FindOffersTests {
 
     @Test
     @Tag("smoke_predprod")
+    @Tag("smoke_prod")
     @Story("Интернет Магазин")
     @Description("Получение списка предложений по бренд+оем без кроссов - Блок 'Запрошенный артикул'")
     void successGetOffersListWithoutCross() {
@@ -47,6 +49,7 @@ public class FindOffersTests {
 
     @Test
     @Tag("smoke_predprod")
+    @Tag("smoke_prod")
     @Story("Интернет Магазин")
     @Description("Получение списка предложений по бренд+оем с кроссами - Блок 'Остальные аналоги'")
     void successGetOffersListWithCrossExternal() {
@@ -64,6 +67,7 @@ public class FindOffersTests {
 
     @Test
     @Tag("smoke_predprod")
+    @Tag("smoke_prod")
     @Story("Интернет Магазин")
     @Description("Получение списка предложений по бренд+оем с кроссами - Блок 'Рекомендуемые аналоги'")
     void successGetOffersListWithCrossInternal() {

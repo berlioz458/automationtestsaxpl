@@ -35,7 +35,7 @@ public class RegistrationManagerE2ETests {
     @BeforeEach
     void startUp() {
         deviceToken = RegistrationManagerController.getDeviceToken(" ", "", "Mozilla FireFox","Test", " ", "WEB");
-        email = faker.internet().emailAddress();
+        email = "shulinina.e+" + faker.number().numberBetween(1, 100) + "@prodv.net" ;
         firstName = faker.name().firstName();
         lastName = faker.name().lastName();
         nameWithMiddle = faker.name().nameWithMiddle();
@@ -43,6 +43,7 @@ public class RegistrationManagerE2ETests {
     }
 
     @Test
+    @Tag("smoke_prod")
     void clientRegistrationByEmail() {
         checkPrincipalAvailability(deviceToken.getDeviceToken(), email, "EMAIL", true);
         validateClientRegistration(deviceToken.getDeviceToken(), 10506, email, "EMAIL","123456", true, firstName, lastName, nameWithMiddle);
@@ -50,9 +51,6 @@ public class RegistrationManagerE2ETests {
         startVerification(deviceToken.getDeviceToken(),"EMAIL", email);
         String token = getTokenByEmail(email);
         VerificationResult verificationResult = endVerification(deviceToken.getDeviceToken(), token, null);
-//        assertThat(verificationResult.getAuthProfileId()).isPositive();
-//        assertThat(verificationResult.getPersonProfileId()).isPositive();
-//        assertThat(verificationResult.getAuthRecordId()).isPositive();
         AuthToken authToken = requestAuthToken(deviceToken.getDeviceToken(), "EMAIL", email, "123456");
         selfDeleteUser(deviceToken.getDeviceToken(), authToken.getAuthToken());
         assertThat(getPersonProfileById(verificationResult.getPersonProfileId()).getSelfDeleted()).isEqualTo(true);

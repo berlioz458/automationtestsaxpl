@@ -34,7 +34,7 @@ public class RatesTests {
     }
 
     @Test
-    @Tag("prod_run")
+    @Tag("smoke_prod")
     @Tag("smoke_predprod")
     @Story("Интернет Магазин")
     @Description("Получение доступных способов доставки для агента по широте и долготе")
@@ -44,7 +44,7 @@ public class RatesTests {
         );
         List<ShippingItem> shippingItems = new ArrayList<>();
         shippingItems.add(shippingItem);
-        ShippingPricing rates = rates(10521, shippingItems, "ALL", 54.957221f, 82.8312f, 1, shippingDate);
+        ShippingPricing rates = rates(10522, shippingItems, "ALL", 54.957221f, 82.8312f, 1, shippingDate);
 
         assertThat(rates.getShippingOptions()).isNotNull();
     }
@@ -52,7 +52,7 @@ public class RatesTests {
     @SneakyThrows
     @Test
     @Tag("smoke_predprod")
-    @Tag("prod_run")
+    @Tag("smoke_prod")
     @Story("Интернет Магазин")
     @Description("Получение доступных способов доставки для агента по широте и долготе - только самововоз")
     void successGetRatesSelfByLongitudeAndLatitude() {
@@ -61,7 +61,7 @@ public class RatesTests {
         );
         List<ShippingItem> shippingItems = new ArrayList<>();
         shippingItems.add(shippingItem);
-        ShippingPricing rates = rates(10521, shippingItems, "SELF", 54.957221f, 82.8312f, 1, shippingDate);
+        ShippingPricing rates = rates(10522, shippingItems, "SELF", 54.957221f, 82.8312f, 1, shippingDate);
 
         assertThat(rates.getShippingOptions().get(0).getTransportCompany().getName()).isEqualTo(selfCompanyName);
         assertThat(rates.getShippingOptions().get(0).getShippingOption().get(0).getName()).isEqualTo(selfCompanyName);
@@ -75,7 +75,7 @@ public class RatesTests {
     @SneakyThrows
     @Test
     @Tag("smoke_predprod")
-    @Tag("prod_run")
+    @Tag("smoke_prod")
     @Story("Интернет Магазин")
     @Description("Получение доступных способов доставки для агента по широте и долготе - только доставка курьером")
     void successGetRatesCourierByLongitudeAndLatitude() {
@@ -84,7 +84,7 @@ public class RatesTests {
         );
         List<ShippingItem> shippingItems = new ArrayList<>();
         shippingItems.add(shippingItem);
-        ShippingPricing rates = rates(10521, shippingItems, "COURIER", 54.957221f, 82.8312f, 1, shippingDate);
+        ShippingPricing rates = rates(10522, shippingItems, "COURIER", 54.957221f, 82.8312f, 1, shippingDate);
 
         assertThat(rates.getShippingOptions().get(0).getTransportCompany().getName()).isEqualTo(courierCompanyName);
         assertThat(rates.getShippingOptions().get(0).getShippingOption().get(0).getName()).isEqualTo(courierNameMethod);
