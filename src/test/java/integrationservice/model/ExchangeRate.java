@@ -13,7 +13,10 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
-public class Company extends Entity {
-    private String name;
-    private Ref baseCurrency;
+public class ExchangeRate extends Entity {
+    private String date;
+    private Double value;
+    private Integer  nominal;
+    private Ref exchangeRateProfile;
+
 }
