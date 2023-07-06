@@ -15,10 +15,16 @@ public class ClientServiceApiSpec {
     static String username = config.usr();
     static String password = config.pswrd();
 
-    public static RequestSpecification request = with()
+    public static RequestSpecification service_request = with()
             .baseUri("http://api.client-service." + baseUri)
             .auth().preemptive().basic(username, password)
             .basePath("/v2/service/AUTO3N")
+            .log().all().contentType(ContentType.JSON);
+
+    public static RequestSpecification entity_request = with()
+            .baseUri("http://api.client-service." + baseUri)
+            .auth().preemptive().basic(username, password)
+            .basePath("/v2/entity/AUTO3N")
             .log().all().contentType(ContentType.JSON);
 
     public static ResponseSpecification response = new ResponseSpecBuilder()

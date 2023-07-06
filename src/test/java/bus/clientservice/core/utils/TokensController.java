@@ -1,20 +1,18 @@
 package bus.clientservice.core.utils;
 
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
 
-import static bus.clientservice.core.spec.ClientServiceApiSpec.request;
-import static bus.clientservice.core.spec.ClientServiceApiSpec.response;
+import static bus.clientservice.core.spec.ClientServiceApiSpec.*;
 import static helpers.CustomAllureListener.withCustomTemplate;
 import static io.restassured.RestAssured.given;
 
-public class clientController {
+public class TokensController {
 
     @Step("Получение токена из письма")
     public static String getTokenByEmail(String email) {
         return given()
                 .filter(withCustomTemplate())
-                .spec(request)
+                .spec(service_request)
                 .get("/listEmailMessage?recipientAddress=" + email + "&limit=1&sort%5Bid%5D=desc")
                 .then()
                 .spec(response)
@@ -25,7 +23,7 @@ public class clientController {
     public static String getTokenBySms(String phone) {
         return given()
                 .filter(withCustomTemplate())
-                .spec(request)
+                .spec(service_request)
                 .get("/listSmsMessage?recipientAddress=" + phone + "&limit=1&sort%5Bid%5D=desc")
                 .then()
                 .spec(response)
@@ -36,7 +34,7 @@ public class clientController {
     public static String getTokenByPush(String deviceToken) {
         return given()
                 .filter(withCustomTemplate())
-                .spec(request)
+                .spec(service_request)
                 .get("/listPushMessage?recipientAddress=" + deviceToken + "&limit=1&sort%5Bid%5D=desc")
                 .then()
                 .spec(response)

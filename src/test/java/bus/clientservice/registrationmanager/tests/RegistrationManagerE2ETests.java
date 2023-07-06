@@ -2,20 +2,15 @@ package bus.clientservice.registrationmanager.tests;
 
 import bus.clientservice.registrationmanager.models.*;
 import bus.clientservice.registrationmanager.utils.RegistrationManagerController;
-import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import unitls.EmailParser;
-import unitls.SMSParser;
 
 import java.util.Locale;
 
-import static bus.clientservice.core.utils.clientController.getTokenByEmail;
-import static bus.clientservice.core.utils.clientController.getTokenBySms;
+import static bus.clientservice.core.utils.TokensController.getTokenByEmail;
+import static bus.clientservice.core.utils.TokensController.getTokenBySms;
 import static bus.clientservice.registrationmanager.utils.RegistrationManagerController.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
