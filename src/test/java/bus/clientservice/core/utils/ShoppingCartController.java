@@ -1,13 +1,11 @@
 package bus.clientservice.core.utils;
 
-import bus.clientservice.core.model.PersonProfile;
 import bus.clientservice.core.model.ShoppingCart;
 import helpers.ListInfo;
 import helpers.Ref;
 import io.qameta.allure.Step;
 import io.restassured.common.mapper.TypeRef;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +41,7 @@ public class ShoppingCartController {
 
     @Step("Проверка на наличие активных корзин у клиента")
     public static Boolean checkActiveShoppingCart(Integer personProfile) {
-        ListInfo<ShoppingCart> shoppingCartListInfo = getShoppingCartList("id", "desc", 12996);
+        ListInfo<ShoppingCart> shoppingCartListInfo = getShoppingCartList("id", "desc", personProfile);
 
         List<ShoppingCart> shoppingCartList = new ArrayList<>();
         shoppingCartList = shoppingCartListInfo.getData();
@@ -55,6 +53,25 @@ public class ShoppingCartController {
             }
         }
         return false;
+    }
+
+    @Step("Получение активной корзины пользователя")
+    public static Integer getActiveClientShoppingCart(Integer personProfile) {
+        ListInfo<ShoppingCart> shoppingCartListInfo = getShoppingCartList("id", "desc", personProfile);
+
+        List<ShoppingCart> shoppingCartList = new ArrayList<>();
+        shoppingCartList = shoppingCartListInfo.getData();
+        for (ShoppingCart s: shoppingCartList
+        ) {
+            try {
+                if (!s.getDeleted()) {
+                    return s.getId();
+                }
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return 0;
     }
 
     @Step("Получение списка корзин")
