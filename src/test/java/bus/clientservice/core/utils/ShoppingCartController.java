@@ -33,7 +33,7 @@ public class ShoppingCartController {
                 .filter(withCustomTemplate())
                 .spec(entity_request)
                 .body(shoppingCart)
-                .post("/entity/AUTO3N/ShoppingCart")
+                .post("/ShoppingCart")
                 .then()
                 .spec(response)
                 .extract().as(ShoppingCart.class);
@@ -94,7 +94,8 @@ public class ShoppingCartController {
         return given()
                 .filter(withCustomTemplate())
                 .spec(entity_request)
-                .get("/ShoppingCart?sort["+ sort +"]=" + sortOrder)
+                .param("sort["+ sort +"]", sortOrder)
+                .get("/ShoppingCart")
                 .then()
                 .spec(response)
                 .log().body(true)
@@ -109,7 +110,10 @@ public class ShoppingCartController {
         return given()
                 .filter(withCustomTemplate())
                 .spec(entity_request)
-                .get("/ShoppingCart?sort["+ sort +"]=" + sortOrder + "{\"$and\": [{\"personProfile\": {\"$eq\": " + personProfile + "}}]}")
+                .param("sort["+ sort +"]", sortOrder)
+                .param("q", "{\"$and\": [{\"personProfile\": {\"$eq\": " + personProfile.toString() + "}}]}")
+                .param("limit", 1000)
+                .get("/ShoppingCart")
                 .then()
                 .spec(response)
                 .log().body(true)
@@ -124,7 +128,9 @@ public class ShoppingCartController {
         return given()
                 .filter(withCustomTemplate())
                 .spec(entity_request)
-                .get("/ShoppingCart?sort["+ sort +"]=" + sortOrder + "{\"$and\": [{\"personProfile\": {\"$eq\": " + personProfile + "}},{\"deleted\": {\"$eq\": " + deleted + "}}]}")
+                .param("sort["+ sort +"]", sortOrder)
+                .param("q", "{\"$and\": [{\"personProfile\": {\"$eq\": " + personProfile.toString() + "}},{\"deleted\": {\"$eq\": " + deleted + "}}]}")
+                .get("/ShoppingCart")
                 .then()
                 .spec(response)
                 .log().body(true)
@@ -132,5 +138,23 @@ public class ShoppingCartController {
                 .body()
                 .as(new TypeRef<ListInfo<ShoppingCart>>() {
                 });
+    }
+
+    @Step("Удаление корзины клиента")
+    public static ShoppingCart deletedShoppingCart(Integer shoppingCartId) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setDeleted(true);
+
+        return given()
+                .filter(withCustomTemplate())
+                .spec(entity_request)
+                .body(shoppingCart)
+                .put("/ShoppingCart/" + shoppingCartId.toString())
+                .then()
+                .spec(response)
+                .log().body(true)
+                .extract()
+                .body()
+                .as(ShoppingCart.class);
     }
 }
