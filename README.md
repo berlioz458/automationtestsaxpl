@@ -119,3 +119,10 @@
 <p align="center">
 <img width="50%" title="Java" src="img/img_8.png">
 </p>
+
+## Последние апдейты в мастер ветке
+<p>11-07: Слита ветка tecdoc_harwork в ветку master. Ключевой функционал - API контроллер и тесты на REST API TecDoc-a.</p>
+<p>06-07: Добавлена модель корзины ShoppingCartItem + контроллеры (не завершено). Внедрен ListInfo.</p>
+<p>30-06: Завершена работа над Order-ом в части контекста заказа. В тесты добавлено создание заказа на 6 позиций разного типа. Слита ветка june в ветку master, ключевой функционал - API Integration Service: Company, ExchangeRateProfile, ExchangeRate.</p>
+<p>13-06: Добавлены объекты Shipment и ShipmentItem + контроллер на создание документа отгрузки. Пока без тестов.</p>
+<p>07-06: Слита ветка learning_rest в мастер ветку. Ключевой функционал - API Integration Service: Currency. </p>
