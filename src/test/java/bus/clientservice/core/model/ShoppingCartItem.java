@@ -1,6 +1,7 @@
 package bus.clientservice.core.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JsonNode;
 import helpers.Entity;
@@ -15,6 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 public class ShoppingCartItem extends Entity {
     private Ref shoppingCart;
@@ -29,14 +31,14 @@ public class ShoppingCartItem extends Entity {
     private String note;
     private boolean deleted = false;
     private Double minAllowedPrice;
-    private Integer priceGroupId;
+    private Integer priceGroupId = 1020;
     private String offerId;
     private Integer priceListId;
-    private Date estimatedDeliveryDate;
+    private String estimatedDeliveryDate;
     private Date actualityDate;
     private Integer contractId;
     private Integer orderItemId;
-    private Integer currencyId;
+    private Integer currencyId = 643;
     private Integer agentId;
     private Integer detailId;
     private Integer brandId;
@@ -50,10 +52,10 @@ public class ShoppingCartItem extends Entity {
     private Integer marketingActionId;
     private BigDecimal marketingDiscountPercent;
     private BigDecimal marketingDiscountSum;
-    private Boolean selfOrder;
+    private Boolean selfOrder = true;
     private ItemContextInfo itemContextInfo;
     private Boolean aviaDelivery = false;
     private boolean transportationDisabled;
-    private boolean used;
+    private boolean used = false;
     private JsonNode marketingData;
 }

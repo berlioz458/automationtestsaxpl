@@ -234,6 +234,10 @@ public class OrderServiceApiController {
                 itemContextInfo.setDetailCode(oem);
                 itemContextInfo.setBrand(brand);
                 itemContextInfo.setGcsCategoryId(28L);
+
+                orderItemContextInfo.setItemContextInfo(itemContextInfo);
+                orderItem.setContextInfo(orderItemContextInfo);
+                break;
         }
         return orderItem;
     }
