@@ -21,6 +21,7 @@ public class Ref {
         this(null, 0, null);
     }
 
+
     public Ref(String type, int id) {
         this(type, id, null);
     }
