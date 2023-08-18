@@ -1,10 +1,12 @@
 package integrationservice.utils;
 
+import helpers.ListInfo;
 import helpers.Ref;
 import integrationservice.model.Company;
-import integrationservice.model.Currency;
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
+import io.restassured.common.mapper.TypeRef;
+import io.restassured.module.jsv.JsonSchemaValidator;
+import java.io.File;
 
 import static helpers.CustomAllureListener.withCustomTemplate;
 import static integrationservice.spec.IntegrationCurrencyApiSpecs.success_request;
@@ -12,8 +14,10 @@ import static integrationservice.spec.IntegrationCurrencyApiSpecs.success_respon
 import static io.restassured.RestAssured.given;
 
 public class IntegrationCompanyController {
+    public static File CompanySchema= new File("src/test/java/integrationservice/schemas/Company.json");
+    public static File CompanyListSchema= new File("src/test/java/integrationservice/schemas/CompanyList.json");
     @Step("Получение списка компаний")
-    public static Response getCompanyList(){
+    public static ListInfo<Company> getCompanyList(){
     return given()
             .filter(withCustomTemplate())
             .spec(success_request)
@@ -21,10 +25,12 @@ public class IntegrationCompanyController {
             .get("/entity/AUTO3N/Company")
             .then()
             .spec(success_responseSpec)
-            .extract().response();
+            .body(JsonSchemaValidator.matchesJsonSchema(CompanyListSchema))
+            .extract().as(new TypeRef<ListInfo<Company>>() {
+            });
 }
     @Step("Получение компании по параметру")
-    public static Response getCompany(String params, String value){
+    public static ListInfo<Company> getCompany(String params, String value){
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -33,7 +39,9 @@ public class IntegrationCompanyController {
                 .get("/entity/AUTO3N/Company")
                 .then()
                 .spec(success_responseSpec)
-                .extract().response();
+                .body(JsonSchemaValidator.matchesJsonSchema(CompanyListSchema))
+                .extract().as(new TypeRef<ListInfo<Company>>() {
+                });
     }
     @Step("Получение компании по id")
     public static Company getCompanyById(Integer id){
@@ -44,6 +52,7 @@ public class IntegrationCompanyController {
                 .get("/entity/AUTO3N/Company/"+id.toString())
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(CompanySchema))
                 .extract().as(Company.class);
     }
 
@@ -60,6 +69,7 @@ public class IntegrationCompanyController {
                 .post ("/entity/AUTO3N/Company")
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(CompanySchema))
                 .extract().as(Company.class);
     }
     @Step("Удаление компании")
@@ -85,6 +95,7 @@ public class IntegrationCompanyController {
                 .put("/entity/AUTO3N/Company/"+ id.toString())
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(CompanySchema))
                 .extract().as(Company.class);
 
     }
@@ -100,6 +111,7 @@ public class IntegrationCompanyController {
                 .put("/entity/AUTO3N/Company/"+ id.toString())
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(CompanySchema))
                 .extract().as(Company.class);
 
     }
@@ -116,6 +128,7 @@ public class IntegrationCompanyController {
                 .put("/entity/AUTO3N/Company/"+ id.toString())
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(CompanySchema))
                 .extract().as(Company.class);
 
     }

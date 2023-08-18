@@ -1,11 +1,9 @@
 package integrationservice.tests;
 
+import helpers.ListInfo;
 import helpers.Ref;
-import integrationservice.model.Agent;
 import integrationservice.model.AgentGroup;
-import integrationservice.model.AgentTag;
 import io.qameta.allure.Description;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ public class IntegrationAgentGroupApiTests {
     @Description("Get list agent group")
     @Test
     void successGetListAgentGroup() {
-        Response listAgentGroup = getListAgentGroup();
+        ListInfo<AgentGroup> listAgentGroup = getListAgentGroup();
         assertThat(listAgentGroup).isNotNull();
     }
 

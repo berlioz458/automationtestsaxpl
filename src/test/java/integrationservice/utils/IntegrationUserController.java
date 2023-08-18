@@ -1,11 +1,11 @@
 package integrationservice.utils;
 
+import helpers.ListInfo;
 import helpers.Ref;
 import integrationservice.model.RealmUser;
 import integrationservice.model.User;
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
-
+import io.restassured.common.mapper.TypeRef;
 import java.util.List;
 
 import static helpers.CustomAllureListener.withCustomTemplate;
@@ -15,7 +15,7 @@ import static io.restassured.RestAssured.given;
 
 public class IntegrationUserController {
     @Step("Получение списка пользователей без параметров фильтрации")
-    public static Response getUserInfo() {
+    public static ListInfo<User> getUserInfo() {
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -23,7 +23,8 @@ public class IntegrationUserController {
                 .get("/entity/AUTO3N/User")
                 .then()
                 .spec(success_responseSpec)
-                .extract().response();
+                .extract().as(new TypeRef<ListInfo<User>>() {
+                });
     }
 
     @Step("Создание пользователя с доступом менеджера")

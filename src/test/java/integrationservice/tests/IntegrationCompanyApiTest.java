@@ -1,9 +1,9 @@
 package integrationservice.tests;
 
+import helpers.ListInfo;
 import helpers.Ref;
 import integrationservice.model.Company;
 import io.qameta.allure.Description;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import static integrationservice.utils.IntegrationCompanyController.*;
@@ -17,7 +17,7 @@ public class IntegrationCompanyApiTest {
     @Description("List company")
     @Test
     void successGetListCompany() {
-        Response companyList= getCompanyList();
+        ListInfo<Company> companyList= getCompanyList();
         assertThat(companyList).isNotNull();
     }
     @Description("Company by id")
@@ -31,13 +31,13 @@ public class IntegrationCompanyApiTest {
     @Description("Company by name")
     @Test
     void successGetCompanyByName() {
-        Response company= getCompany("q","{\"$and\": [{\"name\":\"ИП Романова Наталия Ювеналиевна\"}]}");
+        ListInfo<Company> company= getCompany("q","{\"$and\": [{\"name\":\"ИП Романова Наталия Ювеналиевна\"}]}");
         assertThat(company).isNotNull();
     }
     @Description("Get one company")
     @Test
     void successGetCompany() {
-        Response company= getCompany("limit","1");
+        ListInfo<Company> company= getCompany("limit","1");
         assertThat(company).isNotNull();
     }
     @Description("Create company")
@@ -57,6 +57,19 @@ public class IntegrationCompanyApiTest {
         Company company= createCompany(name,currency);
         //edit by id
         Company companyEdit= changeCompanyName(company.getId(),nameChange);
+        assertThat(companyEdit.getName()).isEqualTo(nameChange);
+        assertThat(companyEdit.getChangedAt()).isNotNull();
+        assertThat(companyEdit.getChangedByUser()).isNotNull();
+    }
+    @Description("Edit company by currency")
+    @Test
+    void successChangeCompanyCurrency() {
+        // create
+        name=name + java.time.LocalDateTime.now();
+        Company company= createCompany(name,currency);
+        //edit by id
+        Ref currencyChange= new Ref("Currency",840);
+        Company companyEdit= changeCompanyCurrency(company.getId(),currencyChange);
         assertThat(companyEdit.getName()).isEqualTo(nameChange);
         assertThat(companyEdit.getChangedAt()).isNotNull();
         assertThat(companyEdit.getChangedByUser()).isNotNull();

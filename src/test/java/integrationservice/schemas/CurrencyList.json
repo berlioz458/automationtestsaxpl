@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "total": {
+      "type": "number"
+    },
+    "skip": {
+      "type": "number"
+    },
+    "limit": {
+      "type": "number"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Currency": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "guid": {
+                "type": "string"
+              },
+              "realmCode": {
+                "type": ["null","string"]
+              },
+              "version": {
+                "type": "number"
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "createdByUser": {
+                "type": ["null","string"]
+              },
+              "createdByPartyCode": {
+                "type": "string"
+              },
+              "changedAt": {
+                "type": ["null","string"]
+              },
+              "changedByUser": {
+                "type": ["null","string"]
+              },
+              "changedByPartyCode": {
+                "type": ["null","string"]
+              },
+              "name": {
+                "type": "string"
+              },
+              "isoAlfa": {
+                "type": "string"
+              },
+              "isoNumber": {
+                "type": "string"
+              },
+              "company": {
+                "type": ["null","object"],
+                "properties": {
+                  "#ref": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "#ref"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "guid",
+              "version",
+              "createdAt",
+              "createdByPartyCode",
+              "name",
+              "isoAlfa",
+              "isoNumber"
+            ]
+          }
+        },
+        "required": [
+          "Currency"
+        ]
+      }
+    }
+  },
+  "required": [
+    "total",
+    "skip",
+    "limit",
+    "data"
+  ]
+}

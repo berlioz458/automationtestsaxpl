@@ -1,12 +1,11 @@
 package integrationservice.tests;
 
+import helpers.ListInfo;
 import helpers.Ref;
 import io.qameta.allure.Description;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import integrationservice.model.ExchangeRateProfile;
 
-import static integrationservice.utils.IntegrationCurrencyController.*;
 import static integrationservice.utils.IntegrationExchangeRateProfileController.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,7 +18,7 @@ public class IntegrationExchangeRateProfileApiTests {
     @Description("List ExchangeRateProfile")
     @Test
     void successGetListExchangeRateProfile() {
-        Response exchangeRateProfileList= getExchangeRateProfileList();
+        ListInfo<ExchangeRateProfile> exchangeRateProfileList= getExchangeRateProfileList();
         assertThat(exchangeRateProfileList).isNotNull();
     }
     @Description("ExchangeRateProfile by id")
@@ -33,13 +32,13 @@ public class IntegrationExchangeRateProfileApiTests {
     @Description("ExchangeRateProfile by CurrencyFrom")
     @Test
     void successGetExchangeRateProfileByCurrencyFrom() {
-        Response exchangeRateProfile= getExchangeRateProfile("q","{\"$and\": [{\"currencyFrom\":\"840\"}]}");
+        ListInfo<ExchangeRateProfile>  exchangeRateProfile= getExchangeRateProfile("q","{\"$and\": [{\"currencyFrom\":\"840\"}]}");
         assertThat(exchangeRateProfile).isNotNull();
     }
     @Description("Get one ExchangeRateProfile")
     @Test
     void successGetExchangeRateProfile() {
-        Response exchangeRateProfile= getExchangeRateProfile("limit","1");
+        ListInfo<ExchangeRateProfile>  exchangeRateProfile= getExchangeRateProfile("limit","1");
         assertThat(exchangeRateProfile).isNotNull();
     }
     @Description("Create ExchangeRateProfile")

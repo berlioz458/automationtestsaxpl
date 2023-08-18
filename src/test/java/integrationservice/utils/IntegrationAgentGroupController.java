@@ -1,13 +1,13 @@
 package integrationservice.utils;
 
+import helpers.ListInfo;
 import helpers.Ref;
-import integrationservice.model.Agent;
 import integrationservice.model.AgentGroup;
-import integrationservice.model.AgentTag;
 import integrationservice.spec.IntegrationCurrencyApiSpecs;
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
-
+import io.restassured.common.mapper.TypeRef;
+import io.restassured.module.jsv.JsonSchemaValidator;
+import java.io.File;
 import java.util.List;
 
 import static helpers.CustomAllureListener.withCustomTemplate;
@@ -16,6 +16,8 @@ import static integrationservice.spec.IntegrationUserApiSpecs.success_responseSp
 import static io.restassured.RestAssured.given;
 
 public class IntegrationAgentGroupController {
+    public static File AgentGroupSchema= new File("src/test/java/integrationservice/schemas/AgentGroup.json");
+    public static File AgentGroupListSchema= new File("src/test/java/integrationservice/schemas/AgentGroupList.json");
     @Step("Создание группы агентов")
     public static AgentGroup createAgentGroup(Ref ownerAgentId, String name, List<Ref> agents){
         AgentGroup body=new AgentGroup();
@@ -30,6 +32,7 @@ public class IntegrationAgentGroupController {
             .post ("/entity/AUTO3N/AgentGroup")
             .then()
             .spec(IntegrationCurrencyApiSpecs.success_responseSpec)
+            .body(JsonSchemaValidator.matchesJsonSchema(AgentGroupListSchema))
             .extract().as(AgentGroup.class);
 }
     @Step("Получение группы агентов по идентификатору")
@@ -41,7 +44,7 @@ public class IntegrationAgentGroupController {
                 .get("/entity/AUTO3N/AgentGroup/" + id.toString())
                 .then()
                 .spec(success_responseSpec)
-                .log().all()
+                .body(JsonSchemaValidator.matchesJsonSchema(AgentGroupSchema))
                 .extract().as(AgentGroup.class);
     }
 
@@ -59,6 +62,7 @@ public class IntegrationAgentGroupController {
                 .put("/entity/AUTO3N/AgentGroup/"+ id.toString())
                 .then()
                 .spec(IntegrationCurrencyApiSpecs.success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(AgentGroupSchema))
                 .extract().as(AgentGroup.class);
     }
 
@@ -75,7 +79,7 @@ public class IntegrationAgentGroupController {
     }
 
     @Step("Получение списка групп агентов без фильтрации")
-    public static Response getListAgentGroup() {
+    public static ListInfo<AgentGroup> getListAgentGroup() {
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -83,7 +87,8 @@ public class IntegrationAgentGroupController {
                 .get("/entity/AUTO3N/AgentGroup")
                 .then()
                 .spec(success_responseSpec)
-                .log().all()
-                .extract().response();
+                .body(JsonSchemaValidator.matchesJsonSchema(AgentGroupListSchema))
+                .extract().as(new TypeRef<ListInfo<AgentGroup>>() {
+                });
     }
 }

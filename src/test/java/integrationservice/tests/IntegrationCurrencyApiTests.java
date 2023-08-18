@@ -1,27 +1,26 @@
 package integrationservice.tests;
 
+import helpers.ListInfo;
 import integrationservice.model.Currency;
 import io.qameta.allure.Description;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.Test;
 
+
 import static integrationservice.utils.IntegrationCurrencyController.*;
-import static io.restassured.RestAssured.with;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IntegrationCurrencyApiTests {
     String name="AMD";
     String isoAlfa="AMD";
     String isoNumber="51";
-    String nameChange="AMD1";
+    String nameChange="AMD1" + java.time.LocalDateTime.now();
     Integer id=643;
     @Description("List currency")
     @Test
     void successGetListCurrency() {
-        Response currencyList= getCurrencyList();
+        ListInfo<Currency> currencyList= getCurrencyList();
         assertThat(currencyList).isNotNull();
+
     }
     @Description("Currency by id")
     @Test
@@ -29,18 +28,18 @@ public class IntegrationCurrencyApiTests {
         Currency currency= getCurrencyById(id);
         assertThat(currency).isNotNull();
         assertThat(currency.getId()).isEqualTo(id);
-
     }
     @Description("Currency by name")
+
     @Test
     void successGetCurrencyByName() {
-        Response currency= getCurrency("q","{\"$and\": [{\"isoAlfa\":\"EUR\"}]}");
+        ListInfo<Currency> currency= getCurrency("q","{\"$and\": [{\"isoAlfa\":\"EUR\"}]}");
         assertThat(currency).isNotNull();
     }
     @Description("Get one currency")
     @Test
     void successGetCurrency() {
-        Response currency= getCurrency("limit","1");
+        ListInfo<Currency> currency= getCurrency("limit","1");
         assertThat(currency).isNotNull();
     }
     @Description("Create currency")

@@ -1,10 +1,12 @@
 package integrationservice.utils;
 
+import helpers.ListInfo;
 import helpers.Ref;
 import integrationservice.model.ExchangeRate;
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
-
+import io.restassured.common.mapper.TypeRef;
+import io.restassured.module.jsv.JsonSchemaValidator;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -14,8 +16,10 @@ import static integrationservice.spec.IntegrationCurrencyApiSpecs.success_respon
 import static io.restassured.RestAssured.given;
 
 public class IntegrationExchangeRateController {
+    public static File ExchangeRateSchema= new File("src/test/java/integrationservice/schemas/ExchangeRate.json");
+    public static File ExchangeRateListSchema= new File("src/test/java/integrationservice/schemas/ExchangeRateList.json");
     @Step("Получение списка курсов валют")
-    public static Response getExchangeRateList(Integer idExchangeRateProfile){
+    public static ListInfo<ExchangeRate> getExchangeRateList(Integer idExchangeRateProfile){
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -23,10 +27,12 @@ public class IntegrationExchangeRateController {
                 .get("/entity/AUTO3N/ExchangeRateProfile/"+idExchangeRateProfile+"/ExchangeRate")
                 .then()
                 .spec(success_responseSpec)
-                .extract().response();
+                .body(JsonSchemaValidator.matchesJsonSchema(ExchangeRateListSchema))
+                .extract().as(new TypeRef<ListInfo<ExchangeRate>>() {
+                });
     }
     @Step("Получение курса валюты по параметру как респонс")
-    public static Response getExchangeRateAsResponse(Integer idExchangeRateProfile, String params, String value){
+    public static ListInfo<ExchangeRate> getExchangeRateAsListInfo(Integer idExchangeRateProfile, String params, String value){
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -35,30 +41,21 @@ public class IntegrationExchangeRateController {
                 .get("/entity/AUTO3N/ExchangeRateProfile/"+idExchangeRateProfile+"/ExchangeRate")
                 .then()
                 .spec(success_responseSpec)
-                .extract().response();
+                .body(JsonSchemaValidator.matchesJsonSchema(ExchangeRateListSchema))
+                .extract().as(new TypeRef<ListInfo<ExchangeRate>>() {
+                });
     }
-    @Step("Получение одного курса валюты по параметру как объект класса")
-    public static ExchangeRate getExchangeRateAsExchangeRate(Integer idExchangeRateProfile, String params, String value){
-        return given()
-                .filter(withCustomTemplate())
-                .spec(success_request)
-                .queryParam(params,value)
-                .queryParam("limit", 1)
-                .when()
-                .get("/entity/AUTO3N/ExchangeRateProfile/"+idExchangeRateProfile+"/ExchangeRate")
-                .then()
-                .spec(success_responseSpec)
-                .extract().as(ExchangeRate.class);
-    }
+
     @Step("Получение курса валюты по id")
     public static ExchangeRate getExchangeRateById(Integer idExchangeRateProfile, Integer id){
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
                 .when()
-                .get("/entity/AUTO3N/ExchangeRateProfile/"+idExchangeRateProfile+"/ExchangeRate"+id.toString())
+                .get("/entity/AUTO3N/ExchangeRateProfile/"+idExchangeRateProfile+"/ExchangeRate/"+id.toString())
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(ExchangeRateSchema))
                 .extract().as(ExchangeRate.class);
     }
 
@@ -79,6 +76,7 @@ public class IntegrationExchangeRateController {
                 .post ("/entity/AUTO3N/ExchangeRateProfile/"+idExchangeRateProfile+"/ExchangeRate")
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(ExchangeRateSchema))
                 .extract().as(ExchangeRate.class);
     }
     @Step("Удаление курса валюты")
@@ -106,6 +104,7 @@ public class IntegrationExchangeRateController {
                 .put("/entity/AUTO3N/ExchangeRateProfile/"+idExchangeRateProfile+"/ExchangeRate"+ id.toString())
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(ExchangeRateSchema))
                 .extract().as(ExchangeRate.class);
 
     }
@@ -119,6 +118,7 @@ public class IntegrationExchangeRateController {
                 .get("/service/AUTO3N/ExchangeRate/"+fromCurrencyId+"/"+toCurrencyId+"/get")
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(ExchangeRateSchema))
                 .extract().as(ExchangeRate.class);
     }
 }
