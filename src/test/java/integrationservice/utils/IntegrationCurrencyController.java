@@ -1,10 +1,13 @@
 package integrationservice.utils;
 
-
+import helpers.ListInfo;
 import integrationservice.model.Currency;
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
+import io.restassured.common.mapper.TypeRef;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import helpers.Ref;
+import java.io.File;
+
 
 import static helpers.CustomAllureListener.withCustomTemplate;
 
@@ -13,8 +16,10 @@ import static integrationservice.spec.IntegrationCurrencyApiSpecs.success_respon
 import static io.restassured.RestAssured.given;
 
 public class IntegrationCurrencyController {
+    public static File CurrencySchema= new File("src/test/java/integrationservice/schemas/Currency.json");
+    public static File CurrencyListSchema= new File("src/test/java/integrationservice/schemas/CurrencyList.json");
     @Step("Получение списка валют")
-    public static Response getCurrencyList(){
+    public static ListInfo<Currency> getCurrencyList(){
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -22,10 +27,13 @@ public class IntegrationCurrencyController {
                 .get("/entity/AUTO3N/Currency")
                 .then()
                 .spec(success_responseSpec)
-                .extract().response();
+                .body(JsonSchemaValidator.matchesJsonSchema(CurrencyListSchema))
+                .extract()
+                .as(new TypeRef<ListInfo<Currency>>() {
+                });
     }
     @Step("Получение валюты по параметру")
-    public static Response getCurrency(String params, String value){
+    public static ListInfo<Currency> getCurrency(String params, String value){
         return given()
                 .filter(withCustomTemplate())
                 .spec(success_request)
@@ -34,7 +42,9 @@ public class IntegrationCurrencyController {
                 .get("/entity/AUTO3N/Currency")
                 .then()
                 .spec(success_responseSpec)
-                .extract().response();
+                .body(JsonSchemaValidator.matchesJsonSchema(CurrencyListSchema))
+                .extract().as(new TypeRef<ListInfo<Currency>>() {
+                });
     }
     @Step("Получение валюты по id")
     public static Currency getCurrencyById(Integer id){
@@ -45,6 +55,7 @@ public class IntegrationCurrencyController {
                 .get("/entity/AUTO3N/Currency/"+id.toString())
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(CurrencySchema))
                 .extract().as(Currency.class);
     }
 
@@ -63,6 +74,7 @@ public class IntegrationCurrencyController {
                 .post ("/entity/AUTO3N/Currency")
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(CurrencySchema))
                 .extract().as(Currency.class);
     }
     @Step("Удаление валюты")
@@ -88,6 +100,7 @@ public class IntegrationCurrencyController {
                 .put("/entity/AUTO3N/Currency/"+ id.toString())
                 .then()
                 .spec(success_responseSpec)
+                .body(JsonSchemaValidator.matchesJsonSchema(CurrencySchema))
                 .extract().as(Currency.class);
 
     }

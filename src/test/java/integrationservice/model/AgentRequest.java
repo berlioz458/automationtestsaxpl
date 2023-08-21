@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonRootName(value = "Agent")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AgentRequest extends Entity {
     private String name;
     private String contactPhone;

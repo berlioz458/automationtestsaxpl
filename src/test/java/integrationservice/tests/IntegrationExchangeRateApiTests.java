@@ -1,9 +1,9 @@
 package integrationservice.tests;
 
 
+import helpers.ListInfo;
 import integrationservice.model.ExchangeRate;
 import io.qameta.allure.Description;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import static integrationservice.utils.IntegrationExchangeRateController.*;
@@ -20,7 +20,7 @@ public class IntegrationExchangeRateApiTests {
     @Description("List ExchangeRateProfile")
     @Test
     void successGetListExchangeRate() {
-        Response exchangeRateList = getExchangeRateList(idExchangeRateProfileForGet);
+        ListInfo<ExchangeRate> exchangeRateList = getExchangeRateList(idExchangeRateProfileForGet);
         assertThat(exchangeRateList).isNotNull();
     }
 
@@ -28,25 +28,25 @@ public class IntegrationExchangeRateApiTests {
     @Test
     void successGetExchangeRateById() {
         // получение последнего курса валюты по профайлу
-        ExchangeRate exchangeRate = getExchangeRateAsExchangeRate(idExchangeRateProfileForGet, "sort", "{\"id\":\"DESC\"}");
-        ExchangeRate exchangeRateById = getExchangeRateById(idExchangeRateProfileForGet, exchangeRate.getId());
+        ListInfo<ExchangeRate> exchangeRate = getExchangeRateAsListInfo(idExchangeRateProfileForGet, "sort", "{\"id\":\"DESC\"}");
+        ExchangeRate exchangeRateById = getExchangeRateById(idExchangeRateProfileForGet, exchangeRate.getData().get(0).getId());
         assertThat(exchangeRateById).isNotNull();
-        //assertThat(exchangeRateById.getId()).isEqualTo(exchangeRate.getId());
-
+        assertThat(exchangeRateById.getId()).isEqualTo(exchangeRate.getData().get(0).getId());
     }
 
     @Description("ExchangeRate by date")
     @Test
     void successGetExchangeRateByDate() {
         // дописать получение сегодняшнего курса
-        Response exchangeRate = getExchangeRateAsResponse(idExchangeRateProfileForGet, "q", "{\"$and\": [{\"date\":\"2023-06-28T00:00:00\"}]}");
+        ListInfo<ExchangeRate> exchangeRate = getExchangeRateAsListInfo(idExchangeRateProfileForGet, "q", "{\"$and\": [{\"date\":\"2023-06-28T00:00:00\"}]}");
         assertThat(exchangeRate).isNotNull();
+        assertThat(exchangeRate.getData().get(0).getDate()).isEqualTo("2023-06-28T00:00:00");
     }
 
     @Description("Get one ExchangeRate")
     @Test
-    void successGetExchangeRateProfile() {
-        Response exchangeRate = getExchangeRateAsResponse(idExchangeRateProfile,"limit", "1");
+    void successGetExchangeRate() {
+        ListInfo<ExchangeRate>  exchangeRate = getExchangeRateAsListInfo(idExchangeRateProfile,"limit", "1");
         assertThat(exchangeRate).isNotNull();
     }
     @Description("Create ExchangeRate")
@@ -54,7 +54,9 @@ public class IntegrationExchangeRateApiTests {
     void successCreateExchangeRate() {
         // МБ надо в реф добавить сравнение
         ExchangeRate exchangeRate = createExchangeRate(idExchangeRateProfile, value);
+        assertThat(exchangeRate.getId()).isNotNull();
         assertThat(exchangeRate.getValue()).isEqualTo(value);
+        assertThat(exchangeRate.getExchangeRateProfile().getId()).isEqualTo(idExchangeRateProfile);
     }
 
     @Description("Edit ExchangeRate value")
@@ -83,9 +85,8 @@ public class IntegrationExchangeRateApiTests {
     void successGetExchangeRateByTwoCurrency() {
         ExchangeRate exchangeRate= getExchangeRateCurrencyToCurrency(currencyFrom,currencyTo);
         assertThat(exchangeRate).isNotNull();
-        //assertThat(exchangeRate.getExchangeRateProfile()).isEqualTo(new Ref("ExchangeRateProfile",idExchangeRateProfile));
-
-
+        assertThat(exchangeRate.getExchangeRateProfile().getId()).isEqualTo(idExchangeRateProfile);
+        assertThat(exchangeRate.getValue()).isNotNull();
     }
 
 }

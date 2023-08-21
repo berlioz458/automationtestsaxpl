@@ -1,13 +1,11 @@
 package integrationservice.tests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import helpers.ListInfo;
 import helpers.Ref;
-
 import integrationservice.model.Agent;
 import io.qameta.allure.Description;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class IntegrationAgentApiTests {
     @Description("List agent")
     @Test
     void successGetListAgent() {
-        Response agentList= getAgentList();
+        ListInfo<Agent> agentList= getAgentList();
         assertThat(agentList).isNotNull();
     }
     @Description("Agent by id")
@@ -41,8 +39,9 @@ public class IntegrationAgentApiTests {
     @Description("Agent by name")
     @Test
     void successGetAgentByName() {
-        Response agent= getAgent("q","{\"$and\": [{\"name\":\"Москва Агентство Авто 3Н\"}]}");
+        ListInfo<Agent> agent= getAgent("q","{\"$and\": [{\"name\":\"Москва Агентство Авто 3Н\"}]}");
         assertThat(agent).isNotNull();
+        assertThat(agent.getData().get(0).getName()).isEqualTo("Москва Агентство Авто 3Н");
     }
     @Description("Create agent")
     @Test
@@ -53,12 +52,15 @@ public class IntegrationAgentApiTests {
         parentAgent= new Ref("Agent",10054);
         Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
         System.out.println(agent);
+        assertThat(agent.getId()).isNotNull();
         assertThat(agent.getName()).isEqualTo(name);
         assertThat(agent.getContactPhone()).isEqualTo(contactPhone);
         assertThat(agent.getIsRegistrationDisabled()).isEqualTo(isRegistrationDisabled);
         assertThat(agent.getTimeZone()).isEqualTo(timeZone);
-        //assertThat(agent.getParentAgent()).isEqualTo(10054);
-        Agent agentDisable =disableAgentForGcs(agent.getId(),name,company);
+        assertThat(agent.getParentAgent().getId()).isEqualTo(parentAgent.getId());
+        assertThat(agent.getCompany().getId()).isEqualTo(company.getId());
+        assertThat(agent.getAgentTags().get(0).getId()).isEqualTo(agentTag.getId());
+        Agent agentDisable =deleteTagFromAgent(agent.getId(),company);
     }
     @Description("Create children agent")
     @Test
@@ -68,12 +70,15 @@ public class IntegrationAgentApiTests {
         agentTags.add(agentTag);
         parentAgent= new Ref("Agent",1100);
         Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
+        assertThat(agent.getId()).isNotNull();
         assertThat(agent.getName()).isEqualTo(name);
         assertThat(agent.getContactPhone()).isEqualTo(contactPhone);
         assertThat(agent.getIsRegistrationDisabled()).isEqualTo(isRegistrationDisabled);
         assertThat(agent.getTimeZone()).isEqualTo(timeZone);
-        //parentAgent
-        Agent agentDisable =disableAgentForGcs(agent.getId(),name,company);
+        assertThat(agent.getParentAgent().getId()).isEqualTo(parentAgent.getId());
+        assertThat(agent.getCompany().getId()).isEqualTo(company.getId());
+        assertThat(agent.getAgentTags().get(0).getId()).isEqualTo(agentTag.getId());
+        Agent agentDisable =deleteTagFromAgent(agent.getId(),company);
     }
     @Description("Edit agent by name")
     @Test
@@ -86,11 +91,48 @@ public class IntegrationAgentApiTests {
         String nameChange="Autotest Edit "+ java.time.LocalDateTime.now();
         Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
         //edit by id
-        Agent agentEdit= changeAgentName(agent.getId(),nameChange,agentTags,company,parentAgent);
+        Agent agentEdit= changeAgentName(agent.getId(),nameChange,agentTags,company);
+        assertThat(agent.getId()).isEqualTo(agent.getId());
         assertThat(agentEdit.getName()).isEqualTo(nameChange);
         assertThat(agentEdit.getChangedAt()).isNotNull();
         assertThat(agentEdit.getChangedByUser()).isNotNull();
-        Agent agentDisable =disableAgentForGcs(agent.getId(),name,company);
+        Agent agentDisable =deleteTagFromAgent(agent.getId(),company);
+    }
+    @Description("Edit agent by phone")
+    @Test
+    void successChangeCompanyPhone() throws JsonProcessingException {
+        // create
+        name=name + java.time.LocalDateTime.now();
+        Ref agentTag = new Ref(null,10001);
+        agentTags.add(agentTag);
+        parentAgent= null;
+        String changePhone = "+7777777777777";
+        Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
+        //edit by id
+        Agent agentEdit= changeAgentPhone(agent.getId(),changePhone,agentTags,company);
+        assertThat(agent.getId()).isEqualTo(agent.getId());
+        assertThat(agentEdit.getContactPhone()).isEqualTo(changePhone);
+        assertThat(agentEdit.getChangedAt()).isNotNull();
+        assertThat(agentEdit.getChangedByUser()).isNotNull();
+        Agent agentDisable =deleteTagFromAgent(agent.getId(),company);
+    }
+    @Description("Edit agent by time zone")
+    @Test
+    void successChangeCompanyTimeZone() throws JsonProcessingException {
+        // create
+        name=name + java.time.LocalDateTime.now();
+        Ref agentTag = new Ref(null,10001);
+        agentTags.add(agentTag);
+        parentAgent= null;
+        String timeZone="Asia/Irkutsk";
+        Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
+        //edit by id
+        Agent agentEdit= changeAgentTimeZone(agent.getId(),timeZone,agentTags,company);
+        assertThat(agent.getId()).isEqualTo(agent.getId());
+        assertThat(agentEdit.getTimeZone()).isEqualTo(timeZone);
+        assertThat(agentEdit.getChangedAt()).isNotNull();
+        assertThat(agentEdit.getChangedByUser()).isNotNull();
+        Agent agentDisable =deleteTagFromAgent(agent.getId(),company);
     }
     @Description("Delete agent")
     @Test

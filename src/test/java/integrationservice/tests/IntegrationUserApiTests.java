@@ -1,13 +1,10 @@
 package integrationservice.tests;
 
 import com.github.javafaker.Faker;
-import helpers.Ref;
-import integrationservice.model.RealmUser;
+import helpers.ListInfo;
 import integrationservice.model.User;
 import io.qameta.allure.Description;
 import io.qameta.allure.TmsLink;
-import io.restassured.response.Response;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +36,7 @@ public class IntegrationUserApiTests {
     @Description("List users without another params")
     @Test
     void successGetUsers() {
-        Response userList = getUserInfo();
+        ListInfo<User> userList = getUserInfo();
         assertThat(userList).isNotNull();
     }
 
