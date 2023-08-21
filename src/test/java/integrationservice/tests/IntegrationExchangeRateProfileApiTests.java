@@ -46,8 +46,9 @@ public class IntegrationExchangeRateProfileApiTests {
     void successCreateExchangeRateProfile() {
         // МБ надо в реф добавить сравнение
         ExchangeRateProfile exchangeRateProfile= createExchangeRateProfile(currencyFrom,currencyTo);
-        //assertThat(exchangeRateProfile.currencyFrom()).isEqualTo(currencyFrom);
-       // assertThat(exchangeRateProfile.currencyTo().id).isEqualTo(currencyTo);
+        assertThat(exchangeRateProfile.getId()).isNotNull();
+        assertThat(exchangeRateProfile.getCurrencyFrom().getId()).isEqualTo(currencyFrom.getId());
+        assertThat(exchangeRateProfile.getCurrencyTo().getId()).isEqualTo(currencyTo.getId());
     }
     @Description("Edit ExchangeRateProfile source and nominal")
     @Test

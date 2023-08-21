@@ -50,6 +50,7 @@ public class IntegrationCurrencyApiTests {
         assertThat(currency.getName()).isEqualTo(name);
         assertThat(currency.getIsoAlfa()).isEqualTo(isoAlfa);
         assertThat(currency.getIsoNumber()).isEqualTo(isoNumber);
+        assertThat(currency.getCompany().getId()).isEqualTo(1);
     }
     @Description("Edit currency by name")
     @Test

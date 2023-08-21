@@ -31,16 +31,16 @@ public class IntegrationExchangeRateApiTests {
         ListInfo<ExchangeRate> exchangeRate = getExchangeRateAsListInfo(idExchangeRateProfileForGet, "sort", "{\"id\":\"DESC\"}");
         ExchangeRate exchangeRateById = getExchangeRateById(idExchangeRateProfileForGet, exchangeRate.getData().get(0).getId());
         assertThat(exchangeRateById).isNotNull();
-        //assertThat(exchangeRateById.getId()).isEqualTo(exchangeRate.getId());
-
+        assertThat(exchangeRateById.getId()).isEqualTo(exchangeRate.getData().get(0).getId());
     }
 
     @Description("ExchangeRate by date")
     @Test
     void successGetExchangeRateByDate() {
         // дописать получение сегодняшнего курса
-        ListInfo<ExchangeRate>  exchangeRate = getExchangeRateAsListInfo(idExchangeRateProfileForGet, "q", "{\"$and\": [{\"date\":\"2023-06-28T00:00:00\"}]}");
+        ListInfo<ExchangeRate> exchangeRate = getExchangeRateAsListInfo(idExchangeRateProfileForGet, "q", "{\"$and\": [{\"date\":\"2023-06-28T00:00:00\"}]}");
         assertThat(exchangeRate).isNotNull();
+        assertThat(exchangeRate.getData().get(0).getDate()).isEqualTo("2023-06-28T00:00:00");
     }
 
     @Description("Get one ExchangeRate")
@@ -54,7 +54,9 @@ public class IntegrationExchangeRateApiTests {
     void successCreateExchangeRate() {
         // МБ надо в реф добавить сравнение
         ExchangeRate exchangeRate = createExchangeRate(idExchangeRateProfile, value);
+        assertThat(exchangeRate.getId()).isNotNull();
         assertThat(exchangeRate.getValue()).isEqualTo(value);
+        assertThat(exchangeRate.getExchangeRateProfile().getId()).isEqualTo(idExchangeRateProfile);
     }
 
     @Description("Edit ExchangeRate value")
@@ -83,9 +85,8 @@ public class IntegrationExchangeRateApiTests {
     void successGetExchangeRateByTwoCurrency() {
         ExchangeRate exchangeRate= getExchangeRateCurrencyToCurrency(currencyFrom,currencyTo);
         assertThat(exchangeRate).isNotNull();
-        //assertThat(exchangeRate.getExchangeRateProfile()).isEqualTo(new Ref("ExchangeRateProfile",idExchangeRateProfile));
-
-
+        assertThat(exchangeRate.getExchangeRateProfile().getId()).isEqualTo(idExchangeRateProfile);
+        assertThat(exchangeRate.getValue()).isNotNull();
     }
 
 }

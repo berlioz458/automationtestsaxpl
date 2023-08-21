@@ -41,6 +41,7 @@ public class IntegrationAgentApiTests {
     void successGetAgentByName() {
         ListInfo<Agent> agent= getAgent("q","{\"$and\": [{\"name\":\"Москва Агентство Авто 3Н\"}]}");
         assertThat(agent).isNotNull();
+        assertThat(agent.getData().get(0).getName()).isEqualTo("Москва Агентство Авто 3Н");
     }
     @Description("Create agent")
     @Test
@@ -51,11 +52,14 @@ public class IntegrationAgentApiTests {
         parentAgent= new Ref("Agent",10054);
         Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
         System.out.println(agent);
+        assertThat(agent.getId()).isNotNull();
         assertThat(agent.getName()).isEqualTo(name);
         assertThat(agent.getContactPhone()).isEqualTo(contactPhone);
         assertThat(agent.getIsRegistrationDisabled()).isEqualTo(isRegistrationDisabled);
         assertThat(agent.getTimeZone()).isEqualTo(timeZone);
-        assertThat(agent.getParentAgent().getId()).isEqualTo(10054);
+        assertThat(agent.getParentAgent().getId()).isEqualTo(parentAgent.getId());
+        assertThat(agent.getCompany().getId()).isEqualTo(company.getId());
+        assertThat(agent.getAgentTags().get(0).getId()).isEqualTo(agentTag.getId());
         Agent agentDisable =deleteTagFromAgent(agent.getId(),company);
     }
     @Description("Create children agent")
@@ -66,11 +70,14 @@ public class IntegrationAgentApiTests {
         agentTags.add(agentTag);
         parentAgent= new Ref("Agent",1100);
         Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
+        assertThat(agent.getId()).isNotNull();
         assertThat(agent.getName()).isEqualTo(name);
         assertThat(agent.getContactPhone()).isEqualTo(contactPhone);
         assertThat(agent.getIsRegistrationDisabled()).isEqualTo(isRegistrationDisabled);
         assertThat(agent.getTimeZone()).isEqualTo(timeZone);
-        assertThat(agent.getParentAgent().getId()).isEqualTo(1100);
+        assertThat(agent.getParentAgent().getId()).isEqualTo(parentAgent.getId());
+        assertThat(agent.getCompany().getId()).isEqualTo(company.getId());
+        assertThat(agent.getAgentTags().get(0).getId()).isEqualTo(agentTag.getId());
         Agent agentDisable =deleteTagFromAgent(agent.getId(),company);
     }
     @Description("Edit agent by name")
@@ -85,6 +92,7 @@ public class IntegrationAgentApiTests {
         Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
         //edit by id
         Agent agentEdit= changeAgentName(agent.getId(),nameChange,agentTags,company);
+        assertThat(agent.getId()).isEqualTo(agent.getId());
         assertThat(agentEdit.getName()).isEqualTo(nameChange);
         assertThat(agentEdit.getChangedAt()).isNotNull();
         assertThat(agentEdit.getChangedByUser()).isNotNull();
@@ -102,7 +110,8 @@ public class IntegrationAgentApiTests {
         Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
         //edit by id
         Agent agentEdit= changeAgentPhone(agent.getId(),changePhone,agentTags,company);
-        assertThat(agentEdit.getName()).isEqualTo(changePhone);
+        assertThat(agent.getId()).isEqualTo(agent.getId());
+        assertThat(agentEdit.getContactPhone()).isEqualTo(changePhone);
         assertThat(agentEdit.getChangedAt()).isNotNull();
         assertThat(agentEdit.getChangedByUser()).isNotNull();
         Agent agentDisable =deleteTagFromAgent(agent.getId(),company);
@@ -119,7 +128,8 @@ public class IntegrationAgentApiTests {
         Agent agent= createAgent(name, contactPhone, isRegistrationDisabled, timeZone, company, parentAgent, agentTags);
         //edit by id
         Agent agentEdit= changeAgentTimeZone(agent.getId(),timeZone,agentTags,company);
-        assertThat(agentEdit.getName()).isEqualTo(timeZone);
+        assertThat(agent.getId()).isEqualTo(agent.getId());
+        assertThat(agentEdit.getTimeZone()).isEqualTo(timeZone);
         assertThat(agentEdit.getChangedAt()).isNotNull();
         assertThat(agentEdit.getChangedByUser()).isNotNull();
         Agent agentDisable =deleteTagFromAgent(agent.getId(),company);

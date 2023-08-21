@@ -18,6 +18,7 @@ public class IntegrationAgentGroupApiTests {
     Ref ownerAgentId= new Ref("Agent",10054);
     String name="Autotest ";
     List<Ref> agents=new ArrayList<>();
+    Integer expectedId = 2;
     Ref agent1= new Ref("Agent",10139);
     Ref agent2= new Ref("Agent",10158);
     Ref agent3= new Ref("Agent",10193);
@@ -36,7 +37,7 @@ public class IntegrationAgentGroupApiTests {
     @Description("Get agent group by id")
     @Test
     void successGetAgentGroupById() {
-        Integer expectedId = 2;
+
         AgentGroup agentGroup = getAgentGroupById(expectedId);
         assertThat(agentGroup).isNotNull();
         assertThat(agentGroup.getId()).isEqualTo(expectedId);
@@ -49,8 +50,7 @@ public class IntegrationAgentGroupApiTests {
         name=name + java.time.LocalDateTime.now();
         AgentGroup agentGroup= createAgentGroup(ownerAgentId,name,agents);
         assertThat(agentGroup.getName()).isEqualTo(name);
-        //assertThat(agentGroup.getOwnerAgent()).isEqualTo(ownerAgentId);
-        // add check agents
+        assertThat(agentGroup.getOwnerAgent().getId()).isEqualTo(ownerAgentId.getId());
     }
     @Description("Edit agent group by name")
     @Test
@@ -60,9 +60,11 @@ public class IntegrationAgentGroupApiTests {
         agents.add(agent3);
         agents.add(agent4);
         AgentGroup agentGroup= createAgentGroup(ownerAgentId,name, agents);
-        //edit by id
         AgentGroup agentGroupEdit= changeAgentGroup(agentGroup.getId(),ownerAgentId,nameChange, agents);
         assertThat(agentGroupEdit.getName()).isEqualTo(nameChange);
+        assertThat(agentGroupEdit.getChangedAt()).isNotNull();
+        assertThat(agentGroupEdit.getChangedByUser()).isNotNull();
+        assertThat(agentGroupEdit.getAgents().size()).isEqualTo(2);
     }
     @Description("Edit agent group by name")
     @Test
@@ -74,7 +76,7 @@ public class IntegrationAgentGroupApiTests {
         //edit by id
         agents.add(agent7);
         AgentGroup agentGroupEdit= changeAgentGroup(agentGroup.getId(),ownerAgentId,name, agents);
-        //add check agents
+        assertThat(agentGroupEdit.getAgents().size()).isEqualTo(3);
         assertThat(agentGroupEdit).isNotNull();
     }
     @Description("Delete agent group")

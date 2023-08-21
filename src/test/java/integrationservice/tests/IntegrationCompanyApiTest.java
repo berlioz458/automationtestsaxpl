@@ -46,8 +46,7 @@ public class IntegrationCompanyApiTest {
         name=name + java.time.LocalDateTime.now();
         Company company= createCompany(name,currency);
         assertThat(company.getName()).isEqualTo(name);
-
-
+        assertThat(company.getBaseCurrency().getId()).isEqualTo(currency.getId());
     }
     @Description("Edit company by name")
     @Test
@@ -73,6 +72,7 @@ public class IntegrationCompanyApiTest {
         assertThat(companyEdit.getName()).isEqualTo(nameChange);
         assertThat(companyEdit.getChangedAt()).isNotNull();
         assertThat(companyEdit.getChangedByUser()).isNotNull();
+        assertThat(company.getBaseCurrency().getId()).isEqualTo(currencyChange.getId());
     }
     @Description("Delete company")
     @Test

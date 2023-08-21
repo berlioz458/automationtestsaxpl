@@ -32,7 +32,7 @@ public class IntegrationAgentGroupController {
             .post ("/entity/AUTO3N/AgentGroup")
             .then()
             .spec(IntegrationCurrencyApiSpecs.success_responseSpec)
-            .body(JsonSchemaValidator.matchesJsonSchema(AgentGroupListSchema))
+            .body(JsonSchemaValidator.matchesJsonSchema(AgentGroupSchema))
             .extract().as(AgentGroup.class);
 }
     @Step("Получение группы агентов по идентификатору")
