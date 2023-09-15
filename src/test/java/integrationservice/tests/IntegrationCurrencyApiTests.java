@@ -30,7 +30,6 @@ public class IntegrationCurrencyApiTests {
         assertThat(currency.getId()).isEqualTo(id);
     }
     @Description("Currency by name")
-
     @Test
     void successGetCurrencyByName() {
         ListInfo<Currency> currency= getCurrency("q","{\"$and\": [{\"isoAlfa\":\"EUR\"}]}");
