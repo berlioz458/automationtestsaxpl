@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "total": {
+      "type": "number"
+    },
+    "skip": {
+      "type": "number"
+    },
+    "limit": {
+      "type": "number"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "BusEventNotification": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "event": {
+                "type": "string"
+              },
+              "partyCode": {
+                "type": "string"
+              },
+              "system": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "loggedAt": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              },
+              "ownerAgentId": {
+                "type": "number"
+              },
+              "userId": {},
+              "objectGuid": {
+                "type": "string"
+              },
+              "objectId": {
+                "type": "number"
+              },
+              "objectType": {
+                "type": "string"
+              },
+              "objectVersion": {
+                "type": "number"
+              },
+              "realmCode": {
+                "type": "string"
+              },
+              "isRead": {
+                "type": "boolean"
+              },
+              "isProcessed": {
+                "type": "boolean"
+              },
+              "readAt": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "event",
+              "partyCode",
+              "system",
+              "createdAt",
+              "loggedAt",
+              "action",
+              "ownerAgentId",
+              "userId",
+              "objectGuid",
+              "objectId",
+              "objectType",
+              "objectVersion",
+              "realmCode",
+              "isRead",
+              "isProcessed",
+              "readAt"
+            ]
+          }
+        },
+        "required": [
+          "BusEventNotification"
+        ]
+      }
+    }
+  },
+  "required": [
+    "total",
+    "skip",
+    "limit",
+    "data"
+  ]
+}

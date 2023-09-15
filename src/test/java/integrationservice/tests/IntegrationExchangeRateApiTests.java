@@ -6,6 +6,10 @@ import integrationservice.model.ExchangeRate;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.Test;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import static integrationservice.utils.IntegrationExchangeRateController.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,9 +42,12 @@ public class IntegrationExchangeRateApiTests {
     @Test
     void successGetExchangeRateByDate() {
         // дописать получение сегодняшнего курса
-        ListInfo<ExchangeRate> exchangeRate = getExchangeRateAsListInfo(idExchangeRateProfileForGet, "q", "{\"$and\": [{\"date\":\"2023-06-28T00:00:00\"}]}");
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd");
+        String date=formatForDateNow.format(dateNow)+"T00:00:00";
+        ListInfo<ExchangeRate> exchangeRate = getExchangeRateAsListInfo(idExchangeRateProfileForGet, "q", "{\"$and\": [{\"date\":\""+date+"\"}]}");
         assertThat(exchangeRate).isNotNull();
-        assertThat(exchangeRate.getData().get(0).getDate()).isEqualTo("2023-06-28T00:00:00");
+        assertThat(exchangeRate.getData().get(0).getDate()).isEqualTo(date);
     }
 
     @Description("Get one ExchangeRate")
